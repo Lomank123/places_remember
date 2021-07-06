@@ -10,7 +10,7 @@ COPY ./scripts /scripts
 
 WORKDIR /placerem
 
-EXPOSE 8000
+#EXPOSE 8000
 
 RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
