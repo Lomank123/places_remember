@@ -35,6 +35,8 @@ ALLOWED_HOSTS.extend(
     )
 )
 
+# Sets custom user model
+AUTH_USER_MODEL = 'coreapp.CustomUser'
 
 # Application definition
 
