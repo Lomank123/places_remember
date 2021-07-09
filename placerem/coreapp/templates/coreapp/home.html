@@ -1,0 +1,22 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}Home page{% endblock title %}
+
+
+{% block content %}
+    
+    {% for recollection in recollections %}
+        <hr>
+        <h2>{{ recollection.name }}</h2>
+        <h3>{{ recollection.description }}</h3>
+        <h3>Destination: {{ recollection.destination }}</h3>
+
+        {% if user.is_authenticated %}
+            <h4>Owner: {{ recollection.user }}</h4>
+        {% else %}
+            <h4>No owner</h4>
+        {% endif %}
+        <h4>{{ recollection.published }}</h4>
+    {% endfor %}
+    
+{% endblock %}
