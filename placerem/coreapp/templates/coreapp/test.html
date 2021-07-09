@@ -1,0 +1,21 @@
+{% extends 'layout/basic.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Recollection{% endblock title %}
+
+{% block content %}
+
+{{ map|safe }}
+
+
+<form action="" method="POST" autocomplete="off">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button type="submit" class="btn btn-primary">Confirm</button>
+</form>
+
+<br>
+This product includes GeoLite2 data created by MaxMind, available from
+<a href="https://www.maxmind.com">https://www.maxmind.com</a>.
+
+{% endblock %}

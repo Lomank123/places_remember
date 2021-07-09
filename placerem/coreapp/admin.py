@@ -2,17 +2,15 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
 from .forms import CustomUserCreationForm, CustomUserChangeForm
-from .models import CustomUser
+from .models import CustomUser, Recollection
 
 
-# TODO: Если понадобится - доработать форму для отображения полей при регистрации пользователя
-#       (на данный момент не загружается фото)
 class CustomUserAdmin(UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = CustomUser
     list_display = ('email', 'photo', 'is_staff', 'is_active',)
-    list_filter = ('email', 'photo', 'is_staff', 'is_active',)
+    list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields': ('email', 'photo', 'password')}),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
@@ -27,4 +25,5 @@ class CustomUserAdmin(UserAdmin):
     ordering = ('email',)
 
 
-admin.site.register(CustomUser)
+admin.site.register(CustomUser, CustomUserAdmin,)
+admin.site.register(Recollection)
