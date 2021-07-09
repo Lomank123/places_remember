@@ -1,7 +1,7 @@
 header h1 {
-	font-size: 40pt;
+	font-size: 24pt;
 	text-transform: uppercase;
-	text-align: center;
+	text-align: left;
 }
 nav {
 	font-size: 16pt;
@@ -10,9 +10,18 @@ nav {
 }
 nav a {
 	display: block;
-	margin: 20px 0px;
-    margin-left: 20px;
+	margin: 10% 0px;
+    margin-left: 5%;
 }
 .container {
-    margin-left: 180px;
+    margin-left: 20%;
+}
+.no_rec {
+	text-align: center;
+}
+.welcome_msg {
+	text-align: left;
+}
+.auth_text {
+	text-align: right;
 }

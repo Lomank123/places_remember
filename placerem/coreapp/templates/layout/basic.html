@@ -17,6 +17,18 @@
 
   <body>
   	<header>
+      {% if user.is_authenticated %}
+        <p class="auth_text">
+          Welcome, {{ user.email }}
+          <a href="">Log out</a>
+        </p>
+      {% else %}
+        <p class="auth_text">
+          <a href="">Sign in</a>
+          <a href="">Sign up</a>
+        </p>
+      {% endif %}
+      
 			<h1>Places Remember</h1>
       <hr>
 		</header>
@@ -27,9 +39,6 @@
     </nav>
 
     <div class="container">
-      {% if user.is_authenticated %}
-        <h1>Hello, {{ user.email }}</h1>
-      {% endif %}
         {% block content %}
         {% endblock %}
     </div>

@@ -17,23 +17,45 @@ def home(request):
 
     context = {
         'recollections' : recollections,
+    }
+    return TemplateResponse(request, 'coreapp/home.html', context=context)
 
+# For detailed information about certain recollection
+def detail(request, pk):
+    recollection = Recollection.objects.get(pk=pk)
+    context = {
+        'recollection' : recollection,
+    }
+    return TemplateResponse(request, 'coreapp/rec_detail.html', context=context)
+
+# For testing (for local purposes, without map)
+def blank_form(request):
+    form = RecollectionModelForm(request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            instance = form.save(commit=False)
+            if request.user.is_authenticated:
+                instance.user = request.user
+            instance.save()
+    
+    context = {
+        'form' : form,
     }
 
-
-    return TemplateResponse(request, 'coreapp/home.html', context=context)
+    return render(request, 'coreapp/test_blank.html', context)
+            
 
 # For testing
 def calculate_distance_view(request):
     form = RecollectionModelForm(request.POST or None)
-    geolocator = Nominatim(user_agent='coreapp')
+    #geolocator = Nominatim(user_agent='coreapp')
 
     # Google ip address
     ip = '72.14.207.99'
     ip_ = get_ip_address(request)
     print(ip_)
     country, city, lat, lon = get_geo(ip)
-    location = geolocator.geocode(city)
+    #location = geolocator.geocode(city)
 
     # Location coordinates
     l_lat = lat

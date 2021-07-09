@@ -1,22 +1,40 @@
 {% extends 'layout/basic.html' %}
+{% load static %}
 
 {% block title %}Home page{% endblock title %}
 
 
 {% block content %}
-    
-    {% for recollection in recollections %}
-        <hr>
-        <h2>{{ recollection.name }}</h2>
-        <h3>{{ recollection.description }}</h3>
-        <h3>Destination: {{ recollection.destination }}</h3>
 
-        {% if user.is_authenticated %}
-            <h4>Owner: {{ recollection.user }}</h4>
+    {% if user.is_authenticated %}
+        {% if recollections %}
+            {% for recollection in recollections %}
+                <hr>
+                <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
+
+                {% if user.is_authenticated %}
+                    <h4>Owner: {{ recollection.user }}</h4>
+                {% else %}
+                    <h4>No owner</h4>
+                {% endif %}
+                
+                <h4>{{ recollection.published }}</h4>
+            {% endfor %}
         {% else %}
-            <h4>No owner</h4>
+            <h2 class="no_rec">
+                You don't have any recollections yet
+            </h2>
+            <h2 class="no_rec">
+                <a href="{% url 'test' %}">Add new recollection</a>
+            </h2>
         {% endif %}
-        <h4>{{ recollection.published }}</h4>
-    {% endfor %}
-    
+    {% else %}
+        <p class="welcome_msg">
+            Welcome to Places Remember!
+            Places Remember is a great opportunity 
+            to collect all wondrous moments in your life. 
+            Here you can mark the places where you've been.
+        </p>
+    {% endif %}
+
 {% endblock %}

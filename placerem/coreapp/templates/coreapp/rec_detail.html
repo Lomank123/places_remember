@@ -1,0 +1,18 @@
+{% extends 'layout/basic.html' %}
+
+{% block title %}
+    {{ recollection.name }}
+{% endblock %}
+
+{% block content %}
+
+    <h2>Details</h2>
+
+    <p>Name: {{ recollection.name }}</p>
+    <p>Description: {{ recollection.description }}</p>
+    <p>Published in: {{ recollection.published }}</p>
+
+    <p>Destination place: {{ recollection.destination }}</p>
+<!-- Need to add map -->
+
+{% endblock %}
