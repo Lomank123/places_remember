@@ -35,6 +35,11 @@ ALLOWED_HOSTS.extend(
     )
 )
 
+# Auth
+LOGIN_REDIRECT_URL = '/home/'
+
+LOGIN_URL = '/login/'
+
 # Sets custom user model
 AUTH_USER_MODEL = 'coreapp.CustomUser'
 

@@ -20,12 +20,13 @@
       {% if user.is_authenticated %}
         <p class="auth_text">
           Welcome, {{ user.email }}
-          <a href="">Log out</a>
+          <a href="{% url 'logout' %}">Log out</a>
         </p>
       {% else %}
         <p class="auth_text">
-          <a href="">Sign in</a>
-          <a href="">Sign up</a>
+          <a href="{% url 'login' %}">Sign in</a>
+           | 
+          <a href="{% url 'signup' %}">Sign up</a>
         </p>
       {% endif %}
       

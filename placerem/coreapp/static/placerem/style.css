@@ -1,4 +1,5 @@
 header h1 {
+	margin-left: 2%;
 	font-size: 24pt;
 	text-transform: uppercase;
 	text-align: left;
@@ -6,7 +7,9 @@ header h1 {
 nav {
 	font-size: 16pt;
 	width: 180px;
+	height: 100%;
 	float: left;
+	background-color: antiquewhite;
 }
 nav a {
 	display: block;
@@ -23,5 +26,6 @@ nav a {
 	text-align: left;
 }
 .auth_text {
+	margin-right: 2%;
 	text-align: right;
 }

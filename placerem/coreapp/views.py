@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
+from django.contrib.auth.decorators import permission_required, login_required
 from geopy.geocoders import Nominatim
 from geopy.distance import geodesic
 import folium
@@ -10,10 +11,13 @@ from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address
 
 
 # Home page
-# It should load all recollections if user logged in
-# Otherwise it will show sign in or sign up buttons
+@login_required
 def home(request):
-    recollections = Recollection.objects.all()
+
+    if request.user.is_authenticated:
+        recollections = Recollection.objects.filter(user=request.user)
+    else:
+        recollections = None
 
     context = {
         'recollections' : recollections,
@@ -27,6 +31,24 @@ def detail(request, pk):
         'recollection' : recollection,
     }
     return TemplateResponse(request, 'coreapp/rec_detail.html', context=context)
+
+@login_required
+def add_recollection(request):
+    if request.method == 'POST':
+        form = RecollectionModelForm(request.POST)
+        if form.is_valid():
+            pass
+
+
+    else:
+        form = RecollectionModelForm()
+    
+    context = {
+        'form' : form,
+
+    }
+    return TemplateResponse(request, 'coreapp/add_recollection.html', context=context)
+
 
 # For testing (for local purposes, without map)
 def blank_form(request):
@@ -42,20 +64,20 @@ def blank_form(request):
         'form' : form,
     }
 
-    return render(request, 'coreapp/test_blank.html', context)
-            
+    return TemplateResponse(request, 'coreapp/test_blank.html', context)
+
 
 # For testing
 def calculate_distance_view(request):
     form = RecollectionModelForm(request.POST or None)
-    #geolocator = Nominatim(user_agent='coreapp')
+    geolocator = Nominatim(user_agent='coreapp')
 
     # Google ip address
     ip = '72.14.207.99'
     ip_ = get_ip_address(request)
     print(ip_)
     country, city, lat, lon = get_geo(ip)
-    #location = geolocator.geocode(city)
+    location = geolocator.geocode(city)
 
     # Location coordinates
     l_lat = lat
@@ -117,8 +139,7 @@ def calculate_distance_view(request):
             #print('location longitude: ', lon)
             #print('###', location)
             
-            # TODO: it should redirect after posting form
-            #return redirect()
+            #return redirect('/home/')
 
     m = m._repr_html_()
 
@@ -126,7 +147,7 @@ def calculate_distance_view(request):
         'distance' : distance,
         'form' : form,
         'map' : m,
-
     }
 
-    return render(request, 'coreapp/test.html', context)
+    return TemplateResponse(request, 'coreapp/test.html', context)
+
