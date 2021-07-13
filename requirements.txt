@@ -1,10 +1,11 @@
 Django>=3.2.3,<3.3
+djangorestframework==3.12.4
 psycopg2>=2.8.6,<2.9
 dj-database-url==0.5.0
 gunicorn==20.1.0
 django-storages==1.11.1
 boto3==1.17.58
 django-crispy-forms==1.12.0
-geopy==2.1.0
-geoip2==4.2.0
-folium==0.12.1
+django-geojson==3.2.0
+jsonfield==3.1.0
+django-cors-headers==3.7.0

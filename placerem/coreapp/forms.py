@@ -7,18 +7,18 @@ class CustomUserCreationForm(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'password1', 'password2', 'photo')
+        fields = ('username', 'email', 'password1', 'password2', 'photo')
 
 
 class CustomUserChangeForm(UserChangeForm):
 
     class Meta:
         model = CustomUser
-        fields = ('email', 'photo')
+        fields = ('username', 'email', 'photo')
 
 
 class RecollectionModelForm(forms.ModelForm):
     
     class Meta:
         model = Recollection
-        fields = ('name', 'description', 'destination',)
+        fields = ('name', 'description', 'geom')

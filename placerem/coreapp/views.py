@@ -1,23 +1,26 @@
 from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import permission_required, login_required
-from geopy.geocoders import Nominatim
-from geopy.distance import geodesic
-import folium
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+from rest_framework import generics
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.viewsets import ModelViewSet
+
 
 from .models import Recollection
 from .forms import RecollectionModelForm
-from .utils import get_geo, get_center_coordinates, get_zoom, get_ip_address
+from .serializers import RecollectionSerializer
 
 
 # Home page
 @login_required
 def home(request):
 
-    if request.user.is_authenticated:
-        recollections = Recollection.objects.filter(user=request.user)
-    else:
-        recollections = None
+    recollections = Recollection.objects.filter(user=request.user)
 
     context = {
         'recollections' : recollections,
@@ -34,20 +37,55 @@ def detail(request, pk):
 
 @login_required
 def add_recollection(request):
+    if request.method == 'GET':
+        context = {
+            'collections' : Recollection.objects.all(),
+        }
+
+
+        return TemplateResponse(request, 'coreapp/add_recollection.html', context=context)
+
+
+@api_view(['POST', 'GET'])
+def post_rec(request):
+    if request.method == 'GET':
+        recs = Recollection.objects.all()
+        serializer = RecollectionSerializer(recs, many=True)
+        return Response(serializer.data)
     if request.method == 'POST':
-        form = RecollectionModelForm(request.POST)
-        if form.is_valid():
-            pass
+        new_data = request.data
+        new_rec = Recollection()
+        new_rec.name = new_data["name"]
+        new_rec.description = new_data["description"]
+        new_rec.user = request.user
+
+        new_coords = []
+        #for i in new_data["geom"]
+
+        point = {
+            "type" : "Point",
+            "coordinates" : new_data["geom"],
+        }
+        new_rec.geom = point
+
+        new_data["geom"] = point
+        new_rec.save()
+        return Response(new_data, status=status.HTTP_201_CREATED)
+
+        #serializer = RecollectionSerializer(data=new_data)
+        #print(request.data)
+        #if serializer.is_valid():
+        #    serializer.user = request.user
+        #    
+        #    serializer.save()
+        #    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        #print(serializer.errors)
+        #return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-    else:
-        form = RecollectionModelForm()
-    
-    context = {
-        'form' : form,
-
-    }
-    return TemplateResponse(request, 'coreapp/add_recollection.html', context=context)
+#class APIRecollectionViewSet(ModelViewSet):
+#	queryset = Recollection.objects.all()
+#	serializer_class = RecollectionSerializer
 
 
 # For testing (for local purposes, without map)
@@ -66,7 +104,7 @@ def blank_form(request):
 
     return TemplateResponse(request, 'coreapp/test_blank.html', context)
 
-
+"""
 # For testing
 def calculate_distance_view(request):
     form = RecollectionModelForm(request.POST or None)
@@ -92,8 +130,12 @@ def calculate_distance_view(request):
                      zoom_start=2)
 
     # Location marker
-    folium.Marker([l_lat, l_lon], tooltip='click here for more', popup=city['city'],
-                    icon=folium.Icon(color='purple')).add_to(m)
+    new_marker = folium.Marker([l_lat, l_lon], tooltip='click here for more', popup=city['city'],
+                    icon=folium.Icon(color='purple'), draggable=True)
+    new_marker.add_to(m)
+    
+    print(m._children.values())
+    print(list(m._children.values())[1].location)
 
     if request.method == 'POST':
         # For testing
@@ -116,10 +158,10 @@ def calculate_distance_view(request):
                              zoom_start=get_zoom(distance))
             # Location marker
             folium.Marker([l_lat, l_lon], tooltip='click here for more', popup=city['city'],
-                            icon=folium.Icon(color='purple')).add_to(m)
+                            icon=folium.Icon(color='purple'), draggable=True).add_to(m)
             # Destination marker
             folium.Marker([d_lat, d_lon], tooltip='click here for more', popup=destination,
-                            icon=folium.Icon(color='red')).add_to(m)
+                            icon=folium.Icon(color='red'), draggable=True).add_to(m)
 
             # Draw the line between location and destination
             line = folium.PolyLine(locations=[pointA, pointB], weight=2, color='blue')
@@ -132,7 +174,7 @@ def calculate_distance_view(request):
                 instance.user = request.user
             instance.save()
             #context.update({'distance' : instance.distance})
-
+            print(new_marker.location)
             #print('location country: ', country)
             #print('location city: ', city)
             #print('location latitude: ', lat)
@@ -150,4 +192,4 @@ def calculate_distance_view(request):
     }
 
     return TemplateResponse(request, 'coreapp/test.html', context)
-
+"""

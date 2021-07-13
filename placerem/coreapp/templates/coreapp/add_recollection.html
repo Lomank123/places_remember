@@ -1,21 +1,108 @@
 {% extends 'layout/basic.html' %}
 {% load crispy_forms_tags %}
-{% load static %}
+{% load geojson_tags %}
 
-{% block title %}New recollection{% endblock title %}
+{% block title %}Add recollection{% endblock title %}
+
+{% csrf_token %}
 
 {% block content %}
+    <link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.css" />
+    <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.js"></script>
+    <div id="recmap" style="width: 960px; height: 500px"></div>
 
-    {{ map|safe }}
+    <form id="rec_form" method="POST">
+        <input type="hidden" name="id" id="id">
 
-    <form action="" method="POST" autocomplete="off">
-        {% csrf_token %}
-        {{ form|crispy }}
+        <p>Name: <input name="name" id="name"></p>
+	    <p>Description: <input name="description" id="description"></p>
+
         <button type="submit" class="btn btn-primary">Confirm</button>
     </form>
 
-    <br>
-    This product includes GeoLite2 data created by MaxMind, available from
-    <a href="https://www.maxmind.com">https://www.maxmind.com</a>.
+    <script>
+
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = getCookie('csrftoken');
+
+        var url = 'api/recollections';
+        var map = L.map('recmap').setView([46.8527, -121.7649], 13);
+
+        var rec_id = document.getElementById('id');
+        var rec_name = document.getElementById('name');
+        var rec_descr = document.getElementById('description');
+        var rec_form = document.getElementById('rec_form');
+
+        var rec_geom = null;
+
+        L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+            maxZoom: 18,
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+        }).addTo(map);
+
+        var marker_1 = L.marker([46.8354, -121.7325]);
+        marker_1.bindPopup("Camp Muir");
+        map.addLayer(marker_1)
+
+        var collection = {{ collections|geojsonfeature|safe }}
+        console.log(collection);
+        L.geoJson(collection).addTo(map);
+        L.marker([50.5, 30.5]).addTo(map);
+
+        function newMarker(e){
+            var new_mark = L.marker().setLatLng(e.latlng).addTo(map);
+            new_mark.dragging.enable();
+            new_mark.on('dblclick', function(e){map.removeLayer(e.target)})
+            var lat = e.latlng.lat,
+               lng = e.latlng.lng;
+            new_mark.bindPopup("Waypoint");
+            rec_geom = [parseFloat(lng), parseFloat(lat)];
+            console.log(e.latlng);
+        };
+        map.on('click', newMarker)
+
+
+        rec_form.addEventListener('submit', function(evt) {
+            evt.preventDefault();
+            var vid = rec_id.value;
+            var new_url = url + '/';
+            var new_method = 'POST';
+            var new_data = JSON.stringify({id : vid, name: rec_name.value,
+            description: rec_descr.value, geom: rec_geom});
+
+            console.log(new_data);
+
+            $.ajax({
+                method: new_method,
+                url: new_url,
+                dataType: "json",
+                data: new_data,
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                    xhr.setRequestHeader('Content-Type', 'application/json'); // or will get 500 internal server error
+                    console.log('new rec beforeSend');
+                },
+                success: function(){
+                    console.log('new rec after send');
+                }
+            })
+        })
+
+    </script>
 
 {% endblock %}
