@@ -21,7 +21,6 @@ class CustomUser(AbstractUser):
         return self.email
 
 
-# TODO: Rebuild this model (remove distance and location fields, no need to use them in this case)
 class Recollection(models.Model):
     # Default fields
     name = models.CharField(max_length=40, verbose_name='Name')
@@ -31,13 +30,8 @@ class Recollection(models.Model):
     # Owner of a recollection
     user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, verbose_name='User')
 
-    # django-leaflet fields
+    # geojson fields
     geom = PointField(null=True)
-
-    # Map fields
-    #location = models.CharField(max_length=40, null=True, verbose_name='Location')
-    #destination = models.CharField(max_length=100, null=True, verbose_name='Destination')
-    #distance = models.DecimalField(max_digits=10, decimal_places=2, null=True, verbose_name='Distance')
 
     def __str__(self):
         return self.name

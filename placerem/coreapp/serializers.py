@@ -7,4 +7,4 @@ class RecollectionSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Recollection
-		fields = ('id', 'name', 'description', 'geom')
+		fields = ('id', 'name', 'description', 'user', 'geom')

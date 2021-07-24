@@ -1,18 +1,41 @@
 {% extends 'layout/basic.html' %}
+{% load crispy_forms_tags %}
+{% load geojson_tags %}
 
-{% block title %}
-    {{ recollection.name }}
-{% endblock %}
+{% block title %} {{ recollection.name }} {% endblock title %}
 
 {% block content %}
-
     <h2>Details</h2>
+    <link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.css"/>
+    <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.js"></script>
+    <div id="recmap" style="width: 960px; height: 500px;"></div>
+
+    <script>
+        var map = L.map('recmap').setView([46.8527, -121.7649], 13);
+        L.tileLayer('http://{s}.tile.stamen.com/terrain/{z}/{x}/{y}.jpg', {
+            maxZoom: 18,
+            attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
+        }).addTo(map);
+
+        var divMap = document.getElementById("recmap");
+        var recollection = {{ recollection|geojsonfeature|safe }}
+        if ("{{ recollection.geom }}" == "None") {
+            divMap.style.display = 'none';
+        } else {
+            var geoLayer = L.geoJson().addTo(map);
+            geoLayer.addData(recollection);
+            geoLayer.eachLayer( function(layer) {
+                if (layer instanceof L.Marker) {
+                    if (geoLayer.getBounds().contains(layer.getLatLng())) {
+                        layer.bindPopup("{{ recollection.name }}");
+                    }
+                }
+            });
+        }
+    </script>
 
     <p>Name: {{ recollection.name }}</p>
     <p>Description: {{ recollection.description }}</p>
     <p>Published in: {{ recollection.published }}</p>
-
-    <p>Destination place: {{ recollection.destination }}</p>
-<!-- Need to add map -->
 
 {% endblock %}
