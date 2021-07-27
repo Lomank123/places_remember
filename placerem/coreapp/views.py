@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import permission_required, login_required
 from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.edit import DeleteView
 import json
 
 from rest_framework import generics
@@ -26,48 +27,62 @@ def home(request):
 
 # Detailed information about certain recollection
 @login_required
-def detail(request, pk):
+def rec_detail(request, pk):
     recollection = Recollection.objects.get(pk=pk)
     context = {
         'recollection' : recollection,
     }
     return TemplateResponse(request, 'coreapp/rec_detail.html', context=context)
 
+@login_required
+def rec_edit(request, pk):
+    if request.method == 'GET':
+        recollection = Recollection.objects.get(pk=pk)
+        context = {
+            'recollection' : recollection,
+            'method' : 'PUT',
+        }
+        return TemplateResponse(request, 'coreapp/rec_add_edit.html', context=context)
+
 # Recollection create page
 @login_required
-def add_recollection(request):
+def rec_add(request):
     if request.method == 'GET':
         context = {
-            'collections' : Recollection.objects.filter(user=request.user),
+            'method' : 'POST',
         }
-        return TemplateResponse(request, 'coreapp/add_recollection.html', context=context)
+        return TemplateResponse(request, 'coreapp/rec_add_edit.html', context=context)
 
-# Handles post request to create recollection 
+# Handles post and put requests when creating or editing recollection
 @login_required
-@api_view(['POST', 'GET'])
-def post_rec(request):
-    #if request.method == 'GET':
-    #    recs = Recollection.objects.all()
-    #    serializer = RecollectionSerializer(recs, many=True)
-    #    return Response(serializer.data)
-    if request.method == 'POST':
-        new_data = request.data
-        serializer = RecollectionSerializer(data=new_data)
-        print(request.data)
+@api_view(['POST', 'PUT'])
+def rec_api(request):
+    new_data = request.data
+    serializer = RecollectionSerializer(data=new_data)
 
-        if serializer.is_valid():
-            if "lng" in new_data:
-                point = {
-                    "type" : "Point",
-                    "coordinates" : [new_data["lng"], new_data["lat"]],
-                }
-            else:
-                point = None
+    if serializer.is_valid():
+        if "lng" in new_data:
+            point = {
+                "type" : "Point",
+                "coordinates" : [new_data["lng"], new_data["lat"]],
+            }
+        else:
+            point = None
+        serializer.validated_data["geom"] = point
+        serializer.validated_data["user"] = request.user
 
-            serializer.validated_data["geom"] = point
-            serializer.validated_data["user"] = request.user
+        if request.method == 'POST':
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        elif request.method == 'PUT':
+            instance = Recollection.objects.get(pk=new_data["id"])
+            serializer.update(instance, serializer.validated_data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+    print(serializer.errors)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-        print(serializer.errors)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class RecDeleteView(DeleteView):
+    model = Recollection
+    success_url = '/home/'
+    template_name = 'coreapp/confirmation/recollection_confirm_delete.html'

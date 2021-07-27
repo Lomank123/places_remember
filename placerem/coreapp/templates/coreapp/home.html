@@ -10,6 +10,11 @@
             <hr>
             <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
             <h4>{{ recollection.published }}</h4>
+            <h4>
+                <a href="{% url 'edit' pk=recollection.pk %}">Edit</a>
+                 | 
+                <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
+            </h4>
         {% endfor %}
     {% else %}
         <h2 class="no_rec">
