@@ -37,8 +37,30 @@ ALLOWED_HOSTS.extend(
 
 # Auth
 LOGIN_REDIRECT_URL = '/home/'
+LOGOUT_REDIRECT_URL = '/login/'
 
+LOGOUT_URL = '/logout/'
 LOGIN_URL = '/login/'
+
+# VK auth
+SOCIAL_AUTH_VK_OAUTH2_KEY = int(os.environ.get('SOCIAL_AUTH_VK_OAUTH2_KEY'))
+SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_VK_OAUTH2_SECRET')
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
+#SOCIAL_AUTH_FACEBOOK_KEY = int(os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY'))
+#SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET')
+# When db is postgres
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+# If you want to receive an email address of user
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
+SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.vk.VKOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Sets custom user model
 AUTH_USER_MODEL = 'coreapp.CustomUser'
@@ -58,7 +80,8 @@ INSTALLED_APPS = [
     'djgeojson',
     'rest_framework',
     'corsheaders',
-
+    'social_django',
+    'easy_thumbnails',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +108,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -173,14 +198,22 @@ if USE_S3:
     PUBLIC_MEDIA_LOCATION = 'media'
     MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{PUBLIC_MEDIA_LOCATION}/'
     DEFAULT_FILE_STORAGE = 'placerem.storage_backend.PublicMediaStorage'
+    # Thumbnails
+    PUBLIC_MEDIA_THUMBNAILS_LOCATION = 'thumbnails'
+    THUMBNAIL_MEDIA_URL = '{MEDIA_URL}' + '{PUBLIC_MEDIA_THUMBNAILS_LOCATION}/'
+    THUMBNAIL_DEFAULT_STORAGE = 'placerem.storage_backend.ThumbnailsMediaStorage'
 else:
+    # Static
     STATIC_URL = '/static/static/'
     STATIC_ROOT = '/vol/web/static'
-
+    # Media
     MEDIA_URL = '/static/media/'
     MEDIA_ROOT = '/vol/web/media'
+    # Thumbnails
+    THUMBNAIL_MEDIA_URL = '/static/media/thumbnails/'
+    THUMBNAIL_MEDIA_ROOT = '/vol/web/media/thumbnails'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+#STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -190,5 +223,25 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # django-crispy-forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-# geoip2
-GEOIP_PATH = os.path.join(BASE_DIR, 'geoip')
+# Thumbnails
+THUМВNAIL_DEFAULT_OPТIONS = {'quality': 90, 'subsampling': 1,}
+THUMBNAIL_ALIASES = {
+    # Preset for user photo
+    'placerem.CustomUser.photo' : {
+        'default_user_photo' : {
+            'size' : (150, 200),
+            'crop' : 'scale',
+        },
+    },
+    # Presets for the whole project
+    '' : {
+        'default' : {
+            'size' : (180, 240),
+            'crop' : 'scale',
+        },
+        'big' : {
+            'size' : (480, 640),
+            'crop' : '10,10',
+        },
+    },
+}

@@ -22,5 +22,11 @@
         	<input type="submit" value="Log in">
         </form>
     {% endif %}
-    <div><a href="">Sign in via VK</a></div>
+    <div>
+        <p>
+            <a href="{% url 'auth:begin' 'vk-oauth2' %}">Sign up with VK</a>
+             | 
+            <a href="{% url 'auth:begin' 'github' %}">Sign up with GitHub</a>
+        </p>
+    </div>
 {% endblock %}

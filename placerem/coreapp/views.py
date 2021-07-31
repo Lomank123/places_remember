@@ -12,7 +12,7 @@ from rest_framework.decorators import api_view
 from rest_framework.viewsets import ModelViewSet
 
 from .models import Recollection
-from .forms import RecollectionModelForm
+from .forms import RecollectionModelForm, CustomUserChangeForm
 from .serializers import RecollectionSerializer
 
 
@@ -52,6 +52,29 @@ def rec_add(request):
             'method' : 'POST',
         }
         return TemplateResponse(request, 'coreapp/rec_add_edit.html', context=context)
+
+@login_required
+def profile(request):
+    if request.method == 'GET':
+        context = {
+            'recollections' : Recollection.objects.filter(user=request.user).count,
+        }
+        return TemplateResponse(request, 'coreapp/profile.html', context=context)
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+    else:
+        form = CustomUserChangeForm()
+    
+    context = {
+        'form' : form,
+    }
+    return TemplateResponse(request, 'coreapp/profile_edit.html', context=context)
+
 
 # Handles post and put requests when creating or editing recollection
 @login_required

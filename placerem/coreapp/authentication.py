@@ -12,16 +12,15 @@ class RecLoginView(LoginView):
 
 
 class RecLogoutView(LogoutView):
-	next_page = '/home/'
+	next_page = '/login/'
 
 
 def signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             email = form.cleaned_data.get('email')
             user = authenticate(username=email, password=raw_password)

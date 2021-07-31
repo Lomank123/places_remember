@@ -1,0 +1,26 @@
+{% extends 'layout/basic.html' %}
+{% load thumbnail %}
+{% load static %}
+
+{% block title %}Profile{% endblock title %}
+
+{% block content %}
+
+    <h3>Your profile</h3>
+    <p>Name: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    {% if user.photo %}
+        <div>
+            <p>Photo:</p>
+            <img src="{{ user.photo|thumbnail_url:'default' }}">
+        </div>
+    {% endif %}
+
+    <p>Additional info:</p>
+    <p>Number of recollections: {{ recollections }}</p>
+    <p>Account creation date: {{ user.date_joined }}</p>
+
+    <p><a href="{% url 'profile_edit' %}">Edit</a></p>
+
+{% endblock %}

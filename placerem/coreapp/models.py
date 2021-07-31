@@ -8,9 +8,9 @@ from .managers import CustomUserManager
 
 # TODO: add username support
 class CustomUser(AbstractUser):
-    username = models.CharField(max_length=20, verbose_name="Username", null=True)
-    email = models.EmailField(_('email address'), unique=True)
-    photo = models.FileField(null=True, blank=True)
+    username = models.CharField(max_length=20, unique=True, null=True, verbose_name="Username")
+    email = models.EmailField(unique=True, verbose_name="Email address")
+    photo = models.FileField(null=True, blank=True, verbose_name="Photo")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

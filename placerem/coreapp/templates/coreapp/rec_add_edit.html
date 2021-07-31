@@ -3,7 +3,7 @@
 {% load geojson_tags %}
 {% load static %}
 
-{% block title %}Edit recollection{% endblock title %}
+{% block title %}Add or edit recollection{% endblock title %}
 
 {% csrf_token %}
 
@@ -52,49 +52,49 @@
                             marker = layer;
                             rec_geom = [marker.getLatLng()["lng"], marker.getLatLng()["lat"]];
                             marker.on('click', function(e) {
-                                map.removeLayer(marker);
-                                rec_geom = null;
-                                console.log(rec_geom);
+                                removeMarker(map, marker);
                             });
                         }
                     }
                 });
-                // coordinates of an existing marker
-                //rec_geom = rec["features"][0]["geometry"]["coordinates"];
-                console.log(rec_geom);
             }
         }
+
+        function removeMarker(map, marker) {
+            map.removeLayer(marker);
+            rec_geom = null;
+            console.log(rec_geom);
+        }
+
         function newMarker(e){
             if (marker !== null) {
-                map.removeLayer(marker);
+                removeMarker(map, marker);
             }
             marker = L.marker(e.latlng).addTo(map);
             marker.on('click', function(e) {
-                map.removeLayer(marker);
-                rec_geom = null;
-                console.log(rec_geom);
+                removeMarker(map, marker);
             });
-            var lat = e.latlng.lat,
-               lng = e.latlng.lng;
-            rec_geom = [parseFloat(lng), parseFloat(lat)];
-            console.log(e.latlng);
+            rec_geom = [parseFloat(e.latlng.lng), parseFloat(e.latlng.lat)];
+            console.log(rec_geom);
         };
-        map.on('click', newMarker)
+        map.on('click', newMarker);
 
-        rec_form.addEventListener('submit', function(evt) {
-            evt.preventDefault();
-            var new_method = "{{ method }}";
-            var new_data = {id : rec_id.value, name: rec_name.value,
+        function collectData() {
+            var data = {id : rec_id.value, name: rec_name.value,
                 description: rec_descr.value};
             if (rec_geom !== null) {
-                new_data["lng"] = rec_geom[0];
-                new_data["lat"] = rec_geom[1];
+                data["lng"] = rec_geom[0];
+                data["lat"] = rec_geom[1];
             }
+            return data;
+        }
+
+        function sendDataAjax(method, url, data) {
             $.ajax({
-                method: new_method,
-                url: "{% url 'rec_api' %}",
+                method: method,
+                url: url,
                 dataType: "json",
-                data: JSON.stringify(new_data),
+                data: JSON.stringify(data),
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                     xhr.setRequestHeader('Content-Type', 'application/json'); // or will get 500 internal server error
@@ -102,9 +102,18 @@
                 },
                 success: function(){
                     console.log('rec after send');
-                    window.location.replace("/home/");  // redirects to home page
+                    window.location.href = "{% url 'home' %}";  // redirects to home page
                 }
             })
+        }
+
+        rec_form.addEventListener('submit', function(evt) {
+            evt.preventDefault();   // or will get 403 error (csrf token stuff)
+            var method = "{{ method }}";
+            var url = "{% url 'rec_api' %}";
+            var data = collectData();
+
+            sendDataAjax(method, url, data);
         })
     </script>
 

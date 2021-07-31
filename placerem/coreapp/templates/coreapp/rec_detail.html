@@ -52,11 +52,12 @@
     <script>
         var button_del = document.getElementById("button_delete");
         var button_edit = document.getElementById("button_edit");
+        // It's better to use .href instead of .replace() to achieve proper 'back' button trigger
         button_del.onclick = function() {
-            window.location.replace("{% url 'delete' pk=recollection.pk %}");
+            window.location.href = "{% url 'delete' pk=recollection.pk %}";
         };
         button_edit.onclick = function() {
-            window.location.replace("{% url 'edit' pk=recollection.pk %}");
+            window.location.href = "{% url 'edit' pk=recollection.pk %}";
         }
     </script>
 
