@@ -24,7 +24,7 @@ class CustomUser(AbstractUser):
 class Recollection(models.Model):
     # Default fields
     name = models.CharField(max_length=40, verbose_name='Name')
-    description = models.CharField(max_length=300, verbose_name='Description')
+    description = models.CharField(max_length=300, verbose_name='Description', blank=True, null=True)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Published in')
 
     # Owner of a recollection

@@ -232,6 +232,10 @@ THUMBNAIL_ALIASES = {
             'size' : (150, 200),
             'crop' : 'scale',
         },
+        'small_user_photo' : {
+            'size' : (50, 50),
+            'crop' : 'scale',
+        },
     },
     # Presets for the whole project
     '' : {
@@ -242,6 +246,10 @@ THUMBNAIL_ALIASES = {
         'big' : {
             'size' : (480, 640),
             'crop' : '10,10',
+        },
+        'small' : {
+            'size' : (30, 30),
+            'crop' : 'scale',
         },
     },
 }

@@ -1,15 +1,62 @@
 {% extends 'layout/basic.html' %}
 {% load crispy_forms_tags %}
+{% load thumbnail %}
 {% load static %}
 
 {% block title %}Edit profile{% endblock title %}
 
 {% block content %}
-    <h3>Edit</h3>
+    <h3>Edit profile</h3>
+
     <form method="post" enctype="multipart/form-data">
     	{% csrf_token %}
-    	{{ form.as_p }}
-    	<input type="submit" value="Change">
+        <div>
+            <p>Current username: {{ request.user.username }}</p>
+            <p>
+                <label for="{{ form.username.id_for_label }}">New username:</label>
+                {{ form.username }}
+                {{ form.username.errors }}
+            </p>
+        </div>
+        <div>
+            <p>Current email address: {{ request.user.email }} </p>
+            <p>
+                <label for="{{ form.email.id_for_label }}">New email address:</label>
+                {{ form.email }}
+                {{ form.email.errors }}
+            </p>
+        </div>
+        <div>
+            <p>Current photo: </p>
+            <p><img id="uploaded_image" src="{{ request.user.photo|thumbnail_url:'default' }}"></p>
+            <p>
+                <label for="{{ form.photo.id_for_label }}">New photo:</label>
+                {{ form.photo }}
+                {{ form.photo.errors }}
+            </p>
+        </div>
+        <div>
+            <p>Password:</p>
+            {% if has_password %}
+                <p>
+                    <label for="{{ form.password_old.id_for_label }}">Old password: </label>
+                    {{ form.password_old }}
+                    {{ form.password_old.errors }}
+                </p>
+            {% endif %}
+            <p>
+                <label for="{{ form.password1.id_for_label }}">New password: </label>
+                {{ form.password1 }}
+                {{ form.password1.errors }}
+            </p>
+            <p>
+                <label for="{{ form.password2.id_for_label }}">New password confirmation: </label>
+                {{ form.password2 }}
+                {{ form.password2.errors }}
+            </p>
+        </div>
+        
+        <input type="submit" value="Confirm changes">
     </form>
 
 {% endblock %}

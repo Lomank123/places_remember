@@ -16,10 +16,27 @@
                 <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
             </h4>
         {% endfor %}
+        <div class="paginator">
+            <h4>
+                {% if page.has_previous %}
+                    <a href="?page={{ page.previous_page_number }}">&lt;</a>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                {% endif %}
+    
+                Page {{ page.number }} of {{ page.paginator.num_pages }}
+    
+                {% if page.has_next %}
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <a href="?page={{ page.next_page_number }}">&gt;</a>
+                {% endif %}
+            </h4>
+        </div>
     {% else %}
         <h2 class="no_rec">
             You don't have any recollections yet<br>
             <a href="{% url 'add' %}">Add new recollection</a>
         </h2>
     {% endif %}
+
+
 {% endblock %}

@@ -7,13 +7,14 @@
 {% block content %}
 
     <h3>Your profile</h3>
+
     <p>Name: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
 
     {% if user.photo %}
         <div>
             <p>Photo:</p>
-            <img src="{{ user.photo|thumbnail_url:'default' }}">
+            <p><img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}"></p>
         </div>
     {% endif %}
 
@@ -21,6 +22,6 @@
     <p>Number of recollections: {{ recollections }}</p>
     <p>Account creation date: {{ user.date_joined }}</p>
 
-    <p><a href="{% url 'profile_edit' %}">Edit</a></p>
+    <p><a href="{% url 'profile_edit' %}">Edit profile</a></p>
 
 {% endblock %}

@@ -1,8 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.template.response import TemplateResponse
 from django.contrib.auth.decorators import permission_required, login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.edit import DeleteView
+from django.core.exceptions import ValidationError
+from django.core.paginator import Paginator
 import json
 
 from rest_framework import generics
@@ -11,8 +13,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Recollection
-from .forms import RecollectionModelForm, CustomUserChangeForm
+from .models import Recollection, CustomUser
+from .forms import RecollectionModelForm, CustomUserEditForm
 from .serializers import RecollectionSerializer
 
 
@@ -20,8 +22,19 @@ from .serializers import RecollectionSerializer
 @login_required
 def home(request):
     recollections = Recollection.objects.filter(user=request.user)
+
+    # Paginator
+    objects_per_page = 6
+    paginator = Paginator(recollections, objects_per_page)
+    if 'page' in request.GET:
+        page_num = request.GET['page']
+    else:
+        page_num = 1
+    page = paginator.get_page(page_num)
+    
     context = {
-        'recollections' : recollections,
+        'recollections' : page.object_list,
+        'page' : page,
     }
     return TemplateResponse(request, 'coreapp/home.html', context=context)
 
@@ -55,26 +68,37 @@ def rec_add(request):
 
 @login_required
 def profile(request):
-    if request.method == 'GET':
-        context = {
-            'recollections' : Recollection.objects.filter(user=request.user).count,
-        }
-        return TemplateResponse(request, 'coreapp/profile.html', context=context)
+    context = {
+        'recollections' : Recollection.objects.filter(user=request.user).count,
+    }
+    return TemplateResponse(request, 'coreapp/profile.html', context=context)
 
 @login_required
 def profile_edit(request):
     if request.method == 'POST':
-        form = CustomUserChangeForm(request.POST, request.FILES)
+        form = CustomUserEditForm(request.user, request.POST, request.FILES)
+
         if form.is_valid():
-            form.save()
+            instance = get_object_or_404(CustomUser, id=request.user.pk)
+            # If it's possible make it in a more elegant way
+            if form.cleaned_data['username']:
+                instance.username = form.cleaned_data['username']
+            if form.cleaned_data['email']:
+                instance.email = form.cleaned_data['email']
+            if form.cleaned_data['photo']:
+                instance.photo = form.cleaned_data['photo']
+            if form.cleaned_data['password1'] and form.cleaned_data['password2']:
+                instance.set_password(form.cleaned_data['password1'])
+            instance.save()
+            return redirect('/profile/')
     else:
-        form = CustomUserChangeForm()
+        form = CustomUserEditForm(request.user)
     
     context = {
         'form' : form,
+        'has_password' : request.user.has_usable_password()
     }
     return TemplateResponse(request, 'coreapp/profile_edit.html', context=context)
-
 
 # Handles post and put requests when creating or editing recollection
 @login_required
