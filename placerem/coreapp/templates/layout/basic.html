@@ -43,7 +43,10 @@
         <div class="profile_box">
           <p>
             {% if user.photo %}
-              <img class="user_photo" src="{{ user.photo|thumbnail_url:'small' }}">
+              <img class="user_photo" src="{{ user.photo|thumbnail_url:'small' }}" style="border-style: solid;
+               border-radius: 10px; 
+               border-color: aqua; 
+               border-width: 2px;">
             {% endif %}
             <a href="{% url 'profile' %}">{{ user.username }}</a>
           </p>

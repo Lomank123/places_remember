@@ -33,7 +33,7 @@ class CustomUserEditForm(forms.Form):
     password_old = forms.CharField(
         label="Old password",
         strip=False,
-        widget=forms.PasswordInput(attrs={'autocomplete': 'new-password'}),
+        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'}),
         required=False,
     )
     password1 = forms.CharField(

@@ -68,6 +68,12 @@ def rec_add(request):
 
 @login_required
 def profile(request):
+    # Deleting photo
+    if request.method == 'POST':
+        user = request.user
+        user.photo = None
+        user.save()
+        return redirect('/profile/')
     context = {
         'recollections' : Recollection.objects.filter(user=request.user).count,
     }

@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from djgeojson.fields import PointField
+from easy_thumbnails.fields import ThumbnailerField
 
 from .managers import CustomUserManager
 
@@ -10,7 +11,7 @@ from .managers import CustomUserManager
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=20, unique=True, null=True, verbose_name="Username")
     email = models.EmailField(unique=True, verbose_name="Email address")
-    photo = models.FileField(null=True, blank=True, verbose_name="Photo")
+    photo = ThumbnailerField(null=True, blank=True, verbose_name="Photo")
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

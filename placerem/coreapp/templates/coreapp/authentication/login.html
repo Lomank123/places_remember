@@ -17,7 +17,6 @@
         <form method="post">
         	{% csrf_token %}
         	{{ form.as_p }}
-        	<p><a href="">Reset password</a></p>
         	<input type="hidden" name="next" value="{{ next }}">
         	<input type="submit" value="Log in">
         </form>

@@ -15,6 +15,11 @@
         <div>
             <p>Photo:</p>
             <p><img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}"></p>
+            <!-- For deleting photos -->
+            <form method="post">
+                {% csrf_token %}
+                <input type="submit" value="Delete photo">
+            </form>
         </div>
     {% endif %}
 

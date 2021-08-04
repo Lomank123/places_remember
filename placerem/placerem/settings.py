@@ -81,6 +81,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'social_django',
     'easy_thumbnails',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
