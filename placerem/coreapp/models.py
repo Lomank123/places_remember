@@ -7,7 +7,6 @@ from easy_thumbnails.fields import ThumbnailerField
 from .managers import CustomUserManager
 
 
-# TODO: add username support
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=20, unique=True, null=True, verbose_name="Username")
     email = models.EmailField(unique=True, verbose_name="Email address")
