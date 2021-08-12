@@ -12,7 +12,7 @@
     <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.js"></script>
     <div id="recmap" style="width: 960px; height: 500px"></div>
 
-    <form id="rec_form" method="POST">
+    <form id="rec_form" method="{{ method }}">
         <input type="hidden" name="id" id="id">
         <p>Name: <input name="name" id="name"></p>
 	    <p>Description: <input name="description" id="description"></p>
@@ -34,7 +34,6 @@
         var rec_name = document.getElementById('name');
         var rec_descr = document.getElementById('description');
         var rec_form = document.getElementById('rec_form');
-        var rec_geom = null;
         var marker = null;
 
         rec_id.value = "{{ recollection.pk }}";
@@ -50,7 +49,6 @@
                     if (layer instanceof L.Marker) {
                         if (geoLayer.getBounds().contains(layer.getLatLng())) {
                             marker = layer;
-                            rec_geom = [marker.getLatLng()["lng"], marker.getLatLng()["lat"]];
                             marker.on('click', function(e) {
                                 removeMarker(map, marker);
                             });
@@ -60,10 +58,10 @@
             }
         }
 
-        function removeMarker(map, marker) {
+        function removeMarker() {
             map.removeLayer(marker);
-            rec_geom = null;
-            console.log(rec_geom);
+            marker = null;
+            console.log(marker);
         }
 
         function newMarker(e){
@@ -74,18 +72,27 @@
             marker.on('click', function(e) {
                 removeMarker(map, marker);
             });
-            rec_geom = [parseFloat(e.latlng.lng), parseFloat(e.latlng.lat)];
-            console.log(rec_geom);
+            console.log(marker._latlng);
         };
         map.on('click', newMarker);
 
         function collectData() {
-            var data = {id : rec_id.value, name: rec_name.value,
-                description: rec_descr.value};
-            if (rec_geom !== null) {
-                data["lng"] = rec_geom[0];
-                data["lat"] = rec_geom[1];
+            console.log(marker);
+            var data = {
+                id : rec_id.value,
+                name: rec_name.value,
+                description: rec_descr.value,
+                user: "{{ user.pk }}",
+                geom: null
+            };
+            if (marker !== null) {
+                var point = {
+                    type : "Point",
+                    coordinates : [marker._latlng['lng'], marker._latlng['lat']]
+                }
+                data["geom"] = JSON.stringify(point);
             }
+            console.log(data);
             return data;
         }
 
@@ -110,9 +117,12 @@
         rec_form.addEventListener('submit', function(evt) {
             evt.preventDefault();   // or will get 403 error (csrf token stuff)
             var method = "{{ method }}";
-            var url = "{% url 'rec_api' %}";
+            var url = "{% url 'recollections-list' %}";
+            var id = "{{ recollection.pk }}";
+            if (id !== "") {
+                url += id + '/';
+            }
             var data = collectData();
-
             sendDataAjax(method, url, data);
         })
     </script>

@@ -1,13 +1,17 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework.routers import DefaultRouter
 
-from coreapp.views import home, rec_detail, rec_add, rec_edit, rec_api, profile, \
-    RecDeleteView, profile_edit
 from coreapp.authentication import RecLoginView, RecLogoutView, signup
+from coreapp.views import rec_detail, rec_add, rec_edit, profile, \
+    RecDeleteView, profile_edit, APIRecViewSet, HomePageView
 
+
+router = DefaultRouter()
+router.register('recollections', APIRecViewSet, basename='recollections')
 
 urlpatterns = [
-    path('home/', home, name='home'),
+    path('home/', HomePageView.as_view(), name='home'),
     path('add/', rec_add, name='add'),
     path('detail/<int:pk>/', rec_detail, name='detail'),
     path('edit/<int:pk>/', rec_edit, name='edit'),
@@ -21,5 +25,5 @@ urlpatterns = [
     # Social auth
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
-    path('api/recollections/', rec_api, name='rec_api'),
+    path('api/', include(router.urls)),
 ]
