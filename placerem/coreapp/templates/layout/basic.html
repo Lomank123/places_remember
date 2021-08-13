@@ -22,7 +22,7 @@
         <p class="auth_text">
           Welcome, {{ user.username }}
            | 
-          <a href="{% url 'profile' %}">Profile</a>
+          <a href="{% url 'profile' user.pk %}">Profile</a>
            |
           <a href="{% url 'logout' %}">Log out</a>
         </p>
@@ -48,14 +48,14 @@
                border-color: aqua; 
                border-width: 2px;">
             {% endif %}
-            <a href="{% url 'profile' %}">{{ user.username }}</a>
+            <a href="{% url 'profile' user.pk %}">{{ user.username }}</a>
           </p>
         </div>
 
         <nav>
           <a href="{% url 'home' %}">Home</a>
           <hr>
-          <a href="{% url 'profile' %}">Profile</a>
+          <a href="{% url 'profile' user.pk %}">Profile</a>
           <hr>
           <a href="{% url 'add' %}">Add recollection</a>
         </nav>

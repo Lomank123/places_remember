@@ -7,56 +7,49 @@
 
 {% block content %}
     <h3>Edit profile</h3>
-
-    <form method="post" enctype="multipart/form-data">
-    	{% csrf_token %}
-        <div>
-            <p>Current username: {{ request.user.username }}</p>
+    <p>
+        <form method="post" enctype="multipart/form-data">
+        	{% csrf_token %}
             <p>
-                <label for="{{ form.username.id_for_label }}">New username:</label>
+                <label for="{{ form.username.id_for_label }}">Username:</label>
                 {{ form.username }}
                 {{ form.username.errors }}
             </p>
-        </div>
-        <div>
-            <p>Current email address: {{ request.user.email }} </p>
             <p>
-                <label for="{{ form.email.id_for_label }}">New email address:</label>
+                <label for="{{ form.email.id_for_label }}">Email address:</label>
                 {{ form.email }}
                 {{ form.email.errors }}
             </p>
-        </div>
-        <div>
-            <p>Current photo: </p>
-            <p><img id="uploaded_image" src="{{ request.user.photo|thumbnail_url:'default' }}"></p>
-            <p>
-                <label for="{{ form.photo.id_for_label }}">New photo:</label>
-                {{ form.photo }}
-                {{ form.photo.errors }}
-            </p>
-        </div>
-        <div>
-            <p>Password:</p>
-            {% if has_password %}
+            <div>
+                <p>Photo: </p>
+                <p><img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}"></p>
                 <p>
-                    <label for="{{ form.password_old.id_for_label }}">Old password: </label>
-                    {{ form.password_old }}
-                    {{ form.password_old.errors }}
+                    {{ form.photo }}
+                    {{ form.photo.errors }}
                 </p>
-            {% endif %}
-            <p>
-                <label for="{{ form.password1.id_for_label }}">New password: </label>
-                {{ form.password1 }}
-                {{ form.password1.errors }}
-            </p>
-            <p>
-                <label for="{{ form.password2.id_for_label }}">New password confirmation: </label>
-                {{ form.password2 }}
-                {{ form.password2.errors }}
-            </p>
-        </div>
-        
-        <input type="submit" value="Confirm changes">
-    </form>
+                <script>
+                    var photo = document.getElementById("uploaded_image");
+                    var photo_choose_btn = document.getElementById("id_photo");
+
+                    photo_choose_btn.addEventListener('change', function(event) {
+                        readURL(photo_choose_btn);
+                        photo.height = 300;
+                        photo.width = 250;
+                        console.log("Changed");
+                    });
+                    function readURL(input) {
+                        if (input.files && input.files[0]) {
+                            var reader = new FileReader();
+                            reader.onload = function (e) {
+                                photo.src = e.target.result;
+                            };
+                            reader.readAsDataURL(input.files[0]);
+                        }
+                    }
+                </script>
+            </div>
+            <input type="submit" value="Confirm changes">
+        </form>
+    </p>
 
 {% endblock %}

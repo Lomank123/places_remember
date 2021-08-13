@@ -5,19 +5,18 @@
 
 {% block title %}Add or edit recollection{% endblock title %}
 
-{% csrf_token %}
-
 {% block content %}
     <link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.css" />
     <script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.js"></script>
     <div id="recmap" style="width: 960px; height: 500px"></div>
 
-    <form id="rec_form" method="{{ method }}">
-        <input type="hidden" name="id" id="id">
-        <p>Name: <input name="name" id="name"></p>
-	    <p>Description: <input name="description" id="description"></p>
-        <button type="submit" class="btn btn-primary">Confirm</button>
-    </form>
+    <p>
+        <form id="rec_form" method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </p>
 
     <script type="module">
         import { getCookie } from "{% static 'placerem/get_cookie.js' %}"
@@ -29,16 +28,11 @@
             attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a>. Data by <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://creativecommons.org/licenses/by-sa/3.0">CC BY SA</a>.'
         }).addTo(map);
 
-        var rec = {{ recollection|geojsonfeature|safe }}
-        var rec_id = document.getElementById('id');
-        var rec_name = document.getElementById('name');
-        var rec_descr = document.getElementById('description');
+        var rec = {{ object|geojsonfeature|safe }}
+        var rec_name = document.getElementById('id_name');
+        var rec_descr = document.getElementById('id_description');
         var rec_form = document.getElementById('rec_form');
         var marker = null;
-
-        rec_id.value = "{{ recollection.pk }}";
-        rec_name.value = "{{ recollection.name }}";
-        rec_descr.value = "{{ recollection.description }}";
 
         // check whether the user add or edit recollection
         if (rec !== null) {
@@ -79,7 +73,6 @@
         function collectData() {
             console.log(marker);
             var data = {
-                id : rec_id.value,
                 name: rec_name.value,
                 description: rec_descr.value,
                 user: "{{ user.pk }}",
@@ -116,9 +109,12 @@
 
         rec_form.addEventListener('submit', function(evt) {
             evt.preventDefault();   // or will get 403 error (csrf token stuff)
-            var method = "{{ method }}";
+            var method = "POST";
+            if ("{{ method }}" !== "") {
+                method = "{{ method }}";
+            }
             var url = "{% url 'recollections-list' %}";
-            var id = "{{ recollection.pk }}";
+            var id = "{{ object.pk }}";
             if (id !== "") {
                 url += id + '/';
             }

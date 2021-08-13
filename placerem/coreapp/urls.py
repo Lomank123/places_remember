@@ -3,8 +3,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.routers import DefaultRouter
 
 from coreapp.authentication import RecLoginView, RecLogoutView, signup
-from coreapp.views import rec_detail, rec_add, rec_edit, profile, \
-    RecDeleteView, profile_edit, APIRecViewSet, HomePageView
+from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
+    RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView
 
 
 router = DefaultRouter()
@@ -12,16 +12,17 @@ router.register('recollections', APIRecViewSet, basename='recollections')
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
-    path('add/', rec_add, name='add'),
-    path('detail/<int:pk>/', rec_detail, name='detail'),
-    path('edit/<int:pk>/', rec_edit, name='edit'),
-    path('delete/<int:pk>/', RecDeleteView.as_view(), name='delete'),
-    path('profile/', profile, name='profile'),
-    path('profile/edit', profile_edit, name='profile_edit'),
+    path('add/', RecollectionCreateView.as_view(), name='add'),
+    path('detail/<int:pk>/', RecollectionDetailView.as_view(), name='detail'),
+    path('edit/<int:pk>/', RecollectionEditView.as_view(), name='edit'),
+    path('delete/<int:pk>/', RecollectionDeleteView.as_view(), name='delete'),
+    path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
+    path('profile/edit/<int:pk>/', ProfileEditView.as_view(), name='profile_edit'),
     # Auth paths
     path('login/', RecLoginView.as_view(), name='login'),
 	path('logout/', RecLogoutView.as_view(), name='logout'),
     path('signup/', signup, name='signup'),
+    path('change_password/', ProfilePasswordChangeView.as_view(), name='change_password'),
     # Social auth
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API

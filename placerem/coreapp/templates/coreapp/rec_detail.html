@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% load geojson_tags %}
 
-{% block title %} {{ recollection.name }} {% endblock title %}
+{% block title %} {{ object.name }} {% endblock title %}
 
 {% block content %}
     <h2>Details</h2>
@@ -18,9 +18,9 @@
         }).addTo(map);
 
         var divMap = document.getElementById("recmap");
-        var recollection = {{ recollection|geojsonfeature|safe }}
+        var recollection = {{ object|geojsonfeature|safe }}
 
-        if ("{{ recollection.geom }}" == "None") {
+        if ("{{ object.geom }}" == "None") {
             divMap.style.display = 'none';
         } else {
             // Creating an empty layer and add our recollection
@@ -31,7 +31,7 @@
             geoLayer.eachLayer( function(layer) {
                 if (layer instanceof L.Marker) {
                     if (geoLayer.getBounds().contains(layer.getLatLng())) {
-                        layer.bindPopup("{{ recollection.name }}");
+                        layer.bindPopup("{{ object.name }}");
                         map.setView(layer.getLatLng(), 3);
                     }
                 }
@@ -39,9 +39,9 @@
         }
     </script>
 
-    <p>Name: {{ recollection.name }}</p>
-    <p>Description: {{ recollection.description }}</p>
-    <p>Published in: {{ recollection.published }}</p>
+    <p>Name: {{ object.name }}</p>
+    <p>Description: {{ object.description }}</p>
+    <p>Published in: {{ object.published }}</p>
 
     <!-- Delete button -->
     <p>
@@ -54,10 +54,10 @@
         var button_edit = document.getElementById("button_edit");
         // It's better to use .href instead of .replace() to achieve proper 'back' button trigger
         button_del.onclick = function() {
-            window.location.href = "{% url 'delete' pk=recollection.pk %}";
+            window.location.href = "{% url 'delete' pk=object.pk %}";
         };
         button_edit.onclick = function() {
-            window.location.href = "{% url 'edit' pk=recollection.pk %}";
+            window.location.href = "{% url 'edit' pk=object.pk %}";
         }
     </script>
 
