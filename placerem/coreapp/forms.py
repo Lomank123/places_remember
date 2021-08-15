@@ -1,8 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.password_validation import validate_password
 from django import forms
-from .models import CustomUser, Recollection
 from django.core.exceptions import ValidationError
+
+from coreapp.models import CustomUser, Recollection
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -32,8 +33,9 @@ class RecollectionModelForm(forms.ModelForm):
 class CustomUserEditForm(forms.ModelForm):
     username = forms.CharField(max_length=20, required=False)
     email = forms.EmailField(required=False)
-    photo = forms.FileField(required=False)
-    
+    photo = forms.FileField(required=False, widget=forms.FileInput)
+    delete_photo = forms.BooleanField(required=False, initial=False)
+
 
     class Meta:
         model = CustomUser

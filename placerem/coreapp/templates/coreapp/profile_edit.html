@@ -22,21 +22,40 @@
             </p>
             <div>
                 <p>Photo: </p>
-                <p><img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}"></p>
+
+                <p><img
+                    id="uploaded_image"
+                    src="{{ user.photo|thumbnail_url:'default' }}"
+                    alt="Image not found"
+                    onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"/></p>
                 <p>
+                    Change photo:
                     {{ form.photo }}
                     {{ form.photo.errors }}
+                    <button type="button" id="button_delete_photo">Delete photo</button>
                 </p>
+                
+                {{ form.delete_photo }}
+
                 <script>
                     var photo = document.getElementById("uploaded_image");
                     var photo_choose_btn = document.getElementById("id_photo");
+                    var btn_delete = document.getElementById("button_delete_photo");
+                    var checkbox = document.getElementById("id_delete_photo");
+
+                    checkbox.style.display = 'none';
+                    photo.height = 250;
+                    photo.width = 250;
 
                     photo_choose_btn.addEventListener('change', function(event) {
                         readURL(photo_choose_btn);
-                        photo.height = 300;
-                        photo.width = 250;
-                        console.log("Changed");
+                        checkbox.checked = false;
                     });
+                    btn_delete.addEventListener('click', function(event) {
+                        photo_choose_btn.value = '';
+                        photo.src = "{% static 'placerem/empty.jpg' %}";
+                        checkbox.checked = true;
+                    })
                     function readURL(input) {
                         if (input.files && input.files[0]) {
                             var reader = new FileReader();

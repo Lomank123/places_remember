@@ -2,7 +2,7 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.routers import DefaultRouter
 
-from coreapp.authentication import RecLoginView, RecLogoutView, signup
+from coreapp.authentication import RecLoginView, RecLogoutView, CustomUserSignUpView
 from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
     RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView
 
@@ -21,7 +21,7 @@ urlpatterns = [
     # Auth paths
     path('login/', RecLoginView.as_view(), name='login'),
 	path('logout/', RecLogoutView.as_view(), name='logout'),
-    path('signup/', signup, name='signup'),
+    path('signup/', CustomUserSignUpView.as_view(), name='signup'),
     path('change_password/', ProfilePasswordChangeView.as_view(), name='change_password'),
     # Social auth
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),

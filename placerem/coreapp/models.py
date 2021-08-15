@@ -1,10 +1,9 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
 from djgeojson.fields import PointField
 from easy_thumbnails.fields import ThumbnailerField
 
-from .managers import CustomUserManager
+from coreapp.managers import CustomUserManager
 
 
 class CustomUser(AbstractUser):

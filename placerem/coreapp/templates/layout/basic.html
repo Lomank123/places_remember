@@ -42,12 +42,16 @@
       {% if user.is_authenticated %}
         <div class="profile_box">
           <p>
-            {% if user.photo %}
-              <img class="user_photo" src="{{ user.photo|thumbnail_url:'small' }}" style="border-style: solid;
-               border-radius: 10px; 
-               border-color: aqua; 
-               border-width: 2px;">
-            {% endif %}
+              <img
+               class="user_photo"
+                src="{{ user.photo|thumbnail_url:'small' }}"
+                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
+                style="border-style: solid;
+                border-radius: 10px; 
+                border-color: aqua; 
+                border-width: 2px;
+                width: 30px;
+                height: 30px;">
             <a href="{% url 'profile' user.pk %}">{{ user.username }}</a>
           </p>
         </div>
