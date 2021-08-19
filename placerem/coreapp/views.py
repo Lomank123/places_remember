@@ -12,51 +12,75 @@ from coreapp.serializers import RecollectionSerializer
 
 
 # Home page
-class HomePageView(LoginRequiredMixin,ListView):
+class HomePageView(LoginRequiredMixin, ListView):
     model = Recollection
     template_name = 'coreapp/home.html'
     paginate_by = 6
 
+    # Without overriding this method other users will be able to get your data
     def get_queryset(self):
-        # To get recollections of a current user
-        queryset = super(HomePageView, self).get_queryset()
-        return queryset.filter(user=self.request.user)
-
-
-# Detailed information about certain recollection
-class RecollectionDetailView(DetailView, LoginRequiredMixin):
-    model = Recollection
-    template_name = 'coreapp/rec_detail.html'
-
-
-# Recollection edit page
-class RecollectionEditView(UpdateView, LoginRequiredMixin):
-    model = Recollection
-    fields = ['name', 'description']
-    template_name = 'coreapp/rec_add_edit.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["method"] = 'PUT'
-        return context
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
 
 
 # Recollection create page
-class RecollectionCreateView(CreateView, LoginRequiredMixin):
+class RecollectionCreateView(LoginRequiredMixin, CreateView):
     model = Recollection
     fields = ['name', 'description']
     template_name = 'coreapp/rec_add_edit.html'
+    success_url = '/home/'
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
+
+# Detailed information about certain recollection
+class RecollectionDetailView(LoginRequiredMixin, DetailView):
+    model = Recollection
+    template_name = 'coreapp/rec_detail.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
 
 
 # Recollection delete page
-class RecollectionDeleteView(DeleteView, LoginRequiredMixin):
+class RecollectionDeleteView(LoginRequiredMixin, DeleteView):
     model = Recollection
     success_url = '/home/'
     template_name = 'coreapp/confirmation/recollection_confirm_delete.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
+
+# Recollection edit page (uses put method to update recollections)
+class RecollectionEditView(LoginRequiredMixin, UpdateView):
+    model = Recollection
+    fields = ['name', 'description']
+    template_name = 'coreapp/rec_add_edit.html'
+    success_url = '/home/'
+    
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
+
+# Handles all requests when creating or editing recollection
+class APIRecViewSet(ModelViewSet):
+    queryset = Recollection.objects.all()
+    serializer_class = RecollectionSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
 
 # Profile page
-class ProfileView(DetailView, LoginRequiredMixin):
+class ProfileView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = 'coreapp/profile.html'
 
@@ -65,8 +89,14 @@ class ProfileView(DetailView, LoginRequiredMixin):
         context["recollections"] = Recollection.objects.filter(user=self.request.user).count()
         return context
     
+    # Without overriding this method other users will be able to get your data
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(pk=self.request.user.pk)
+        return queryset
+    
 
-class ProfileEditView(UpdateView, LoginRequiredMixin):
+# Profile edit page (uses post method to update profiles)
+class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserEditForm
     template_name = 'coreapp/profile_edit.html'
@@ -81,22 +111,14 @@ class ProfileEditView(UpdateView, LoginRequiredMixin):
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.object.pk})
 
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(pk=self.request.user.pk)
+        return queryset
 
-class ProfilePasswordChangeView(PasswordChangeView, LoginRequiredMixin):
+
+class ProfilePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'coreapp/authentication/change_password.html'
     success_url = '/home/'
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.pk})
-
-
-# Handles post and put requests when creating or editing recollection
-class APIRecViewSet(ModelViewSet):
-    queryset = Recollection.objects.all()
-    serializer_class = RecollectionSerializer
-    permission_classes = (IsAuthenticated, )
-
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
-    

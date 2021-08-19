@@ -13,8 +13,8 @@
     <p>
         <form id="rec_form" method="POST">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Confirm</button>
+            {{ form|crispy }}
+            <button id="submit_btn" type="submit" class="btn btn-primary">Confirm</button>
         </form>
     </p>
 
@@ -32,6 +32,7 @@
         var rec_name = document.getElementById('id_name');
         var rec_descr = document.getElementById('id_description');
         var rec_form = document.getElementById('rec_form');
+        var rec_submit_btn = document.getElementById('submit_btn');
         var marker = null;
 
         // check whether the user add or edit recollection
@@ -55,7 +56,7 @@
         function removeMarker() {
             map.removeLayer(marker);
             marker = null;
-            console.log(marker);
+            console.log("Removed marker");
         }
 
         function newMarker(e){
@@ -66,12 +67,11 @@
             marker.on('click', function(e) {
                 removeMarker(map, marker);
             });
-            console.log(marker._latlng);
+            console.log("Created marker");
         };
         map.on('click', newMarker);
 
         function collectData() {
-            console.log(marker);
             var data = {
                 name: rec_name.value,
                 description: rec_descr.value,
@@ -85,11 +85,20 @@
                 }
                 data["geom"] = JSON.stringify(point);
             }
-            console.log(data);
             return data;
         }
 
-        function sendDataAjax(method, url, data) {
+        rec_submit_btn.addEventListener('click', function(evt) {
+            evt.preventDefault();   // or will get 403 error (csrf token stuff)
+            var data = collectData();
+            var method = "POST";
+            var url = "{% url 'recollections-list' %}";
+            var id = "{{ object.pk }}";
+            if (id !== "") {
+                method = "PUT";
+                url += id + '/';
+            }
+
             $.ajax({
                 method: method,
                 url: url,
@@ -98,28 +107,13 @@
                 beforeSend: function(xhr) {
                     xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
                     xhr.setRequestHeader('Content-Type', 'application/json'); // or will get 500 internal server error
-                    console.log('rec beforeSend');
+                    console.log('Rec beforeSend');
                 },
                 success: function(){
-                    console.log('rec after send');
+                    console.log('Rec after send');
                     window.location.href = "{% url 'home' %}";  // redirects to home page
                 }
             })
-        }
-
-        rec_form.addEventListener('submit', function(evt) {
-            evt.preventDefault();   // or will get 403 error (csrf token stuff)
-            var method = "POST";
-            if ("{{ method }}" !== "") {
-                method = "{{ method }}";
-            }
-            var url = "{% url 'recollections-list' %}";
-            var id = "{{ object.pk }}";
-            if (id !== "") {
-                url += id + '/';
-            }
-            var data = collectData();
-            sendDataAjax(method, url, data);
         })
     </script>
 

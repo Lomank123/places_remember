@@ -11,17 +11,13 @@
         <form method="post" enctype="multipart/form-data">
         	{% csrf_token %}
             <p>
-                <label for="{{ form.username.id_for_label }}">Username:</label>
-                {{ form.username }}
-                {{ form.username.errors }}
+                {{ form.username|as_crispy_field }}
             </p>
             <p>
-                <label for="{{ form.email.id_for_label }}">Email address:</label>
-                {{ form.email }}
-                {{ form.email.errors }}
+                {{ form.email|as_crispy_field }}
             </p>
             <div>
-                <p>Photo: </p>
+                <p>Photo</p>
 
                 <p><img
                     id="uploaded_image"
@@ -31,7 +27,6 @@
                 <p>
                     Change photo:
                     {{ form.photo }}
-                    {{ form.photo.errors }}
                     <button type="button" id="button_delete_photo">Delete photo</button>
                 </p>
                 
@@ -67,7 +62,7 @@
                     }
                 </script>
             </div>
-            <input type="submit" value="Confirm changes">
+            <button type="submit" class="btn btn-primary">Confirm changes</button>
         </form>
     </p>
 

@@ -6,7 +6,7 @@ header h1 {
 }
 nav {
 	font-size: 16pt;
-	width: 10%;
+
 	clear: both;
 	float: left;
 	background-color: rgb(248, 238, 226);
@@ -35,7 +35,7 @@ nav a {
 }
 .profile_box {
 	font-size: 14pt;
-	width: 10%;
+	display: block;
 	border-style: solid;
 	border-radius: 10px;
 	border-color: darkcyan;
@@ -50,4 +50,7 @@ nav a {
 .paginator {
 	padding-top: 40px;
 	padding-bottom: 40px;
+}
+.add_rec {
+	text-align: center;
 }

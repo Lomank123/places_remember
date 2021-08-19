@@ -16,7 +16,7 @@ urlpatterns = [
     path('detail/<int:pk>/', RecollectionDetailView.as_view(), name='detail'),
     path('edit/<int:pk>/', RecollectionEditView.as_view(), name='edit'),
     path('delete/<int:pk>/', RecollectionDeleteView.as_view(), name='delete'),
-    path('profile/<int:pk>', ProfileView.as_view(), name='profile'),
+    path('profile/<int:pk>/', ProfileView.as_view(), name='profile'),
     path('profile/edit/<int:pk>/', ProfileEditView.as_view(), name='profile_edit'),
     # Auth paths
     path('login/', RecLoginView.as_view(), name='login'),

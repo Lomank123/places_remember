@@ -1,5 +1,5 @@
 {% extends "layout/basic.html" %}
-{% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}Sign in{% endblock %}
 
@@ -14,18 +14,18 @@
             to collect all wondrous moments in your life.<br> 
             Here you can mark the places where you've been.
         </p>
-        <form method="post">
-        	{% csrf_token %}
-        	{{ form.as_p }}
-        	<input type="hidden" name="next" value="{{ next }}">
-        	<input type="submit" value="Log in">
-        </form>
-    {% endif %}
-    <div>
         <p>
-            <a href="{% url 'auth:begin' 'vk-oauth2' %}">Sign up with VK</a>
-             | 
-            <a href="{% url 'auth:begin' 'github' %}">Sign up with GitHub</a>
+            <form method="post">
+            	{% csrf_token %}
+            	{{ form|crispy }}
+            	<input type="hidden" name="next" value="{{ next }}">
+            	<input type="submit" value="Log in" class="btn btn-primary">
+            </form>
         </p>
-    </div>
+    {% endif %}
+    <p>
+        <a href="{% url 'auth:begin' 'vk-oauth2' %}">Sign up with VK</a>
+         | 
+        <a href="{% url 'auth:begin' 'github' %}">Sign up with GitHub</a>
+    </p>
 {% endblock %}
