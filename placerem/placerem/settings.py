@@ -72,9 +72,11 @@ INSTALLED_APPS = [
     'social_django',
     'easy_thumbnails',
     'django_cleanup',
+    'storages',
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
@@ -170,15 +172,26 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+# Cloudinary stuff
+USE_DROPBOX = os.environ.get('USE_DROPBOX') == 'TRUE'
+
+if USE_DROPBOX:
+    DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
+    DROPBOX_ROOT_PATH = '/apps/places-remember'
+    DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+
 # Static
-STATIC_URL = '/static/static/'
 STATIC_ROOT = '/vol/web/static'
+STATIC_URL = '/static/static/'
+
 # Media
-MEDIA_URL = '/static/media/'
 MEDIA_ROOT = '/vol/web/media'
+MEDIA_URL = '/static/media/'
+
 # Thumbnails
-THUMBNAIL_MEDIA_URL = '/static/media/thumbnails/'
 THUMBNAIL_MEDIA_ROOT = '/vol/web/media/thumbnails'
+THUMBNAIL_MEDIA_URL = '/static/media/thumbnails/'
+
 
 #STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 

@@ -21,6 +21,7 @@ services:
             - SOCIAL_AUTH_VK_OAUTH2_SECRET=N450JZ5X4bWdM9cW9AWC
             - SOCIAL_AUTH_GITHUB_KEY=36401c899e91f10a256b
             - SOCIAL_AUTH_GITHUB_SECRET=6163b8d049781a0a80696146c84a278f179f22d8
+            - DROPBOX_OAUTH2_TOKEN=AYdyo9CsgiYAAAAAAAAAAZ8Ya3NxrKKYEPJwml7rdnADDakfu4jXbQRcdhd9wpJE
             - DB_HOST=db
             - DB_NAME=devdb
             - DB_USER=devuser

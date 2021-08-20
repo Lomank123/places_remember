@@ -18,20 +18,26 @@
             </p>
             <div>
                 <p>Photo</p>
-
-                <p><img
-                    id="uploaded_image"
-                    src="{{ user.photo|thumbnail_url:'default' }}"
-                    alt="Image not found"
-                    onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"/></p>
+                <p>
+                    <img
+                        id="uploaded_image"
+                        src=""
+                        alt="Image not found"
+                        onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+                </p>
+                {% if user.photo %}
+                    <script>
+                        var photo = document.getElementById("uploaded_image");
+                        photo.src = "{{ user.photo.url }}";
+                    </script>
+                {% endif %}
                 <p>
                     Change photo:
                     {{ form.photo }}
+                    {{ form.delete_photo }}
                     <button type="button" id="button_delete_photo">Delete photo</button>
                 </p>
                 
-                {{ form.delete_photo }}
-
                 <script>
                     var photo = document.getElementById("uploaded_image");
                     var photo_choose_btn = document.getElementById("id_photo");

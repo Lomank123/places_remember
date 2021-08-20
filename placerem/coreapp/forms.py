@@ -31,7 +31,7 @@ class RecollectionModelForm(forms.ModelForm):
 
 
 class CustomUserEditForm(forms.ModelForm):
-    username = forms.CharField(max_length=20, min_length=3, required=False)
+    username = forms.CharField(max_length=40, min_length=3, required=False)
     email = forms.EmailField(required=False)
     photo = forms.FileField(widget=forms.FileInput, required=False)
     delete_photo = forms.BooleanField(initial=False, required=False)

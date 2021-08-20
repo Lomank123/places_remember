@@ -21,10 +21,11 @@
             <a href="{% url 'add' %}">Add new recollection</a>
         </h2>
     {% endfor %}
-    <hr>
-    <h4 class="add_rec"><a href="{% url 'add' %}">Add recollection</a></h4>
 
     {% if object_list %}
+        <hr>
+        <h4 class="add_rec"><a href="{% url 'add' %}">Add recollection</a></h4>
+
         <div class="paginator">
             <span class="step-links">
                 {% if page_obj.has_previous %}

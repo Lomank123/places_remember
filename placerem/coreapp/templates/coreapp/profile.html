@@ -16,10 +16,15 @@
         <p>
             <img
                 id="uploaded_image"
-                src="{{ object.photo|thumbnail_url:'default' }}"
+                src=""
                 alt="Image not found"
-                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
-            />
+                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+            {% if object.photo %}
+                <script>
+                    var photo = document.getElementById("uploaded_image");
+                    photo.src = "{{ object.photo.url }}";
+                </script>
+            {% endif %}
         </p>
     </div>
 
