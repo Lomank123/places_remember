@@ -16,23 +16,12 @@
         <p>
             <img
                 id="uploaded_image"
-                src=""
+                src="{{ object.photo|thumbnail_url:'default' }}"
                 alt="Image not found"
-                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
-            {% if object.photo %}
-                <script>
-                    var photo = document.getElementById("uploaded_image");
-                    photo.src = "{{ object.photo.url }}";
-                </script>
-            {% endif %}
+                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
+                style="width: 250px; height: 250px;">
         </p>
     </div>
-
-    <script>
-        var photo = document.getElementById("uploaded_image");
-        photo.width = 250;
-        photo.height = 250;
-    </script>
 
     <p>Additional info:</p>
     <p>Number of recollections: {{ recollections }}</p>

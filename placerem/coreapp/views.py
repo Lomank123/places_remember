@@ -95,7 +95,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return queryset
     
 
-# Profile edit page (uses post method to update profiles)
+# Profile edit page (uses PUT method to update)
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserEditForm

@@ -179,6 +179,7 @@ if USE_DROPBOX:
     DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
     DROPBOX_ROOT_PATH = '/apps/places-remember'
     DEFAULT_FILE_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
+    THUMBNAIL_DEFAULT_STORAGE = 'storages.backends.dropbox.DropBoxStorage'
 
 # Static
 STATIC_ROOT = '/vol/web/static'

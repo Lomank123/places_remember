@@ -21,16 +21,11 @@
                 <p>
                     <img
                         id="uploaded_image"
-                        src=""
+                        src="{{ user.photo|thumbnail_url:'default' }}"
                         alt="Image not found"
-                        onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+                        onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
+                        style="width: 250px; height: 250px;">
                 </p>
-                {% if user.photo %}
-                    <script>
-                        var photo = document.getElementById("uploaded_image");
-                        photo.src = "{{ user.photo.url }}";
-                    </script>
-                {% endif %}
                 <p>
                     Change photo:
                     {{ form.photo }}
@@ -45,8 +40,6 @@
                     var checkbox = document.getElementById("id_delete_photo");
 
                     checkbox.style.display = 'none';
-                    photo.height = 250;
-                    photo.width = 250;
 
                     photo_choose_btn.addEventListener('change', function(event) {
                         readURL(photo_choose_btn);
