@@ -70,12 +70,11 @@ class RecollectionEditView(LoginRequiredMixin, UpdateView):
 
 # Handles all requests when creating or editing recollection
 class APIRecViewSet(ModelViewSet):
-    queryset = Recollection.objects.all()
     serializer_class = RecollectionSerializer
     permission_classes = (IsAuthenticated, )
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
+        queryset = Recollection.objects.filter(user=self.request.user)
         return queryset
 
 
@@ -95,7 +94,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
         return queryset
     
 
-# Profile edit page (uses PUT method to update)
+# Profile edit page
 class ProfileEditView(LoginRequiredMixin, UpdateView):
     model = CustomUser
     form_class = CustomUserEditForm
@@ -116,6 +115,7 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         return queryset
 
 
+# Password change page
 class ProfilePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'coreapp/authentication/change_password.html'
     success_url = '/home/'

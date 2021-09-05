@@ -5,44 +5,48 @@
 
 {% block content %}
 
-    <h3>Your recollections</h3>
-    {% for recollection in page_obj %}
-        <hr>
-        <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
-        <h4>{{ recollection.published }}</h4>
-        <h4>
-            <a href="{% url 'edit' pk=recollection.pk %}">Edit</a>
-             | 
-            <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
-        </h4>
-    {% empty %}
-        <h2 class="no_rec">
-            You don't have any recollections yet<br>
-            <a href="{% url 'add' %}">Add new recollection</a>
-        </h2>
-    {% endfor %}
+  <h3>Your recollections</h3>
+  {% for recollection in page_obj %}
 
-    {% if object_list %}
-        <hr>
-        <h4 class="add_rec"><a href="{% url 'add' %}">Add recollection</a></h4>
+    <hr>
+    <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
+    <h4>{{ recollection.published }}</h4>
+    <h4>
+      <a href="{% url 'edit' pk=recollection.pk %}">Edit</a>
+       | 
+      <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
+    </h4>
 
-        <div class="paginator">
-            <span class="step-links">
-                {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
+  {% empty %} <!-- if list is empty -->
 
-                <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-                </span>
+    <h2 class="no_rec">
+      You don't have any recollections yet<br>
+      <a href="{% url 'add' %}">Add new recollection</a>
+    </h2>
 
-                {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
-            </span>
-        </div>
-    {% endif %}
+  {% endfor %}
+
+  {% if object_list %}
+    <hr>
+    <h4 class="add_rec"><a href="{% url 'add' %}">Add recollection</a></h4>
+
+    <div class="paginator">
+      <span class="step-links">
+        {% if page_obj.has_previous %}
+          <a href="?page=1">&laquo; first</a>
+          <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+      	<span class="current">
+      	  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      	</span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next</a>
+          <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+      </span>
+    </div>
+  {% endif %}
 
 {% endblock %}

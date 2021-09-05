@@ -6,63 +6,64 @@
 {% block title %}Edit profile{% endblock title %}
 
 {% block content %}
-    <h3>Edit profile</h3>
-    <p>
-        <form method="post" enctype="multipart/form-data">
-        	{% csrf_token %}
-            <p>
-                {{ form.username|as_crispy_field }}
-            </p>
-            <p>
-                {{ form.email|as_crispy_field }}
-            </p>
-            <div>
-                <p>Photo</p>
-                <p>
-                    <img
-                        id="uploaded_image"
-                        src="{{ user.photo|thumbnail_url:'default' }}"
-                        alt="Image not found"
-                        onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
-                        style="width: 250px; height: 250px;">
-                </p>
-                <p>
-                    Change photo:
-                    {{ form.photo }}
-                    {{ form.delete_photo }}
-                    <button type="button" id="button_delete_photo">Delete photo</button>
-                </p>
+  <h3>Edit profile</h3>
+
+  <p>
+  	<form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <p>
+        {{ form.username|as_crispy_field }}
+      </p>
+      <p>
+        {{ form.email|as_crispy_field }}
+      </p>
+
+      <div>
+        <p>Photo</p>
+
+        <p>
+          <img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" style="width: 250px; height: 250px;">
+        </p>
+
+        <p>
+          Change photo:
+          {{ form.photo }}
+          {{ form.delete_photo }}
+          <button type="button" id="button_delete_photo">Delete photo</button>
+        </p>
                 
-                <script>
-                    var photo = document.getElementById("uploaded_image");
-                    var photo_choose_btn = document.getElementById("id_photo");
-                    var btn_delete = document.getElementById("button_delete_photo");
-                    var checkbox = document.getElementById("id_delete_photo");
+        <script>
+          var photo = document.getElementById("uploaded_image");
+          var photo_choose_btn = document.getElementById("id_photo");
+          var btn_delete = document.getElementById("button_delete_photo");
+          var checkbox = document.getElementById("id_delete_photo");
 
-                    checkbox.style.display = 'none';
+          checkbox.style.display = 'none';
 
-                    photo_choose_btn.addEventListener('change', function(event) {
-                        readURL(photo_choose_btn);
-                        checkbox.checked = false;
-                    });
-                    btn_delete.addEventListener('click', function(event) {
-                        photo_choose_btn.value = '';
-                        photo.src = "{% static 'placerem/empty.jpg' %}";
-                        checkbox.checked = true;
-                    })
-                    function readURL(input) {
-                        if (input.files && input.files[0]) {
-                            var reader = new FileReader();
-                            reader.onload = function (e) {
-                                photo.src = e.target.result;
-                            };
-                            reader.readAsDataURL(input.files[0]);
-                        }
-                    }
-                </script>
-            </div>
-            <button type="submit" class="btn btn-primary">Confirm changes</button>
-        </form>
-    </p>
+          photo_choose_btn.addEventListener('change', function(event) {
+            readURL(photo_choose_btn);
+            checkbox.checked = false;
+          });
+          btn_delete.addEventListener('click', function(event) {
+            photo_choose_btn.value = '';
+            photo.src = "{% static 'placerem/empty.jpg' %}";
+            checkbox.checked = true;
+          })
+          function readURL(input) {
+            if (input.files && input.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                photo.src = e.target.result;
+              };
+              reader.readAsDataURL(input.files[0]);
+            }
+          }
+      	</script>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Confirm changes</button>
+    </form>
+  </p>
 
 {% endblock %}

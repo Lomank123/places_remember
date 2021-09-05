@@ -6,29 +6,23 @@
 
 {% block content %}
 
-    <h3>Your profile</h3>
+  <h3>Your profile</h3>
 
-    <p>Name: {{ object.username }}</p>
-    <p>Email: {{ object.email }}</p>
+  <p>Name: {{ object.username }}</p>
+  <p>Email: {{ object.email }}</p>
 
-    <div>
-        <p>Photo:</p>
-        <p>
-            <img
-                id="uploaded_image"
-                src="{{ object.photo|thumbnail_url:'default' }}"
-                alt="Image not found"
-                onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"
-                style="width: 250px; height: 250px;">
-        </p>
-    </div>
+  <div>
+    <p>Photo:</p>
+    <p>
+      <img id="uploaded_image" src="{{ object.photo|thumbnail_url:'default' }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" style="width: 250px; height: 250px;">
+    </p>
+  </div>
 
-    <p>Additional info:</p>
-    <p>Number of recollections: {{ recollections }}</p>
-    <p>Account creation date: {{ object.date_joined }}</p>
+  <p>Additional info:</p>
+  <p>Number of recollections: {{ recollections }}</p>
+  <p>Account creation date: {{ object.date_joined }}</p>
 
-    <p><a href="{% url 'profile_edit' object.pk %}">Edit profile</a></p>
-    <p><a href="{% url 'change_password' %}">Change password</a></p>
-
+  <p><a href="{% url 'profile_edit' object.pk %}">Edit profile</a></p>
+  <p><a href="{% url 'change_password' %}">Change password</a></p>
 
 {% endblock %}

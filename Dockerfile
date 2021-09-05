@@ -10,6 +10,7 @@ COPY ./scripts /scripts
 
 WORKDIR /placerem
 
+# Heroku won't use this
 #EXPOSE 8000
 
 # libffi-dev, openssl-dev, cargo - for cryptography - for social-auth-app-django, social-auth-core

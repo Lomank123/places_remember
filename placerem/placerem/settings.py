@@ -172,9 +172,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
-# Cloudinary stuff
+# Storage stuff
 USE_DROPBOX = os.environ.get('USE_DROPBOX') == 'TRUE'
-
 if USE_DROPBOX:
     DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
     DROPBOX_ROOT_PATH = '/apps/places-remember'
