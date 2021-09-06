@@ -1,7 +1,6 @@
 {% extends 'layout/basic.html' %}
 {% load crispy_forms_tags %}
 {% load thumbnail %}
-{% load static %}
 
 {% block title %}Edit profile{% endblock title %}
 
@@ -21,16 +20,13 @@
 
       <div>
         <p>Photo</p>
-
-        <p>
-          <img id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" style="width: 250px; height: 250px;">
-        </p>
+        <p><img class="img-default" id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}"></p>
 
         <p>
           Change photo:
           {{ form.photo }}
           {{ form.delete_photo }}
-          <button type="button" id="button_delete_photo">Delete photo</button>
+          <button class="btn btn-primary" type="button" id="button_delete_photo">Delete photo</button>
         </p>
                 
         <script>
@@ -47,7 +43,7 @@
           });
           btn_delete.addEventListener('click', function(event) {
             photo_choose_btn.value = '';
-            photo.src = "{% static 'placerem/empty.jpg' %}";
+            photo.src = "";
             checkbox.checked = true;
           })
           function readURL(input) {
@@ -62,7 +58,7 @@
       	</script>
       </div>
 
-      <button type="submit" class="btn btn-primary">Confirm changes</button>
+      <button class="btn btn-primary" type="submit">Confirm changes</button>
     </form>
   </p>
 

@@ -6,7 +6,7 @@
 {% block title %}Add or edit recollection{% endblock title %}
 
 {% block content %}
-  <div id="recmap" style="width: 960px; height: 500px"></div>
+  <div class="leaflet-map" id="recmap"></div>
 
   <p>
     <form id="rec_form" method="POST">
@@ -17,7 +17,7 @@
   </p>
     
   <script type="module">
-    import { getCookie } from "{% static 'placerem/get_cookie.js' %}"
+    import { getCookie } from "{% static 'placerem/js/get_cookie.js' %}"
 
     // Configuring map
     var map = L.map('recmap').setView([0, 0], 1);

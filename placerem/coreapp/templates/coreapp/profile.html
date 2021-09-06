@@ -1,6 +1,5 @@
 {% extends 'layout/basic.html' %}
 {% load thumbnail %}
-{% load static %}
 
 {% block title %}Profile{% endblock title %}
 
@@ -11,18 +10,25 @@
   <p>Name: {{ object.username }}</p>
   <p>Email: {{ object.email }}</p>
 
-  <div>
-    <p>Photo:</p>
-    <p>
-      <img id="uploaded_image" src="{{ object.photo|thumbnail_url:'default' }}" alt="Image not found" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" style="width: 250px; height: 250px;">
-    </p>
-  </div>
+  <p>Photo:</p>
+  <p><img class="img-default" src="{{ object.photo|thumbnail_url:'default' }}"></p>
 
   <p>Additional info:</p>
   <p>Number of recollections: {{ recollections }}</p>
   <p>Account creation date: {{ object.date_joined }}</p>
 
-  <p><a href="{% url 'profile_edit' object.pk %}">Edit profile</a></p>
-  <p><a href="{% url 'change_password' %}">Change password</a></p>
+  <button class="btn btn-primary" id="edit_prof_btn" type="button">Edit profile</button>
+  <button class="btn btn-primary" id="edit_pass_btn" type="button">Change password</button>
+  <script>
+    var prof_btn = document.getElementById("edit_prof_btn");
+    var pass_btn = document.getElementById("edit_pass_btn");
+
+    prof_btn.onclick = function() {
+      window.location.href = "{% url 'profile_edit' pk=object.pk %}";
+    }
+    pass_btn.onclick = function() {
+      window.location.href = "{% url 'change_password' %}";
+    }
+  </script>
 
 {% endblock %}

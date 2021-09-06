@@ -1,13 +1,11 @@
 {% extends 'layout/basic.html' %}
-{% load crispy_forms_tags %}
 {% load geojson_tags %}
-{% load static %}
 
 {% block title %} {{ object.name }} {% endblock title %}
 
 {% block content %}
   <h2>Details</h2>
-  <div id="recmap" style="width: 960px; height: 500px;"></div>
+  <div class="leaflet-map" id="recmap"></div>
 
   <script type="module">
     var map = L.map('recmap').setView([0, 0], 1);
@@ -46,13 +44,8 @@
   <p>Description: {{ object.description }}</p>
   <p>Published in: {{ object.published }}</p>
 
-  <!-- Delete button -->
-  <p>
-    <button type="button" id="button_edit">Edit</button>
-     | 
-    <button type="button" id="button_delete">Delete</button>
-  </p>
-
+  <button class="btn btn-primary" type="button" id="button_edit">Edit</button>
+  <button class="btn btn-primary" type="button" id="button_delete">Delete</button>
   <script>
     var button_del = document.getElementById("button_delete");
     var button_edit = document.getElementById("button_edit");

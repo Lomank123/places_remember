@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Static files -->
-		<link rel="stylesheet" type="text/css" href="{% static 'placerem/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/style.css' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!-- leaflet CSS -->
@@ -43,7 +43,7 @@
     	{% if user.is_authenticated %}
     		<div class="profile_box">
     		  <p>
-    		  	<img class="user_photo" src="{{ user.photo|thumbnail_url:'small' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" style="border-style: solid; border-radius: 10px; border-color: aqua; border-width: 2px; width: 30px; height: 30px;">
+    		  	<img class="img-small" src="{{ user.photo|thumbnail_url:'small' }}">
     		  	<a href="{% url 'profile' user.pk %}">{{ user.username|truncatechars:10 }}</a>
     		  </p>
     		</div>

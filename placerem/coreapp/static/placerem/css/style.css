@@ -54,3 +54,42 @@ nav a {
 .add_rec {
 	text-align: center;
 }
+
+.leaflet-map {
+	width: 960px;
+	height: 500px;
+}
+
+.img-default {
+	width: 250px;
+	height: 250px;
+	position: relative;
+}
+.img-default:before { 
+  content: " ";
+	position: absolute;
+  height: 100%;
+  width: 100%;
+	
+	border-style: solid;
+	border-color: darkcyan;
+	border-width: 2px;
+	background: url("../empty.jpg") left / auto 100% no-repeat;
+}
+
+.img-small {
+	width: 30px;
+	height: 30px;
+	position: relative;
+}
+.img-small:before { 
+  content: " ";
+	position: absolute;
+  height: 100%;
+  width: 100%;
+
+	border-style: solid;
+	border-color: darkcyan;
+	border-width: 2px;
+	background: url("../empty.jpg") left / auto 100% no-repeat;
+}
