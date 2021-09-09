@@ -76,6 +76,7 @@ class APIRecViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = Recollection.objects.filter(user=self.request.user)
         return queryset
+        
 
 
 # Profile page

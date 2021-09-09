@@ -1,5 +1,6 @@
 {% extends 'layout/basic.html' %}
 {% load thumbnail %}
+{% load static %}
 
 {% block title %}Profile{% endblock title %}
 
@@ -11,7 +12,7 @@
   <p>Email: {{ object.email }}</p>
 
   <p>Photo:</p>
-  <p><img class="img-default" src="{{ object.photo|thumbnail_url:'default' }}"></p>
+  <p><img class="img-default" src="{{ object.photo|thumbnail_url:'default' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"></p>
 
   <p>Additional info:</p>
   <p>Number of recollections: {{ recollections }}</p>

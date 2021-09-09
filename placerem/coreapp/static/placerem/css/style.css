@@ -1,27 +1,19 @@
-header h1 {
+a, a:hover, a:active, a:visited, a:focus {
+	text-decoration:none !important;
+}
+
+.header {
+	background-color: rgb(206, 255, 212);
+}
+.logo {
 	margin-left: 2%;
 	font-size: 24pt;
 	text-transform: uppercase;
 	text-align: left;
+	color: black !important;
 }
-nav {
-	font-size: 16pt;
-
-	clear: both;
-	float: left;
-	background-color: rgb(248, 238, 226);
-	border-style: solid;
-	border-radius: 10px;
-	border-color: darkcyan;
-	margin-left: 1%;
-}
-nav a {
-	display: block;
-	margin: 10% 0px;
-    margin-left: 5%;
-}
-.container {
-    margin-left: 20%;
+.body {
+	background-color: rgba(213, 255, 241, 0.822);
 }
 .no_rec {
 	text-align: center;
@@ -33,19 +25,8 @@ nav a {
 	margin-right: 2%;
 	text-align: right;
 }
-.profile_box {
-	font-size: 14pt;
-	display: block;
-	border-style: solid;
-	border-radius: 10px;
-	border-color: darkcyan;
-	background: rgb(248, 238, 226);
-	padding-top: 1%;
-	padding-left: 1%;
-	padding-right: 1%;
-	margin-bottom: 5px;
-	float: left;
-	margin-left: 1%;
+.auth_text a {
+	color: cornflowerblue !important;
 }
 .paginator {
 	padding-top: 40px;
@@ -55,41 +36,122 @@ nav a {
 	text-align: center;
 }
 
+.page {
+  display:flex;
+}
+.container {
+  flex-grow: 1;
+	margin-left: 8% !important;
+}
+.left_bar {
+  display: flex;
+  flex-direction: column;
+	width: 12%;
+  margin-left: 1%;
+}
+.left_bar a {
+	color: black !important;
+}
+.left_bar a:hover {
+	color: rgb(145, 139, 139) !important;
+}
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  font-size: 16pt;
+	background-color: rgb(206, 255, 212);
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
+}
+.menu a {
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+  border-bottom: 4px solid rgb(140, 182, 112);
+}
+.menu a.last {
+  border-bottom: none;
+}
+.profile_box {
+	display: flex;
+	font-size: 16pt;
+	background-color: rgb(206, 255, 212);
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
+  padding: 10px;
+	margin-bottom: 5px;
+}
+.nickname {
+	width: 100%;
+  height: 30px;
+}
+
 .leaflet-map {
-	width: 960px;
+	width: 100%;
 	height: 500px;
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
 }
 
 .img-default {
 	width: 250px;
 	height: 250px;
-	position: relative;
-}
-.img-default:before { 
-  content: " ";
-	position: absolute;
-  height: 100%;
-  width: 100%;
-	
 	border-style: solid;
-	border-color: darkcyan;
+	border-color: rgb(140, 182, 112);
 	border-width: 2px;
-	background: url("../empty.jpg") left / auto 100% no-repeat;
 }
-
 .img-small {
 	width: 30px;
 	height: 30px;
-	position: relative;
-}
-.img-small:before { 
-  content: " ";
-	position: absolute;
-  height: 100%;
-  width: 100%;
-
+	margin-right: 10px;
 	border-style: solid;
-	border-color: darkcyan;
+	border-color: rgb(140, 182, 112);
 	border-width: 2px;
-	background: url("../empty.jpg") left / auto 100% no-repeat;
+}
+
+/* rec_detail */
+.recollection-info {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+
+	width: 100%;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+
+	background-color: rgb(206, 255, 212);
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
+}
+.span-info {
+	display: block;
+	font-size: 14pt;
+	margin-left: 20px;
+	margin-right: 20px;
+}
+.info-name {
+	font-size: 18pt;
+}
+.info-description {
+	font-size: 16pt;
+}
+.info-date {
+	font-size: 8pt;
+	text-align: right;
+	padding-top: 10px;
+}
+.detail-button {
+	margin-bottom: 20px;
 }

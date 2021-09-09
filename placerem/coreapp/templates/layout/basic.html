@@ -10,6 +10,7 @@
 
     <!-- Static files -->
 		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/style.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/normalize.css' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!-- leaflet CSS -->
@@ -18,50 +19,47 @@
     <title>Place Remember | {% block title %}{% endblock title %}</title>
   </head>
 
-  <body>
-  	<header>
+  <body class="body">
+  	<header class="header">
     	{% if user.is_authenticated %}
-    	  <p class="auth_text">
-    	    Welcome, {{ user.username }}
-    	     | 
-    	    <a href="{% url 'profile' user.pk %}">Profile</a>
+    	  <div class="auth_text">
+					Welcome, 
+    	    <a href="{% url 'profile' user.pk %}">{{ user.username }}</a>
     	     |
     	    <a href="{% url 'logout' %}">Log out</a>
-    	  </p>
+    	  </div>
     	{% else %}
-    	  <p class="auth_text">
+    	  <div class="auth_text">
     	    <a href="{% url 'login' %}">Sign in</a>
     	     | 
     	    <a href="{% url 'signup' %}">Sign up</a>
-    	  </p>
+    	  </div>
     	{% endif %}
-			<h1><a href="{% url 'home' %}">Places Remember</a></h1>
+			<a class="logo" href="{% url 'home' %}">Places Remember</a>
     	<hr>
 		</header>
 
-    <div class="left_bar">
-    	{% if user.is_authenticated %}
-    		<div class="profile_box">
-    		  <p>
-    		  	<img class="img-small" src="{{ user.photo|thumbnail_url:'small' }}">
-    		  	<a href="{% url 'profile' user.pk %}">{{ user.username|truncatechars:10 }}</a>
-    		  </p>
-    		</div>
+		<div class="page">
+    	<div class="left_bar">
+    		{% if user.is_authenticated %}
+    			<div class="profile_box">
+    			  <img class="img-small" src="{{ user.photo|thumbnail_url:'small' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+    			  <a class="nickname" href="{% url 'profile' user.pk %}">{{ user.username|truncatechars:10 }}</a>
+    			</div>
 
-    		<nav>
-    			<a href="{% url 'home' %}">Home</a>
-    			<hr>
-    			<a href="{% url 'profile' user.pk %}">Profile</a>
-    			<hr>
-    			<a href="{% url 'add' %}">Add recollection</a>
-    		</nav>
-    	{% endif %}
-    </div>
+    			<nav class="menu">
+    				<a href="{% url 'home' %}">Home</a>
+    				<a href="{% url 'profile' user.pk %}">Profile</a>
+    				<a class="last" href="{% url 'add' %}">Add recollection</a>
+    			</nav>
+    		{% endif %}
+    	</div>
 
-    <div class="container">
-      {% block content %}
-      {% endblock content %}
-    </div>
+    	<div class="container">
+    	  {% block content %}
+    	  {% endblock content %}
+    	</div>
+		</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

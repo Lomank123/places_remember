@@ -40,12 +40,14 @@
     }
   </script>
 
-  <p>Name: {{ object.name }}</p>
-  <p>Description: {{ object.description }}</p>
-  <p>Published in: {{ object.published }}</p>
+  <div class="recollection-info">
+    <span class="span-info info-name">{{ object.name }}</span>
+    <span class="span-info info-description">{{ object.description }}</span>
+    <span class="span-info info-date">Published in: {{ object.published }}</span>
+  </div>
 
-  <button class="btn btn-primary" type="button" id="button_edit">Edit</button>
-  <button class="btn btn-primary" type="button" id="button_delete">Delete</button>
+  <button class="btn btn-primary detail-button" type="button" id="button_edit">Edit recollection</button>
+  <button class="btn btn-primary detail-button" type="button" id="button_delete">Delete</button>
   <script>
     var button_del = document.getElementById("button_delete");
     var button_edit = document.getElementById("button_edit");
