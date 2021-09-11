@@ -18,7 +18,7 @@
 
   {% empty %} <!-- if list is empty -->
 
-    <h2 class="no_rec">
+    <h2 class="no-rec">
       You don't have any recollections yet<br>
       <a href="{% url 'add' %}">Add new recollection</a>
     </h2>
@@ -27,7 +27,7 @@
 
   {% if object_list %}
     <hr>
-    <h4 class="add_rec"><a href="{% url 'add' %}">Add recollection</a></h4>
+    <h4 class="add-rec"><a href="{% url 'add' %}">Add recollection</a></h4>
 
     <div class="paginator">
       <span class="step-links">

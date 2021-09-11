@@ -7,16 +7,32 @@
 {% block content %}
 
   <h3>Your profile</h3>
+  <hr />
 
-  <p>Name: {{ object.username }}</p>
-  <p>Email: {{ object.email }}</p>
+  <div class="profile-info-main profile-block">
 
-  <p>Photo:</p>
-  <p><img class="img-default" src="{{ object.photo|thumbnail_url:'default' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"></p>
+    <img
+      class="img-default profile-image"
+      src="{{ object.photo|thumbnail_url:'default' }}"
+      onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';" />
 
-  <p>Additional info:</p>
-  <p>Number of recollections: {{ recollections }}</p>
-  <p>Account creation date: {{ object.date_joined }}</p>
+
+    <div class="profile-name-email">
+      <span class="profile-info">Name: {{ object.username }}</span>
+      <hr />
+      <span class="profile-info">Email: {{ object.email }}</span>
+    </div>
+
+  </div>
+
+  <h3>Additional info</h3>
+  <hr />
+
+  <div class="profile-info-additional profile-block">
+    <span class="profile-info">Number of recollections: {{ recollections }}</span>
+    <hr />
+    <span class="profile-info">Account creation date: {{ object.date_joined }}</span>
+  </div>
 
   <button class="btn btn-primary" id="edit_prof_btn" type="button">Edit profile</button>
   <button class="btn btn-primary" id="edit_pass_btn" type="button">Change password</button>

@@ -1,9 +1,17 @@
+/* General */
 a, a:hover, a:active, a:visited, a:focus {
 	text-decoration:none !important;
 }
 
+/* basic layout */
+.body {
+	background-color: rgba(213, 255, 241, 0.822);
+}
 .header {
-	background-color: rgb(206, 255, 212);
+	display: flex;
+	justify-content: space-between;
+	background-color: rgb(191, 252, 198);
+	box-shadow: 0px 0px 1px 0px rgb(61 66 81 / 20%), 0px 1px 4px -1px rgb(61 66 81 / 30%);
 }
 .logo {
 	margin-left: 2%;
@@ -11,110 +19,79 @@ a, a:hover, a:active, a:visited, a:focus {
 	text-transform: uppercase;
 	text-align: left;
 	color: black !important;
+	display: inline-block;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
-.body {
-	background-color: rgba(213, 255, 241, 0.822);
-}
-.no_rec {
-	text-align: center;
-}
-.welcome_msg {
-	text-align: left;
-}
-.auth_text {
+.auth-text {
 	margin-right: 2%;
 	text-align: right;
 }
-.auth_text a {
+.auth-text a {
 	color: cornflowerblue !important;
 }
-.paginator {
-	padding-top: 40px;
-	padding-bottom: 40px;
-}
-.add_rec {
-	text-align: center;
-}
-
 .page {
-  display:flex;
+  display: flex;
+	min-height: 100vh;
 }
 .container {
-  flex-grow: 1;
-	margin-left: 8% !important;
+	margin-top: 2% !important;
+	margin-left: auto !important;
+	margin-bottom: 2% !important;
 }
-.left_bar {
+
+.left-bar {
+	width: 12%;
   display: flex;
   flex-direction: column;
-	width: 12%;
-  margin-left: 1%;
+	
+	font-size: 16pt;
+	background-color: rgba(255, 238, 193, 0.582);
 }
-.left_bar a {
+.left-bar a {
+	padding: 10px;
+
+	color: rgba(0, 0, 0, 0.603) !important;
+}
+.left-bar a:hover {
+	background-color: rgba(224, 208, 162, 0.205);
 	color: black !important;
 }
-.left_bar a:hover {
-	color: rgb(145, 139, 139) !important;
-}
+
 .menu {
+	width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
-  align-items: center;
-  font-size: 16pt;
-	background-color: rgb(206, 255, 212);
-	border-style: solid;
-	border-radius: 10px;
-  border-width: 4px;
-	border-color: rgb(140, 182, 112);
 }
-.menu a {
-  width: 100%;
-  text-align: left;
-  padding: 10px;
-  border-bottom: 4px solid rgb(140, 182, 112);
-}
-.menu a.last {
-  border-bottom: none;
-}
-.profile_box {
+.menu-item {
 	display: flex;
-	font-size: 16pt;
-	background-color: rgb(206, 255, 212);
-	border-style: solid;
-	border-radius: 10px;
-  border-width: 4px;
-	border-color: rgb(140, 182, 112);
-  padding: 10px;
-	margin-bottom: 5px;
+}
+.profile-box {
+	width: 100%;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 .nickname {
+	display: flex;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.151);
+	border-top: 1px solid rgba(0, 0, 0, 0.151);
+}
+.footer {
+	background-color:rgb(191, 252, 198);
 	width: 100%;
-  height: 30px;
+	text-align: right;
+	padding-right: 20px;
 }
 
-.leaflet-map {
-	width: 100%;
-	height: 500px;
-	border-style: solid;
-	border-radius: 10px;
-  border-width: 4px;
-	border-color: rgb(140, 182, 112);
+/* home */
+.paginator {
+	padding-top: 40px;
 }
-
-.img-default {
-	width: 250px;
-	height: 250px;
-	border-style: solid;
-	border-color: rgb(140, 182, 112);
-	border-width: 2px;
+.add-rec {
+	text-align: center;
 }
-.img-small {
-	width: 30px;
-	height: 30px;
-	margin-right: 10px;
-	border-style: solid;
-	border-color: rgb(140, 182, 112);
-	border-width: 2px;
+.no-rec {
+	text-align: center;
 }
 
 /* rec_detail */
@@ -152,6 +129,81 @@ a, a:hover, a:active, a:visited, a:focus {
 	text-align: right;
 	padding-top: 10px;
 }
-.detail-button {
+
+/* profile */
+.profile-block {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 30px 20px 30px 20px;
 	margin-bottom: 20px;
+	
+	background-color: rgb(206, 255, 212);
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
+}
+.profile-info-main {
+	margin-top: 20px;
+}
+.profile-info-additional {
+	flex-direction: column;
+	justify-content: space-evenly;
+}
+.profile-info {
+	font-size: 24px;
+	width: 100%;
+	height: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.profile-name-email {
+	width: 80%;
+}
+.profile-image {
+	width: 20%;
+	height: auto;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+hr {
+	width: 100%;
+}
+
+
+/* authentication */
+.welcome-msg {
+	text-align: left;
+}
+
+/* leaflet map */
+.leaflet-map {
+	width: 100%;
+	height: 500px;
+
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgb(140, 182, 112);
+}
+
+/* images */
+.img-default {
+	width: 100px;
+	height: 100px;
+
+	border-style: solid;
+	border-color: rgb(140, 182, 112);
+	border-width: 2px;
+}
+.img-small {
+	width: 30px;
+	height: 30px;
+
+	border-style: solid;
+	border-color: rgb(140, 182, 112);
+	border-width: 2px;
+	margin-right: 10px;
 }
