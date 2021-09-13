@@ -130,3 +130,5 @@ dmypy.json
 
 # Media files
 /data
+
+/placerem/node_modules

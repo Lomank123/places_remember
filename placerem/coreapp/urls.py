@@ -1,10 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.routers import DefaultRouter
 
 from coreapp.authentication import RecLoginView, RecLogoutView, CustomUserSignUpView
 from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
     RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView
+
+# For testing
+from django.views.generic.base import TemplateView
 
 
 router = DefaultRouter()
@@ -27,4 +29,6 @@ urlpatterns = [
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
     path('api/', include(router.urls)),
+    # Test path
+    path('test/', TemplateView.as_view(template_name='coreapp/test.html'))
 ]

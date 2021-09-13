@@ -21,7 +21,12 @@
 
       <div>
         <p>Photo</p>
-        <p><img class="img-default" id="uploaded_image" src="{{ user.photo|thumbnail_url:'default' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';"></p>
+        <p><img
+            class="img-default" 
+            id="uploaded_image" 
+            src="{{ user.photo|thumbnail_url:'default' }}" 
+            onerror="this.onerror=null;this.src='{% static 'placerem/images/empty.jpg' %}';">
+        </p>
 
         <p>
           Change photo:

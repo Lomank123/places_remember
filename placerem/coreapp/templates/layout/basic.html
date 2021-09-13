@@ -42,7 +42,10 @@
     		<div class="left-bar">
     			<div class="profile-box">
     			  <a class="nickname" href="{% url 'profile' user.pk %}">
-							<img class="img-small" src="{{ user.photo|thumbnail_url:'small' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+							<img
+								class="img-small" 
+								src="{{ user.photo|thumbnail_url:'small' }}" 
+								onerror="this.onerror=null;this.src='{% static 'placerem/images/empty.jpg' %}';">
 							{{ user.username|truncatechars:10 }}
 						</a>
     			</div>

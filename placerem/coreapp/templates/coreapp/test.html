@@ -1,0 +1,29 @@
+{% load static %}
+
+<!-- This is a test page, rendering by React -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Place Remember | {% block title %}{% endblock title %}</title>
+  </head>
+
+  <body class="body">
+  	<header class="header">
+      <p>This is a test page, rendering by React</p>
+		</header>
+
+
+		<div id="root"></div>
+
+		<footer class="footer">
+
+		</footer>
+
+		<!-- test script -->
+		<script src="{% static 'placerem/js/index-bundle.js' %}"></script>
+  </body>
+</html>
