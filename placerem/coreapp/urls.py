@@ -1,9 +1,11 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from rest_framework.documentation import include_docs_urls
 
 from coreapp.authentication import RecLoginView, RecLogoutView, CustomUserSignUpView
 from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
-    RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView
+    RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView, \
+    APICustomUserViewSet, RecollectionDetailViewTest, RecollectionCreateViewTest
 
 # For testing
 from django.views.generic.base import TemplateView
@@ -11,6 +13,7 @@ from django.views.generic.base import TemplateView
 
 router = DefaultRouter()
 router.register('recollections', APIRecViewSet, basename='recollections')
+router.register('users', APICustomUserViewSet, basename='users')
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
@@ -30,5 +33,9 @@ urlpatterns = [
     # API
     path('api/', include(router.urls)),
     # Test path
-    path('test/', TemplateView.as_view(template_name='coreapp/test.html'))
+    path('test/<int:pk>/', RecollectionDetailViewTest.as_view(), name='test'),
+    path('test/', RecollectionCreateViewTest.as_view(), name='testcreate'),
+
+    # Schema
+    path('docs/', include_docs_urls(title='My API service'), name='api-docs'),
 ]

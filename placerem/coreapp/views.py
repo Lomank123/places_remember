@@ -5,10 +5,13 @@ from django.contrib.auth.views import PasswordChangeView
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+#from rest_framework.views import APIView
+#from rest_framework.response import Response
+#from rest_framework import status
 
 from coreapp.models import Recollection, CustomUser
 from coreapp.forms import CustomUserEditForm
-from coreapp.serializers import RecollectionSerializer
+from coreapp.serializers import RecollectionSerializer, CustomUserSerializer
 
 
 # Home page
@@ -21,7 +24,7 @@ class HomePageView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
-
+        
 
 # Recollection create page
 class RecollectionCreateView(LoginRequiredMixin, CreateView):
@@ -34,6 +37,13 @@ class RecollectionCreateView(LoginRequiredMixin, CreateView):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+        }
+        return context
+
 
 # Detailed information about certain recollection
 class RecollectionDetailView(LoginRequiredMixin, DetailView):
@@ -43,6 +53,14 @@ class RecollectionDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+            'rec_id': self.get_object().pk
+        }
+        return context
 
 
 # Recollection delete page
@@ -66,6 +84,14 @@ class RecollectionEditView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+            'rec_id': self.get_object().pk
+        }
+        return context
 
 
 # Handles all requests when creating or editing recollection
@@ -75,6 +101,15 @@ class APIRecViewSet(ModelViewSet):
 
     def get_queryset(self):
         queryset = Recollection.objects.filter(user=self.request.user)
+        return queryset
+
+
+class APICustomUserViewSet(ModelViewSet):
+    serializer_class = CustomUserSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        queryset = CustomUser.objects.filter(pk=self.request.user.pk)
         return queryset
         
 
@@ -123,3 +158,57 @@ class ProfilePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.pk})
+
+
+
+class RecollectionDetailViewTest(LoginRequiredMixin, DetailView):
+    model = Recollection
+    template_name = 'coreapp/test.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+            'rec_id': self.get_object().pk
+        }
+        return context
+    
+
+# Recollection create page
+class RecollectionCreateViewTest(LoginRequiredMixin, CreateView):
+    model = Recollection
+    fields = ['name', 'description']
+    template_name = 'coreapp/test.html'
+    success_url = '/home/'
+
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+        }
+        return context
+
+
+# Allows to get data via url params
+
+#class GetRecollection(APIView):
+#    serializer_class = RecollectionSerializer
+#    lookup_url_kwarg = 'id'
+#
+#    def get(self, request, format=None):
+#        id = request.GET.get(self.lookup_url_kwarg) # E.g. ?id=4
+#        if id != None:
+#            rec = Recollection.objects.filter(pk=id)
+#            if len(rec) > 0:
+#                data = RecollectionSerializer(rec[0]).data
+#                return Response(data, status=status.HTTP_200_OK)
+#            return Response({'Recollection not found': 'Invalid id'}, status=status.HTTP_404_NOT_FOUND)
+#        return Response({'Bad request': 'No id provided'}, status=status.HTTP_400_BAD_REQUEST)

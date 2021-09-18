@@ -1,9 +1,13 @@
 const path = require('path');
 
 module.exports = {
-  entry: './assets/js/index.js',  // path to our input file
+  // path to our input files (can be multiple)
+  entry: {
+    'add-edit-bundle': './assets/js/recAddEdit.js',
+    'detail-bundle': './assets/js/recDetail.js',
+  },
   output: {
-    filename: 'index-bundle.js',  // output bundle file name
+    filename: '[name].js',  // output bundle file name (name will be the key from entry section)
     path: path.resolve(__dirname, './static/placerem/js'),  // path to our Django static directory
   },
   module: {
