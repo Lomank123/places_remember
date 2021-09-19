@@ -17,6 +17,7 @@
 
   <button class="btn btn-primary detail-button" type="button" id="button_edit">Edit recollection</button>
   <button class="btn btn-primary detail-button" type="button" id="button_delete">Delete</button>
+  
   <script>
     var button_del = document.getElementById("button_delete");
     var button_edit = document.getElementById("button_edit");
@@ -29,8 +30,9 @@
     }
   </script>
 
-    <!-- test script (need to move first 2 scripts ) -->
+  <!-- Additional info (user id, rec id) -->
   {{ additional_info|json_script:'add_info' }}
+  <!-- DRF schema -->
   <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
   <script src="{% url 'api-docs:schema-js' %}"></script>
 	<script src="{% static 'placerem/js/detail-bundle.js' %}"></script>

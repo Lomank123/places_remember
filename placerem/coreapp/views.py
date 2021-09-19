@@ -5,9 +5,6 @@ from django.contrib.auth.views import PasswordChangeView
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
-#from rest_framework.views import APIView
-#from rest_framework.response import Response
-#from rest_framework import status
 
 from coreapp.models import Recollection, CustomUser
 from coreapp.forms import CustomUserEditForm
@@ -24,7 +21,7 @@ class HomePageView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
-        
+
 
 # Recollection create page
 class RecollectionCreateView(LoginRequiredMixin, CreateView):
@@ -111,7 +108,7 @@ class APICustomUserViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = CustomUser.objects.filter(pk=self.request.user.pk)
         return queryset
-        
+
 
 
 # Profile page
@@ -128,7 +125,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(pk=self.request.user.pk)
         return queryset
-    
+
 
 # Profile edit page
 class ProfileEditView(LoginRequiredMixin, UpdateView):
@@ -158,21 +155,3 @@ class ProfilePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
     def get_success_url(self):
         return reverse('profile', kwargs={'pk': self.request.user.pk})
-
-
-
-# Allows to get data via url params
-
-#class GetRecollection(APIView):
-#    serializer_class = RecollectionSerializer
-#    lookup_url_kwarg = 'id'
-#
-#    def get(self, request, format=None):
-#        id = request.GET.get(self.lookup_url_kwarg) # E.g. ?id=4
-#        if id != None:
-#            rec = Recollection.objects.filter(pk=id)
-#            if len(rec) > 0:
-#                data = RecollectionSerializer(rec[0]).data
-#                return Response(data, status=status.HTTP_200_OK)
-#            return Response({'Recollection not found': 'Invalid id'}, status=status.HTTP_404_NOT_FOUND)
-#        return Response({'Bad request': 'No id provided'}, status=status.HTTP_400_BAD_REQUEST)

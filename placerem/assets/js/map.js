@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import L from 'leaflet';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker } from 'react-leaflet';
 import "../styles/leaflet-style.css";
 import 'leaflet/dist/leaflet.css';
 
@@ -36,10 +36,12 @@ export default class LeafletMap extends Component {
     }
   }
 
+  // Method checks whether marker exists at the moment
   isActiveMarker = () => {
     return this.state.isMarker
   }
 
+  // Get coordinates of a present marker
   getMarkerCoords = () => {
     if (this.isActiveMarker()) {
       return this.state.marker;
@@ -47,6 +49,7 @@ export default class LeafletMap extends Component {
     return [];
   }
 
+  // Before setting coords for a new marker the old one must be erased
   addMarker = (lat, lng, isDelete=false) => {
     if (this.isActiveMarker()) {
       this.deleteMarker();
@@ -54,17 +57,20 @@ export default class LeafletMap extends Component {
     this.setMarkerCoords(lat, lng, isDelete);
   }
 
+  // Sets marker coords and after setState a new marker should appear on the map
   setMarkerCoords = (lat, lng, isDelete=false) => {
     const newMarker = [lat, lng];
     this.setState({marker: newMarker, isMarker: true, isDelete: isDelete});
     console.log("Marker has been added at: " + newMarker);
   }
 
+  // Removes the present marker
   deleteMarker = () => {
     this.setState({marker: [], isMarker: false, isDelete: false});
     console.log("Marker has been removed ");
   }
 
+  // Needed for Marker eventHandler prop, perhaps there is a better solution
   empty = () => {
     return null;
   }
@@ -96,10 +102,7 @@ export default class LeafletMap extends Component {
             );
           })
         }
-        { 
-          // For future implementation (need to read how to add event handler dynamically)
-          // Perhaps it's possible to add method as a click handler (look at the example above)
-          // Read how to add Popup
+        {
           isMarker ? <Marker position={this.state.marker}
                               eventHandlers={{ click: isDelete ? this.deleteMarker : this.empty }} /> : null
         }
@@ -107,25 +110,3 @@ export default class LeafletMap extends Component {
     );
   }
 }
-
-
-// For testing
-//class CustomMapComponent extends Component {
-//  render() {
-//    return (
-//      <div><p>This is dummy component!</p></div>
-//    )
-//  }
-//}
-
-// This is how the output should look like
-//const components = {
-//  edit: CustomMapComponent,
-//  create: CustomMapComponent,
-//  delete: CustomMapComponent,
-//}
-//
-//ReactDOM.render(
-//  <LeafletMap components={components} />,
-//  document.getElementById('recmap')
-//);

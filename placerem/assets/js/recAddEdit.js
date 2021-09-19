@@ -2,16 +2,12 @@ import React, { useEffect } from 'react';
 import ReactDOM from "react-dom";
 import { useMapEvents } from 'react-leaflet';
 import LeafletMap from './map';
+import { getClient } from './utils';
 
+// coreapi and schema was imported from html script tag
 
 function AddEditMapComponent (props) {
-  // instead of getCookies
-  let auth = new coreapi.auth.SessionAuthentication({
-    csrfCookieName: 'csrftoken',
-    csrfHeaderName: 'X-CSRFToken',
-  });
-  // If you have logged in previously it'll reflect the changes 
-  const client = new coreapi.Client({auth: auth});
+  const client = getClient(coreapi);
 
   const ids = JSON.parse(document.getElementById('add_info').textContent);
   const user_id = ids["user_id"];
@@ -35,8 +31,6 @@ function AddEditMapComponent (props) {
           const rawData = JSON.parse(result["geom"]);
           const coords = rawData["coordinates"];
           props.add_marker(coords[0], coords[1], true);
-        } else {
-          console.log("geom is null");
         }
       })
     }
@@ -89,11 +83,11 @@ function AddEditMapComponent (props) {
       });
     }
   }
+  
   return null;
 }
 
 
-// This is how the output should look like
 const components = {
   add_edit: AddEditMapComponent,
 }

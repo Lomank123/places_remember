@@ -21,8 +21,9 @@
     
   
 
-  <!-- test script (need to move first 2 scripts ) -->
+  <!-- Additional info (user id, rec id) -->
   {{ additional_info|json_script:'add_info' }}
+  <!-- DRF schema -->
   <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
   <script src="{% url 'api-docs:schema-js' %}"></script>
 	<script src="{% static 'placerem/js/add-edit-bundle.js' %}"></script>

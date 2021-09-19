@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
 import LeafletMap from './map';
+import { getClient } from './utils';
 
 
 class DetailMapComponent extends Component {
@@ -15,22 +16,13 @@ class DetailMapComponent extends Component {
 
   // Fetches data from api (single recollection)
   getData() {
-    // instead of getCookies
-    let auth = new coreapi.auth.SessionAuthentication({
-      csrfCookieName: 'csrftoken',
-      csrfHeaderName: 'X-CSRFToken',
-    });
-    // If you have logged in previously it'll reflect the changes 
-    const client = new coreapi.Client({auth: auth});
-
+    const client = getClient(coreapi);
     client.action(schema, ["recollections", "read"], {'id': this.rec_id})
       .then((result) => {
         if (result["geom"] != null) {
           const rawData = JSON.parse(result["geom"]);
           const coords = rawData["coordinates"];
           this.props.add_marker(coords[0], coords[1]);
-        } else {
-          console.log("geom is null");
         }
       })
   }
