@@ -1,20 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from "react-dom";
-import L from 'leaflet';
 import { useMapEvents } from 'react-leaflet';
-import "../styles/leaflet-style.css";
-import 'leaflet/dist/leaflet.css';
 import LeafletMap from './map';
 
 
-const coreapi = window.coreapi;
-const schema = window.schema;
-
-function AddEditComponent (props) {
-  const [loadedMarker, setLoadedMarker] = useState(null);
-  const marker = useRef(null);
-  const isFirstRender = useRef(true);
-
+function AddEditMapComponent (props) {
   // instead of getCookies
   let auth = new coreapi.auth.SessionAuthentication({
     csrfCookieName: 'csrftoken',
@@ -41,50 +31,23 @@ function AddEditComponent (props) {
   useEffect(() => {
     if (rec_id) {
       client.action(schema, ["recollections", "read"], {'id': rec_id}).then((result) => {
-        setLoadedMarker(result);
-      });
+        if (result["geom"] != null) {
+          const rawData = JSON.parse(result["geom"]);
+          const coords = rawData["coordinates"];
+          props.add_marker(coords[0], coords[1], true);
+        } else {
+          console.log("geom is null");
+        }
+      })
     }
     submit_btn.addEventListener("click", function() {
       sendData();
     });
   }, [])
 
-  useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-    } else {
-      const loadedRecGeom = JSON.parse(loadedMarker["geom"]);
-      // If marker existed (geom != null)
-      if (loadedRecGeom != null) {
-        // first: lng, second: lat
-        const coords = loadedRecGeom["coordinates"];
-        var lat = coords[1];
-        var lng = coords[0];
-        createMarker(lat, lng);
-      }
-    }
-  }, [loadedMarker])
-
   function addMarkerOnClick(e) {
-    if (marker.current != null) {
-      removeMarker();
-    }
     const { lat, lng } = e.latlng;
-    createMarker(lat, lng);
-  }
-
-  function createMarker(lat, lng) {
-    marker.current = L.marker([lat, lng]).addTo(map);
-    marker.current.on("click", function() {
-      removeMarker();
-      console.log("Marker removed");
-    });
-    console.log("Marker placed on: " + marker.current._latlng);
-  }
-  
-  function removeMarker() {
-    map.removeLayer(marker.current);
-    marker.current = null;
+    props.add_marker(lat, lng, true);
   }
 
   function collectData() {
@@ -97,10 +60,11 @@ function AddEditComponent (props) {
     if (rec_id) {
       collectedData["id"] = rec_id; // adding id to update item
     };
-    if (marker.current != null) {
+    const coords = props.get_coords()
+    if (coords.length != 0) {
       const point = {
         'type': 'Point',
-        'coordinates': [marker.current._latlng["lng"], marker.current._latlng["lat"]]
+        'coordinates': [coords[0], coords[1]],
       };
       collectedData["geom"] = JSON.stringify(point);
     };
@@ -131,7 +95,7 @@ function AddEditComponent (props) {
 
 // This is how the output should look like
 const components = {
-  add_edit: AddEditComponent,
+  add_edit: AddEditMapComponent,
 }
 
 ReactDOM.render(

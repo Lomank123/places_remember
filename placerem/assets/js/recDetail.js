@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ReactDOM from "react-dom";
-import "../styles/leaflet-style.css";
-import 'leaflet/dist/leaflet.css';
 import LeafletMap from './map';
 
 
@@ -30,7 +28,7 @@ class DetailMapComponent extends Component {
         if (result["geom"] != null) {
           const rawData = JSON.parse(result["geom"]);
           const coords = rawData["coordinates"];
-          this.props.handler(coords[1], coords[0]);
+          this.props.add_marker(coords[0], coords[1]);
         } else {
           console.log("geom is null");
         }

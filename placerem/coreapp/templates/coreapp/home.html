@@ -9,7 +9,6 @@
 
     <hr>
     <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
-    <h2><a href="{% url 'test' pk=recollection.pk %}">test</a></h2>
     <h4>{{ recollection.published }}</h4>
     <h4>
       <a href="{% url 'edit' pk=recollection.pk %}">Edit</a>

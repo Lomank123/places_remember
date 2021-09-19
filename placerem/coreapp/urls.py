@@ -5,7 +5,7 @@ from rest_framework.documentation import include_docs_urls
 from coreapp.authentication import RecLoginView, RecLogoutView, CustomUserSignUpView
 from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
     RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView, \
-    APICustomUserViewSet, RecollectionDetailViewTest, RecollectionCreateViewTest
+    APICustomUserViewSet
 
 # For testing
 from django.views.generic.base import TemplateView
@@ -32,9 +32,6 @@ urlpatterns = [
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
     path('api/', include(router.urls)),
-    # Test path
-    path('test/<int:pk>/', RecollectionDetailViewTest.as_view(), name='test'),
-    path('test/', RecollectionCreateViewTest.as_view(), name='testcreate'),
 
     # Schema
     path('docs/', include_docs_urls(title='My API service'), name='api-docs'),

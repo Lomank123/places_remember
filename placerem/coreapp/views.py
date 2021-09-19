@@ -161,42 +161,6 @@ class ProfilePasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 
 
-class RecollectionDetailViewTest(LoginRequiredMixin, DetailView):
-    model = Recollection
-    template_name = 'coreapp/test.html'
-
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["additional_info"] = {
-            'user_id': self.request.user.pk,
-            'rec_id': self.get_object().pk
-        }
-        return context
-    
-
-# Recollection create page
-class RecollectionCreateViewTest(LoginRequiredMixin, CreateView):
-    model = Recollection
-    fields = ['name', 'description']
-    template_name = 'coreapp/test.html'
-    success_url = '/home/'
-
-    def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["additional_info"] = {
-            'user_id': self.request.user.pk,
-        }
-        return context
-
-
 # Allows to get data via url params
 
 #class GetRecollection(APIView):

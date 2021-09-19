@@ -31,19 +31,47 @@ export default class LeafletMap extends Component {
     this.state = {
       components: this.props.components,
       marker: [],
+      isDelete: false,
       isMarker: false,
     }
-    this.setMarkerCoords.bind(this);
   }
 
-  setMarkerCoords = (lat, lng) => {
+  isActiveMarker = () => {
+    return this.state.isMarker
+  }
+
+  getMarkerCoords = () => {
+    if (this.isActiveMarker()) {
+      return this.state.marker;
+    }
+    return [];
+  }
+
+  addMarker = (lat, lng, isDelete=false) => {
+    if (this.isActiveMarker()) {
+      this.deleteMarker();
+    }
+    this.setMarkerCoords(lat, lng, isDelete);
+  }
+
+  setMarkerCoords = (lat, lng, isDelete=false) => {
     const newMarker = [lat, lng];
-    this.setState({marker: newMarker, isMarker: true});
+    this.setState({marker: newMarker, isMarker: true, isDelete: isDelete});
     console.log("Marker has been added at: " + newMarker);
   }
 
+  deleteMarker = () => {
+    this.setState({marker: [], isMarker: false, isDelete: false});
+    console.log("Marker has been removed ");
+  }
+
+  empty = () => {
+    return null;
+  }
+
   render() {
-    const isMarker = this.state.isMarker;
+    const isMarker = this.isActiveMarker();
+    const isDelete = this.state.isDelete;
     return (
       <MapContainer
         className="leaflet-new-map" 
@@ -64,7 +92,7 @@ export default class LeafletMap extends Component {
           Object.entries(this.state.components).map(([key, Comp]) => {
             return (
               // Each component should have unique key
-              <Comp key={key} handler={this.setMarkerCoords} />
+              <Comp key={key} add_marker={this.addMarker} get_coords={this.getMarkerCoords} />
             );
           })
         }
@@ -72,7 +100,8 @@ export default class LeafletMap extends Component {
           // For future implementation (need to read how to add event handler dynamically)
           // Perhaps it's possible to add method as a click handler (look at the example above)
           // Read how to add Popup
-          isMarker ? <Marker position={this.state.marker}></Marker> : null
+          isMarker ? <Marker position={this.state.marker}
+                              eventHandlers={{ click: isDelete ? this.deleteMarker : this.empty }} /> : null
         }
       </MapContainer>
     );
