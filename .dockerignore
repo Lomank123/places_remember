@@ -16,3 +16,8 @@ venv/
 
 # Local PostgreSQL data
 data/
+
+placerem/node_modules/**
+placerem/node_modules
+placerem/static/placerem/js/**
+npm-debug.log

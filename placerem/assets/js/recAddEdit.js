@@ -8,7 +8,6 @@ import { getClient } from './utils';
 
 function AddEditMapComponent (props) {
   const client = getClient(coreapi);
-
   const ids = JSON.parse(document.getElementById('add_info').textContent);
   const user_id = ids["user_id"];
   const rec_id = ids["rec_id"];
@@ -37,6 +36,10 @@ function AddEditMapComponent (props) {
     submit_btn.addEventListener("click", function() {
       sendData();
     });
+    // For testing
+    if (process.env.NODE_ENV == 'development') {
+      console.log("Development mode on!");
+    }
   }, [])
 
   function addMarkerOnClick(e) {
