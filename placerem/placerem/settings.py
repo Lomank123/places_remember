@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coreapp',
     'crispy_forms',
-    'djgeojson',
     'rest_framework',
     'corsheaders',
     'social_django',

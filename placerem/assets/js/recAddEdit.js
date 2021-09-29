@@ -73,15 +73,11 @@ function AddEditMapComponent (props) {
     if (rec_id) {
       // put
       client.action(schema, ["recollections", "update"], data).then((result) => {
-        console.log(result);
-        console.log("put");
         window.location.href = "/home/"; // redirect must be here otherwise django data won't be updated
       });
     } else {
       // post
       client.action(schema, ["recollections", "create"], data).then((result) => {
-        console.log(result);
-        console.log("post");
         window.location.href = "/home/";
       });
     }

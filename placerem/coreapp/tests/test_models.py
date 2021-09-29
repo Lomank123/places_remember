@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 
@@ -72,7 +73,7 @@ class RecollectionModelTest(TestCase):
             name='Rec model test',
             description='Rec description',
             user=user,
-            geom=point,
+            geom=json.dumps(point),
         )
         
     def test_recollection_str(self):
@@ -132,4 +133,4 @@ class RecollectionModelTest(TestCase):
             "type" : "Point",
             "coordinates" : [100.00, 20.00],
         }
-        self.assertEqual(recollection.geom, point)
+        self.assertEqual(json.loads(recollection.geom), point)

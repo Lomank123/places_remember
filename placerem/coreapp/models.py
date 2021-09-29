@@ -1,7 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core import validators
-from djgeojson.fields import PointField
 from easy_thumbnails.fields import ThumbnailerField
 
 from coreapp.managers import CustomUserManager
@@ -32,12 +31,9 @@ class Recollection(models.Model):
     name = models.CharField(max_length=40, verbose_name='Name')
     description = models.CharField(max_length=300, verbose_name='Description', blank=True, null=True)
     published = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name='Published in')
-
+    geom = models.CharField(max_length=400, null=True, verbose_name='Coordinates')
     # Owner of a recollection
     user = models.ForeignKey('CustomUser', on_delete=models.CASCADE, null=True, verbose_name='User')
-
-    # geojson fields
-    geom = PointField(null=True)
 
     def __str__(self):
         return self.name
