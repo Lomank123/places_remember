@@ -13,15 +13,23 @@ WORKDIR /placerem
 # Heroku won't use this
 #EXPOSE 8000
 
+ARG NODE_ENV="development"
+ENV NODE_ENV="${NODE_ENV}"
+
+# Installing npm packages
+RUN apk add --update --no-cache nodejs npm && \
+    if [ "${NODE_ENV}" = "development" ]; then \
+    npm install && \
+    npm run dev; \
+    else \
+    npm ci && \
+    npm run prod && \
+    npm prune --production; fi
+
 # libffi-dev, openssl-dev, cargo - for cryptography - for social-auth-app-django, social-auth-core
 # jpeg-dev, libjpeg-dev zlib-dev - for easy-thumbnails
 
-RUN apk add --update --no-cache nodejs npm && \
-    # Installing npm packages
-    npm ci && \
-    npm run prod && \
-    npm prune --production && \
-    python -m venv /py && \
+RUN python -m venv /py && \
     /py/bin/pip install --upgrade pip && \
     apk add --update --no-cache postgresql-client && \
     apk add --update --no-cache --virtual .tmp-deps \
