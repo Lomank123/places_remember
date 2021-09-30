@@ -19,20 +19,7 @@ services:
             # /placerem/node_modules/
         ports: 
             - 8000:8000
-        environment: 
-            - ALLOWED_HOSTS=${ALLOWED_HOSTS}
-            - SECRET_KEY=${SECRET_KEY}
-            - DEBUG=${DEBUG}
-            - SOCIAL_AUTH_VK_OAUTH2_KEY=${SOCIAL_AUTH_VK_OAUTH2_KEY}
-            - SOCIAL_AUTH_VK_OAUTH2_SECRET=${SOCIAL_AUTH_VK_OAUTH2_SECRET}
-            - SOCIAL_AUTH_GITHUB_KEY=${SOCIAL_AUTH_GITHUB_KEY}
-            - SOCIAL_AUTH_GITHUB_SECRET=${SOCIAL_AUTH_GITHUB_SECRET}
-            - DROPBOX_OAUTH2_TOKEN=${DROPBOX_OAUTH2_TOKEN}
-            - DB_HOST=${DB_HOST}
-            - DB_NAME=${DB_NAME}
-            - DB_USER=${DB_USER}
-            - DB_PASS=${DB_PASS}
-            - USE_DROPBOX=${USE_DROPBOX}
+        env_file: .env
         depends_on: 
             - db
 

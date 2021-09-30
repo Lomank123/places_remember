@@ -8,7 +8,6 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 import iconRetina from 'leaflet/dist/images/marker-icon-2x.png';
 
-
 // Setting the default marker icon (default doesn't load)
 let DefaultIcon = L.icon({
   iconRetinaUrl: iconRetina,
@@ -21,7 +20,7 @@ L.Marker.prototype.options.icon = DefaultIcon;
 
 const pos = [0, 0];
 // Need to move token to .env file
-const access_token = 'pk.eyJ1IjoibG9tYW5rIiwiYSI6ImNrc2ozM285NzI5aDIyeG9kbzhnMTh1czEifQ.VbvbOjViOdSMnybzEkOgZQ';
+const access_token = process.env.MAP_ACCESS_TOKEN;
 const url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + access_token;
 
 

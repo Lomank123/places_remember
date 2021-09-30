@@ -1,6 +1,10 @@
 const path = require('path');
+const webpack = require('webpack');
 
 module.exports = {
+  plugins: [
+    new webpack.EnvironmentPlugin(['MAP_ACCESS_TOKEN']),
+  ],
   // path to our input files (can be multiple)
   entry: {
     'add-edit-bundle': './assets/js/recAddEdit.js',
