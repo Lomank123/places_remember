@@ -31,9 +31,12 @@
 
   <!-- Additional info (user id, rec id) -->
   {{ additional_info|json_script:'add_info' }}
+{% endblock %}
+
+{% block scripts %}
   <!-- DRF schema -->
   <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
   <script src="{% url 'api-docs:schema-js' %}"></script>
+  <!-- js bundle -->
 	<script src="{% static 'placerem/js/detail-bundle.js' %}"></script>
-
-{% endblock %}
+{% endblock scripts %}

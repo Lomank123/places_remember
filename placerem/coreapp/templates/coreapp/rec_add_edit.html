@@ -2,27 +2,31 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Add or edit recollection{% endblock title %}
+{% block title %}
+  {% if additional_info.rec_id %}
+    Edit recollection
+  {% else %}
+    Add recollection
+  {% endif %}
+{% endblock title %}
 
 {% block content %}
-  {{ additional_info|json_script:'add_info' }}
-  
   <div class="leaflet-map" id="recmap"></div>
 
-  <p>
-    <form id="rec_form" method="POST">
-      {% csrf_token %}
-      {{ form|crispy }}
-      
-    </form>
-    <button id="submit_btn" type="submit" class="btn btn-primary">Confirm</button>
-  </p>
+  <form id="rec_form" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+  </form>
+  <button id="submit_btn" type="submit" class="btn btn-primary">Confirm</button>
     
   <!-- Additional info (user id, rec id) -->
   {{ additional_info|json_script:'add_info' }}
+{% endblock %}
+
+{% block scripts %}
   <!-- DRF schema -->
   <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
   <script src="{% url 'api-docs:schema-js' %}"></script>
+  <!-- js bundle -->
 	<script src="{% static 'placerem/js/add-edit-bundle.js' %}"></script>
-
-{% endblock %}
+{% endblock scripts %}

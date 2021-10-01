@@ -36,10 +36,6 @@ function AddEditMapComponent (props) {
     submit_btn.addEventListener("click", function() {
       sendData();
     });
-    // For testing
-    if (process.env.NODE_ENV == 'development') {
-      console.log("Development mode on!");
-    }
   }, [])
 
   function addMarkerOnClick(e) {

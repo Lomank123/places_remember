@@ -18,10 +18,11 @@ let DefaultIcon = L.icon({
 });
 L.Marker.prototype.options.icon = DefaultIcon;
 
+// Map settings
 const pos = [0, 0];
-// Need to move token to .env file
 const access_token = process.env.MAP_ACCESS_TOKEN;
 const url = 'https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token=' + access_token;
+const attribution = 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>';
 
 
 export default class LeafletMap extends Component {
@@ -60,13 +61,17 @@ export default class LeafletMap extends Component {
   setMarkerCoords = (lat, lng, isDelete=false) => {
     const newMarker = [lat, lng];
     this.setState({marker: newMarker, isMarker: true, isDelete: isDelete});
-    console.log("Marker has been added at: " + newMarker);
+    if (process.env.NODE_ENV == 'development') {
+      console.log("Marker has been added at: " + newMarker);
+    }
   }
 
   // Removes the present marker
   deleteMarker = () => {
     this.setState({marker: [], isMarker: false, isDelete: false});
-    console.log("Marker has been removed ");
+    if (process.env.NODE_ENV == 'development') {
+      console.log("Marker has been removed ");
+    }
   }
 
   // Needed for Marker eventHandler prop, perhaps there is a better solution
@@ -86,7 +91,7 @@ export default class LeafletMap extends Component {
       >
         <TileLayer 
           url={url}
-          attribution='Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>'
+          attribution={attribution}
           maxZoom={13}
           id='mapbox/streets-v11'
           tileSize={512}
@@ -102,8 +107,10 @@ export default class LeafletMap extends Component {
           })
         }
         {
-          isMarker ? <Marker position={this.state.marker}
-                              eventHandlers={{ click: isDelete ? this.deleteMarker : this.empty }} /> : null
+          isMarker ? 
+            <Marker
+              position={this.state.marker}
+              eventHandlers={{ click: isDelete ? this.deleteMarker : this.empty }} /> : null
         }
       </MapContainer>
     );
