@@ -5,7 +5,7 @@
 {% block content %}
 
   <h3>Your recollections</h3>
-  {% for recollection in page_obj %}
+  {% for recollection in object_list %}
 
     <hr>
     <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>

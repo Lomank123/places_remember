@@ -13,6 +13,10 @@ WORKDIR /placerem
 # Heroku won't use this
 #EXPOSE 8000
 
+# Installing npm packages
+RUN apk add --update --no-cache nodejs npm && \
+    npm ci
+
 # libffi-dev, openssl-dev, cargo - for cryptography - for social-auth-app-django, social-auth-core
 # jpeg-dev, libjpeg-dev zlib-dev - for easy-thumbnails
 
@@ -32,6 +36,7 @@ RUN python -m venv /py && \
     # Or you'll get permission denied error
     chown -R placerem:placerem /py/lib/python3.9/site-packages/social_django/migrations && \
     chown -R placerem:placerem /py/lib/python3.9/site-packages/easy_thumbnails/migrations && \
+    chown -R placerem:placerem package.json && \
     chmod -R +x /scripts
 
 ENV PATH="/scripts:/py/bin:$PATH"

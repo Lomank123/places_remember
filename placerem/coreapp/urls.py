@@ -1,14 +1,19 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.routers import DefaultRouter
+from rest_framework.documentation import include_docs_urls
 
 from coreapp.authentication import RecLoginView, RecLogoutView, CustomUserSignUpView
 from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, RecollectionDetailView, \
-    RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView
+    RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView, \
+    APICustomUserViewSet
+
+# For testing
+from django.views.generic.base import TemplateView
 
 
 router = DefaultRouter()
 router.register('recollections', APIRecViewSet, basename='recollections')
+router.register('users', APICustomUserViewSet, basename='users')
 
 urlpatterns = [
     path('home/', HomePageView.as_view(), name='home'),
@@ -27,4 +32,7 @@ urlpatterns = [
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
     path('api/', include(router.urls)),
+
+    # Schema
+    path('docs/', include_docs_urls(title='My API service'), name='api-docs'),
 ]

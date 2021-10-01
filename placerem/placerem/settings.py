@@ -15,7 +15,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.environ.get('DEBUG', 0)))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS.extend(
     filter(
         None,
@@ -66,7 +66,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'coreapp',
     'crispy_forms',
-    'djgeojson',
     'rest_framework',
     'corsheaders',
     'social_django',
@@ -192,7 +191,7 @@ MEDIA_URL = '/static/media/'
 THUMBNAIL_MEDIA_ROOT = '/vol/web/media/thumbnails'
 THUMBNAIL_MEDIA_URL = '/static/media/thumbnails/'
 
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'coreapp/static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
@@ -232,3 +231,11 @@ THUMBNAIL_ALIASES = {
         },
     },
 }
+
+REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'}
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    CSRF_COOKIE_SECURE = True
+    SESSION_COOKIE_SECURE = True

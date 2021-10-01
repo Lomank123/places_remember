@@ -1,5 +1,5 @@
 {% extends 'layout/basic.html' %}
-{% load geojson_tags %}
+{% load static %}
 
 {% block title %} {{ object.name }} {% endblock title %}
 
@@ -7,39 +7,6 @@
   <h2>Details</h2>
   <hr />
   <div class="leaflet-map" id="recmap"></div>
-
-  <script type="module">
-    var map = L.map('recmap').setView([0, 0], 1);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={access_token}', {
-      maxZoom: 18,
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      access_token: 'pk.eyJ1IjoibG9tYW5rIiwiYSI6ImNrc2ozM285NzI5aDIyeG9kbzhnMTh1czEifQ.VbvbOjViOdSMnybzEkOgZQ'
-    }).addTo(map);
-
-    var divMap = document.getElementById("recmap");
-    var recollection = {{ object|geojsonfeature|safe }}
-
-    if ("{{ object.geom }}" == "None") {
-      divMap.style.display = 'none';
-    } else {
-      // Creating an empty layer and add our recollection
-      // We'll be able to add more data later with this approach
-      var geoLayer = L.geoJson().addTo(map);
-      geoLayer.addData(recollection);
-      // We can access our layer now and look through its layers
-      geoLayer.eachLayer( function(layer) {
-        if (layer instanceof L.Marker) {
-          if (geoLayer.getBounds().contains(layer.getLatLng())) {
-            layer.bindPopup("{{ object.name }}");
-            map.setView(layer.getLatLng(), 3);
-          }
-        }
-      });
-    }
-  </script>
 
   <div class="recollection-info">
     <span class="span-info info-name">{{ object.name }}</span>
@@ -49,6 +16,7 @@
 
   <button class="btn btn-primary detail-button" type="button" id="button_edit">Edit recollection</button>
   <button class="btn btn-primary detail-button" type="button" id="button_delete">Delete</button>
+  
   <script>
     var button_del = document.getElementById("button_delete");
     var button_edit = document.getElementById("button_edit");
@@ -61,4 +29,14 @@
     }
   </script>
 
+  <!-- Additional info (user id, rec id) -->
+  {{ additional_info|json_script:'add_info' }}
 {% endblock %}
+
+{% block scripts %}
+  <!-- DRF schema -->
+  <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
+  <script src="{% url 'api-docs:schema-js' %}"></script>
+  <!-- js bundle -->
+	<script src="{% static 'placerem/js/detail-bundle.js' %}"></script>
+{% endblock scripts %}

@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 
 from coreapp.models import Recollection, CustomUser
 from coreapp.forms import CustomUserEditForm
-from coreapp.serializers import RecollectionSerializer
+from coreapp.serializers import RecollectionSerializer, CustomUserSerializer
 
 
 # Home page
@@ -34,6 +34,13 @@ class RecollectionCreateView(LoginRequiredMixin, CreateView):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+        }
+        return context
+
 
 # Detailed information about certain recollection
 class RecollectionDetailView(LoginRequiredMixin, DetailView):
@@ -43,6 +50,14 @@ class RecollectionDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+            'rec_id': self.get_object().pk
+        }
+        return context
 
 
 # Recollection delete page
@@ -66,6 +81,14 @@ class RecollectionEditView(LoginRequiredMixin, UpdateView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["additional_info"] = {
+            'user_id': self.request.user.pk,
+            'rec_id': self.get_object().pk
+        }
+        return context
 
 
 # Handles all requests when creating or editing recollection
@@ -76,7 +99,16 @@ class APIRecViewSet(ModelViewSet):
     def get_queryset(self):
         queryset = Recollection.objects.filter(user=self.request.user)
         return queryset
-        
+
+
+class APICustomUserViewSet(ModelViewSet):
+    serializer_class = CustomUserSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_queryset(self):
+        queryset = CustomUser.objects.filter(pk=self.request.user.pk)
+        return queryset
+
 
 
 # Profile page
@@ -93,7 +125,7 @@ class ProfileView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(pk=self.request.user.pk)
         return queryset
-    
+
 
 # Profile edit page
 class ProfileEditView(LoginRequiredMixin, UpdateView):

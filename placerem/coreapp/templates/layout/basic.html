@@ -7,15 +7,12 @@
     <!-- Required meta tags -->
     <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Static files -->
+    <!-- Styles -->
 		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/normalize.css' %}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-		<!-- leaflet CSS -->
-		<link rel="stylesheet" href="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.css" />
-  
+		<!-- Title -->
     <title>Place Remember | {% block title %}{% endblock title %}</title>
   </head>
 
@@ -34,7 +31,6 @@
     		  <a href="{% url 'signup' %}">Sign up</a>
     		{% endif %}
 			</div>
-			
 		</header>
 
 		<div class="page">
@@ -42,13 +38,16 @@
     		<div class="left-bar">
     			<div class="profile-box">
     			  <a class="nickname" href="{% url 'profile' user.pk %}">
-							<img class="img-small" src="{{ user.photo|thumbnail_url:'small' }}" onerror="this.onerror=null;this.src='{% static 'placerem/empty.jpg' %}';">
+							<img
+								class="img-small" 
+								src="{{ user.photo|thumbnail_url:'small' }}" 
+								onerror="this.onerror=null;this.src='{% static 'placerem/images/empty.jpg' %}';">
 							{{ user.username|truncatechars:10 }}
 						</a>
     			</div>
 
     			<nav class="menu">
-    				<a class="menu-item" href="{% url 'home' %}">Home</a>
+  					<a class="menu-item" href="{% url 'home' %}">Home</a>
     				<a class="menu-item" href="{% url 'profile' user.pk %}">Profile</a>
     				<a class="menu-item" href="{% url 'add' %}">Add recollection</a>
     			</nav>
@@ -62,15 +61,23 @@
 		</div>
 
 		<footer class="footer">
-			<span>Made by Robert "Lomank" Khakimov </span>
+			<span>
+				Made by 
+				<a
+					href="https://github.com/Lomank123" 
+					target="_blank" 
+					rel="noopener noreferrer">
+					Robert "Lomank" Khakimov
+				</a>
+			</span>
 		</footer>
 
     <!-- Optional JavaScript -->
+		{% block scripts %}
+		{% endblock scripts %}
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-		<!-- leaflet JS -->
-		<script src="https://d19vzq90twjlae.cloudfront.net/leaflet-0.5/leaflet.js"></script>
   </body>
 </html>

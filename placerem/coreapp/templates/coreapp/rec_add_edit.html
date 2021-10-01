@@ -1,122 +1,32 @@
 {% extends 'layout/basic.html' %}
 {% load crispy_forms_tags %}
-{% load geojson_tags %}
 {% load static %}
 
-{% block title %}Add or edit recollection{% endblock title %}
+{% block title %}
+  {% if additional_info.rec_id %}
+    Edit recollection
+  {% else %}
+    Add recollection
+  {% endif %}
+{% endblock title %}
 
 {% block content %}
   <div class="leaflet-map" id="recmap"></div>
 
-  <p>
-    <form id="rec_form" method="POST">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <button id="submit_btn" type="submit" class="btn btn-primary">Confirm</button>
-    </form>
-  </p>
+  <form id="rec_form" method="POST">
+    {% csrf_token %}
+    {{ form|crispy }}
+  </form>
+  <button id="submit_btn" type="submit" class="btn btn-primary">Confirm</button>
     
-  <script type="module">
-    import { getCookie } from "{% static 'placerem/js/get_cookie.js' %}"
-
-    // Configuring map
-    var map = L.map('recmap').setView([0, 0], 1);
-    L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={access_token}', {
-      maxZoom: 18,
-      attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-      id: 'mapbox/streets-v11',
-      tileSize: 512,
-      zoomOffset: -1,
-      access_token: 'pk.eyJ1IjoibG9tYW5rIiwiYSI6ImNrc2ozM285NzI5aDIyeG9kbzhnMTh1czEifQ.VbvbOjViOdSMnybzEkOgZQ'
-    }).addTo(map);
-
-    var rec = {{ object|geojsonfeature|safe }}
-    var rec_name = document.getElementById('id_name');
-    var rec_descr = document.getElementById('id_description');
-    var rec_form = document.getElementById('rec_form');
-    var rec_submit_btn = document.getElementById('submit_btn');
-    var marker = null;
-
-    // check whether the user add or edit recollection
-    if (rec !== null) {
-      if (rec["features"][0]["geometry"] !== null) {
-        var geoLayer = L.geoJson().addTo(map);
-        geoLayer.addData(rec);
-        geoLayer.eachLayer( function(layer) {
-          if (layer instanceof L.Marker) {
-            if (geoLayer.getBounds().contains(layer.getLatLng())) {
-              marker = layer;
-              marker.on('click', function(e) {
-                removeMarker(map, marker);
-              });
-            }
-          }
-        });
-      }
-    }
-
-    function removeMarker() {
-      map.removeLayer(marker);
-      marker = null;
-      console.log("Removed marker");
-    }
-
-    function newMarker(e){
-      if (marker !== null) {
-        removeMarker(map, marker);
-      }
-      marker = L.marker(e.latlng).addTo(map);
-      marker.on('click', function(e) {
-        removeMarker(map, marker);
-      });
-      console.log("Created marker");
-    };
-    map.on('click', newMarker);
-
-    function collectData() {
-      var data = {
-        name: rec_name.value,
-        description: rec_descr.value,
-        user: "{{ user.pk }}",
-        geom: null
-      };
-      if (marker !== null) {
-        var point = {
-          type : "Point",
-          coordinates : [marker._latlng['lng'], marker._latlng['lat']]
-        }
-        data["geom"] = JSON.stringify(point);
-      }
-      return data;
-    }
-
-    rec_submit_btn.addEventListener('click', function(evt) {
-      evt.preventDefault();   // or will get 403 error (csrf token stuff)
-      var data = collectData();
-      var method = "POST";
-      var url = "{% url 'recollections-list' %}";
-      var id = "{{ object.pk }}";
-      if (id !== "") {
-          method = "PUT";
-          url += id + '/';
-      }
-
-      $.ajax({
-          method: method,
-          url: url,
-          dataType: "json",
-          data: JSON.stringify(data),
-          beforeSend: function(xhr) {
-            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            xhr.setRequestHeader('Content-Type', 'application/json'); // or will get 500 internal server error
-            console.log('Rec beforeSend');
-          },
-          success: function(){
-            console.log('Rec after send');
-            window.location.href = "{% url 'home' %}";  // redirects to home page
-          }
-      })
-    })
-  </script>
-
+  <!-- Additional info (user id, rec id) -->
+  {{ additional_info|json_script:'add_info' }}
 {% endblock %}
+
+{% block scripts %}
+  <!-- DRF schema -->
+  <script src="{% static 'rest_framework/js/coreapi-0.1.1.js' %}"></script>
+  <script src="{% url 'api-docs:schema-js' %}"></script>
+  <!-- js bundle -->
+	<script src="{% static 'placerem/js/add-edit-bundle.js' %}"></script>
+{% endblock scripts %}
