@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run linter
-        run:
+        run: |
           cat .env.sample >> .env
           docker-compose up --exit-code-from lint lint
   
@@ -19,6 +19,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
-        run:
+        run: |
           cat .env.sample >> .env
           docker-compose up --exit-code-from test test
