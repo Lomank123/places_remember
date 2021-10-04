@@ -45,6 +45,7 @@ services:
             - DB_NAME=devdb
             - DB_USER=devuser
             - DB_PASS=devpassword
+        env_file: .env.sample
         depends_on: 
             - db
     
@@ -59,11 +60,7 @@ services:
         volumes: 
             - ./placerem:/placerem
             - ./data/web:/vol/web
-        environment:
-            - DB_HOST=db
-            - DB_NAME=devdb
-            - DB_USER=devuser
-            - DB_PASS=devpassword
+        env_file: .env.sample
         depends_on: 
             - db
 
@@ -76,10 +73,6 @@ services:
         volumes: 
             - ./placerem:/placerem
             - ./data/web:/vol/web
-        environment:
-            - DB_HOST=db
-            - DB_NAME=devdb
-            - DB_USER=devuser
-            - DB_PASS=devpassword
+        env_file: .env.sample
         depends_on: 
             - db

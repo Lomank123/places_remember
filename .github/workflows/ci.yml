@@ -11,11 +11,6 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run linter
         run: docker-compose up --exit-code-from lint lint
-        env:
-          DB_HOST: db
-          DB_NAME: devdb
-          DB_USER: devuser
-          DB_PASS: devpassword
   
   test:
     runs-on: ubuntu-latest
@@ -23,8 +18,3 @@ jobs:
       - uses: actions/checkout@v2
       - name: Run tests
         run: docker-compose up --exit-code-from test test
-        env:
-          DB_HOST: db
-          DB_NAME: devdb
-          DB_USER: devuser
-          DB_PASS: devpassword
