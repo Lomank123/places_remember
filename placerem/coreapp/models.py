@@ -10,8 +10,8 @@ class CustomUser(AbstractUser):
     username = models.CharField(max_length=40, unique=True, null=True, verbose_name="Username")
     email = models.EmailField(unique=True, verbose_name="Email address")
     photo = ThumbnailerField(
-        null=True, 
-        blank=True, 
+        null=True,
+        blank=True,
         verbose_name="Photo",
         validators=[validators.FileExtensionValidator(allowed_extensions=('jpg', 'png'))],
         error_messages={'invalid_extension': 'This format does not supported'}
@@ -38,7 +38,6 @@ class Recollection(models.Model):
     def __str__(self):
         return self.name
 
-    
     class Meta:
         verbose_name_plural = 'Recollections'
         verbose_name = 'Recollection'

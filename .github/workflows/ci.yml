@@ -1,0 +1,24 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  lint:
+    runs:
+      using: 'docker'
+      image: 'Dockerfile'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run linter
+        run: docker-compose up --exit-code-from lint lint
+  
+  test:
+    runs:
+      using: 'docker'
+      image: 'Dockerfile'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: docker-compose up --exit-code-from test test

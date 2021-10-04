@@ -1,4 +1,3 @@
-from django.shortcuts import reverse
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.views import LoginView, LogoutView
 from django.views.generic import CreateView
@@ -8,11 +7,11 @@ from coreapp.models import CustomUser
 
 
 class RecLoginView(LoginView):
-	template_name = "coreapp/authentication/login.html"
+    template_name = "coreapp/authentication/login.html"
 
 
 class RecLogoutView(LogoutView):
-	next_page = '/login/'
+    next_page = '/login/'
 
 
 class CustomUserSignUpView(CreateView):

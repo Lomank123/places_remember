@@ -22,7 +22,7 @@ class RecollectionViewsTest(TestCase):
         # Second user (for access tests)
         user2 = CustomUser.objects.create_user(email='test2@gmail.com', password='test12345')
         Recollection.objects.create(name='Other recollection 1', user=user2)
-        
+
     def test_home_page_view(self):
         user = CustomUser.objects.get(email='test@gmail.com')
         response = self.client.get(reverse('home'))
@@ -40,7 +40,7 @@ class RecollectionViewsTest(TestCase):
         self.assertEqual(response.context['page_obj'].number, 1)
         self.assertEqual(response.context['page_obj'].paginator.num_pages, 2)
         self.assertEqual(response_paginator.context['page_obj'].number, 2)
-    
+
     # Recollection views
     def test_rec_create_view(self):
         response = self.client.get(reverse('add'))

@@ -7,9 +7,6 @@ from coreapp.views import RecollectionDeleteView, APIRecViewSet, HomePageView, R
     RecollectionEditView, RecollectionCreateView, ProfileEditView, ProfilePasswordChangeView, ProfileView, \
     APICustomUserViewSet
 
-# For testing
-from django.views.generic.base import TemplateView
-
 
 router = DefaultRouter()
 router.register('recollections', APIRecViewSet, basename='recollections')
@@ -25,14 +22,13 @@ urlpatterns = [
     path('profile/edit/<int:pk>/', ProfileEditView.as_view(), name='profile_edit'),
     # Auth paths
     path('login/', RecLoginView.as_view(), name='login'),
-	path('logout/', RecLogoutView.as_view(), name='logout'),
+    path('logout/', RecLogoutView.as_view(), name='logout'),
     path('signup/', CustomUserSignUpView.as_view(), name='signup'),
     path('change_password/', ProfilePasswordChangeView.as_view(), name='change_password'),
     # Social auth
     path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
     path('api/', include(router.urls)),
-
     # Schema
     path('docs/', include_docs_urls(title='My API service'), name='api-docs'),
 ]

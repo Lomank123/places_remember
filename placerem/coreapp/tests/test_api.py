@@ -1,7 +1,6 @@
 import json
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth import login
 
 from rest_framework import status
 
@@ -83,7 +82,7 @@ class RecollectionAPITestCase(TestCase):
         rec = Recollection.objects.get(name='Rec api 3')
         rec.name = ''
         serializer_data = RecollectionSerializer(rec).data
-        
+
         response = self.client.put(
             reverse('recollections-list') + str(rec.pk) + '/',
             data=json.dumps(serializer_data),

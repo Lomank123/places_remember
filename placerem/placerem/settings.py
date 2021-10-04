@@ -35,8 +35,6 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = int(os.environ.get('SOCIAL_AUTH_VK_OAUTH2_KEY'))
 SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_VK_OAUTH2_SECRET')
 SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
-#SOCIAL_AUTH_FACEBOOK_KEY = int(os.environ.get('SOCIAL_AUTH_FACEBOOK_KEY'))
-#SOCIAL_AUTH_FACEBOOK_SECRET = os.environ.get('SOCIAL_AUTH_FACEBOOK_SECRET')
 # When db is postgres
 SOCIAL_AUTH_JSONFIELD_ENABLED = True
 # If you want to use the full email address as the username, define this setting.
@@ -202,32 +200,32 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Thumbnails
-THUМВNAIL_DEFAULT_OPТIONS = {'quality': 90, 'subsampling': 1,}
+THUМВNAIL_DEFAULT_OPТIONS = {'quality': 90, 'subsampling': 1, }
 THUMBNAIL_ALIASES = {
     # Preset for user photo
-    'placerem.CustomUser.photo' : {
-        'default_user_photo' : {
-            'size' : (150, 200),
-            'crop' : 'scale',
+    'placerem.CustomUser.photo': {
+        'default_user_photo': {
+            'size': (150, 200),
+            'crop': 'scale',
         },
-        'small_user_photo' : {
-            'size' : (50, 50),
-            'crop' : 'scale',
+        'small_user_photo': {
+            'size': (50, 50),
+            'crop': 'scale',
         },
     },
     # Presets for the whole project
-    '' : {
-        'default' : {
-            'size' : (180, 240),
-            'crop' : 'scale',
+    '': {
+        'default': {
+            'size': (180, 240),
+            'crop': 'scale',
         },
-        'big' : {
-            'size' : (480, 640),
-            'crop' : '10,10',
+        'big': {
+            'size': (480, 640),
+            'crop': '10,10',
         },
-        'small' : {
-            'size' : (30, 30),
-            'crop' : 'scale',
+        'small': {
+            'size': (30, 30),
+            'crop': 'scale',
         },
     },
 }

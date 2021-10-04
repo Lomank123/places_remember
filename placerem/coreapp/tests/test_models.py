@@ -40,7 +40,7 @@ class UsersManagersTests(TestCase):
             User.objects.create_user(email='')
         with self.assertRaises(ValueError):
             User.objects.create_user(email='', password="foo")
-    
+
     def test_create_superuser(self):
         User = get_user_model()
         admin_user = User.objects.create_superuser(email='super@user.com', password='foo')
@@ -63,10 +63,10 @@ class RecollectionModelTest(TestCase):
 
     # Initializing data
     def setUp(self) -> None:
-        
+
         point = {
-            "type" : "Point",
-            "coordinates" : [100.00, 20.00],
+            "type": "Point",
+            "coordinates": [100.00, 20.00],
         }
         user = CustomUser.objects.create_user(email='testmodel@gmail.com')
         Recollection.objects.create(
@@ -75,7 +75,7 @@ class RecollectionModelTest(TestCase):
             user=user,
             geom=json.dumps(point),
         )
-        
+
     def test_recollection_str(self):
         recollection = Recollection.objects.get(name='Rec model test')
         self.assertEqual(str(recollection), recollection.name)
@@ -104,7 +104,7 @@ class RecollectionModelTest(TestCase):
         recollection = Recollection.objects.get(name='Rec model test')
         label_name = recollection._meta.get_field('description').verbose_name
         self.assertEqual(label_name, 'Description')
-    
+
     def test_description_max_length(self):
         recollection = Recollection.objects.get(name='Rec model test')
         max_length = recollection._meta.get_field('description').max_length
@@ -114,7 +114,7 @@ class RecollectionModelTest(TestCase):
     def test_published_date_label(self):
         recollection = Recollection.objects.get(name='Rec model test')
         label_name = recollection._meta.get_field('published').verbose_name
-        self.assertEqual(label_name, 'Published in')    
+        self.assertEqual(label_name, 'Published in')
 
     # User field
     def test_user_label(self):
@@ -130,7 +130,7 @@ class RecollectionModelTest(TestCase):
     def test_geom_field(self):
         recollection = Recollection.objects.get(name='Rec model test')
         point = {
-            "type" : "Point",
-            "coordinates" : [100.00, 20.00],
+            "type": "Point",
+            "coordinates": [100.00, 20.00],
         }
         self.assertEqual(json.loads(recollection.geom), point)

@@ -3,11 +3,11 @@ from django.urls import reverse
 
 from rest_framework import status
 
-from coreapp.models import Recollection, CustomUser
+from coreapp.models import CustomUser
 
 
 class AuthenticationViewsTest(TestCase):
-    
+
     def test_login_page(self):
         response = self.client.get(reverse('login'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -26,7 +26,7 @@ class AuthenticationViewsTest(TestCase):
             reverse('signup'),
             {
                 'username': 'testusername1',
-                'email': 'testemail@gmail.com', 
+                'email': 'testemail@gmail.com',
                 'password1': 'test1234567',
                 'password2': 'test1234567',
             }
@@ -34,6 +34,6 @@ class AuthenticationViewsTest(TestCase):
         self.assertEqual(post_response.status_code, status.HTTP_302_FOUND)
         user = CustomUser.objects.get(username='testusername1')
         self.assertEqual(user.username, 'testusername1')
-        # After creation, the user will be automatically logged in 
+        # After creation, the user will be automatically logged in
         response = self.client.get(reverse('home'))
         self.assertEqual(response.status_code, status.HTTP_200_OK)

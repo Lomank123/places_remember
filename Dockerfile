@@ -5,6 +5,7 @@ LABEL maintainer="lomank200222@gmail.com"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
+# COPY ./requirements-dev.txt /requirements-dev.txt
 COPY ./placerem /placerem
 COPY ./scripts /scripts
 
@@ -39,7 +40,7 @@ RUN python -m venv /py && \
     chown -R placerem:placerem package.json && \
     chmod -R +x /scripts
 
-ENV PATH="/scripts:/py/bin:$PATH"
+ENV PATH="/scripts:/py/bin:/py/lib:$PATH"
 
 USER placerem
 

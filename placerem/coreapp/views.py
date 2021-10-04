@@ -1,6 +1,6 @@
-from django.shortcuts import redirect, reverse
+from django.shortcuts import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, TemplateView, DetailView, UpdateView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.views import PasswordChangeView
 
 from rest_framework.viewsets import ModelViewSet
@@ -50,7 +50,7 @@ class RecollectionDetailView(LoginRequiredMixin, DetailView):
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["additional_info"] = {
@@ -77,11 +77,11 @@ class RecollectionEditView(LoginRequiredMixin, UpdateView):
     fields = ['name', 'description']
     template_name = 'coreapp/rec_add_edit.html'
     success_url = '/home/'
-    
+
     def get_queryset(self):
         queryset = super().get_queryset().filter(user=self.request.user)
         return queryset
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["additional_info"] = {
@@ -110,7 +110,6 @@ class APICustomUserViewSet(ModelViewSet):
         return queryset
 
 
-
 # Profile page
 class ProfileView(LoginRequiredMixin, DetailView):
     model = CustomUser
@@ -120,8 +119,8 @@ class ProfileView(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context["recollections"] = Recollection.objects.filter(user=self.request.user).count()
         return context
-    
-    # Without overriding this method other users will be able to get your data
+
+# Without overriding this method other users will be able to get your data
     def get_queryset(self):
         queryset = super().get_queryset().filter(pk=self.request.user.pk)
         return queryset

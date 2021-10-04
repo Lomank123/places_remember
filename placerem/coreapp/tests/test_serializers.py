@@ -5,7 +5,7 @@ from coreapp.serializers import RecollectionSerializer
 
 
 class RecollectionSerializerTestCase(TestCase):
-    
+
     def setUp(self) -> None:
         user = CustomUser.objects.create_user(email='testserializer@gmail.com', password='123')
         Recollection.objects.create(
