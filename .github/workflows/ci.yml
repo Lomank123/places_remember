@@ -6,18 +6,14 @@ on:
 
 jobs:
   lint:
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run linter
         run: docker-compose up --exit-code-from lint lint
   
   test:
-    runs:
-      using: 'docker'
-      image: 'Dockerfile'
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - name: Run tests
