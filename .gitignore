@@ -132,3 +132,4 @@ dmypy.json
 /data
 
 /placerem/node_modules
+/placerem/static/placerem/js/**
