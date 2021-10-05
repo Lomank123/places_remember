@@ -17,7 +17,11 @@ venv/
 # Local PostgreSQL data
 data/
 
+npm-debug.log
+
+# node_modules folder
 placerem/node_modules/**
 placerem/node_modules
+
+# Webpack bundles
 placerem/static/placerem/js/**
-npm-debug.log
