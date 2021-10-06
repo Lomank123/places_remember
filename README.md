@@ -19,6 +19,7 @@ Places Remember - test project written with Django. It is a great opportunity to
   - Observe all places you've added by clicking on recollections names on home page
 - **Manage your profile**
   - You can change your email address, profile name, profile photo and password
+  - Sign up using VK or GitHub
 
 ## Preparation
 
@@ -52,6 +53,11 @@ docker-compose up --build
 docker-compose up placerem
 ```
 
+**Stop project:**
+```
+docker-compose down
+```
+
 **Run tests:**
 ```
 docker-compose up test
@@ -61,9 +67,14 @@ docker-compose up test
 
 In result there will be migrations applied, database will be filled with initial test data and also a superuser will be created:
 
-Login: `admin`
+Login: `admin@gmail.com`
 
 Password: `12345`
+
+**Default users:**
+  - Login: `test1@gmail.com` password: `12345678qQ`
+  - Login: `test2@gmail.com` password: `12345678qQ`
+
 ```
 docker-compose up filldb
 ```
@@ -72,3 +83,44 @@ docker-compose up filldb
 ```
 docker-compose up lint
 ```
+
+## Useful info
+
+- If you want to use authentication with VK or GitHub you'll need to register new app and replace these environment variables in `.env` file:
+
+**For VK:**
+```
+SOCIAL_AUTH_VK_OAUTH2_KEY=newkey
+SOCIAL_AUTH_VK_OAUTH2_SECRET=newsecret
+```
+
+Tutorial link: https://vk.com/dev/vkapp_create
+
+**For GitHub:**
+```
+SOCIAL_AUTH_GITHUB_KEY=newkey
+SOCIAL_AUTH_GITHUB_SECRET=newsecret
+```
+
+Tutorial link: https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app
+
+- If you want to use Mapbox maps you'll need to provide it's token:
+
+  - Get token (Docs: https://docs.mapbox.com/help/getting-started/access-tokens/)
+  - Replace environment variable in `.env` file with your newly created token:
+  ```
+  MAP_ACCESS_TOKEN=newtoken
+  ```
+
+- If you want to use Dropbox storage you'll also need to enable it and provide it's token: 
+  - To enable you need to change `USE_DROPBOX` environment variable in `.env` file:
+  ```
+  USE_DROPBOX=TRUE
+  ```
+  It should be set to `TRUE`, it's case-sensitive so any other values will cause using local storage at `/data`
+
+  - Get token (Docs: https://www.dropbox.com/developers/documentation/python#tutorial)
+  - Replace environment variable in `.env` file with your newly created token:
+  ```
+  DROPBOX_OAUTH2_TOKEN=newtoken
+  ```

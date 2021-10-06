@@ -7,17 +7,17 @@
     <!-- Required meta tags -->
     <meta http-equiv="Content-Type" content="text/html"; charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <!-- Styles -->
 		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/style.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'placerem/css/normalize.css' %}">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<!-- Title -->
     <title>Place Remember | {% block title %}{% endblock title %}</title>
   </head>
 
-  <body class="body">
-  	<header class="header">
+  <body>
+  	<header>
 			<a class="logo" href="{% url 'home' %}">Places Remember</a>
 			<div class="auth-text">
     		{% if user.is_authenticated %} 
@@ -60,7 +60,7 @@
     	</div>
 		</div>
 
-		<footer class="footer">
+		<footer>
 			<span>
 				Made by 
 				<a
