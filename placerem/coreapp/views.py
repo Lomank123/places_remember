@@ -120,7 +120,6 @@ class ProfileView(LoginRequiredMixin, DetailView):
         context["recollections"] = Recollection.objects.filter(user=self.request.user).count()
         return context
 
-# Without overriding this method other users will be able to get your data
     def get_queryset(self):
         queryset = super().get_queryset().filter(pk=self.request.user.pk)
         return queryset

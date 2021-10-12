@@ -5,7 +5,6 @@ LABEL maintainer="lomank200222@gmail.com"
 ENV PYTHONUNBUFFERED 1
 
 COPY ./requirements.txt /requirements.txt
-# COPY ./requirements-dev.txt /requirements-dev.txt
 COPY ./placerem /placerem
 COPY ./scripts /scripts
 
@@ -35,8 +34,7 @@ RUN python -m venv /py && \
     mkdir -p /vol/web/media && \
     chown -R placerem:placerem /vol && \
     # Or you'll get permission denied error
-    chown -R placerem:placerem /py/lib/python3.9/site-packages/social_django/migrations && \
-    chown -R placerem:placerem /py/lib/python3.9/site-packages/easy_thumbnails/migrations && \
+    chown -R placerem:placerem /py/lib/python3.9/site-packages && \
     chown -R placerem:placerem package.json && \
     chmod -R +x /scripts
 

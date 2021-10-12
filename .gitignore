@@ -136,3 +136,5 @@ dmypy.json
 
 # Webpack bundle files
 /placerem/static/placerem/js/**
+
+npm-debug.log

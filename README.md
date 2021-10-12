@@ -5,11 +5,13 @@ Places Remember - test project written with Django. It is a great opportunity to
 
 *This is my first fully constructed project with configured both frontend and backend. Help to improve it and let me know if there are any issues.*
 
-**Stack:** Django + Postgres + Docker + Gunicorn + Heroku + Git + GitHub Actions
+**Check deployed live project:** https://places-remember-app.herokuapp.com/home/
+
+### Stack:
+
+**Backend:** Django + Postgres + Docker + Gunicorn + Heroku + Git + GitHub Actions
 
 **Frontend:** React + Webpack + Leaflet + Babel
-
-**Live working app link:** https://places-remember-app.herokuapp.com/home/
 
 ### Main features:
 - **Create, delete and edit recollections**
