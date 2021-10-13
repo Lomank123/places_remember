@@ -25,8 +25,6 @@ urlpatterns = [
     path('logout/', RecLogoutView.as_view(), name='logout'),
     path('signup/', CustomUserSignUpView.as_view(), name='signup'),
     path('change_password/', ProfilePasswordChangeView.as_view(), name='change_password'),
-    # Social auth
-    path('auth/', include('social_django.urls', namespace='auth'), name='auth'),
     # API
     path('api/', include(router.urls)),
     # Schema

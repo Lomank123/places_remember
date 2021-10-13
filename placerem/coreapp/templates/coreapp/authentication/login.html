@@ -1,5 +1,6 @@
 {% extends "layout/basic.html" %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block title %}Sign in{% endblock %}
 
@@ -17,18 +18,18 @@
     </p>
     <p>
       <form method="post">
-      	{% csrf_token %}
-      	{{ form|crispy }}
-      	<input type="hidden" name="next" value="{{ next }}">
-      	<input class="btn btn-primary" type="submit" value="Log in">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <input type="hidden" name="next" value="{{ next }}">
+        <input class="btn btn-primary" type="submit" value="Log in">
       </form>
     </p>
   {% endif %}
 
   <p>
-    <a href="{% url 'auth:begin' 'vk-oauth2' %}">Sign up with VK</a>
-     | 
-    <a href="{% url 'auth:begin' 'github' %}">Sign up with GitHub</a>
+    <a href="{% provider_login_url "vk" method="oauth2" %}">Sign up with VK</a>
+      | 
+    <a href="{% provider_login_url "github" %}">Sign up with GitHub</a>
   </p>
 
 {% endblock %}

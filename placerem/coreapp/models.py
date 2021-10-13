@@ -9,6 +9,7 @@ from coreapp.managers import CustomUserManager
 class CustomUser(AbstractUser):
     username = models.CharField(max_length=40, unique=True, null=True, verbose_name="Username")
     email = models.EmailField(unique=True, verbose_name="Email address")
+    # ThumbnailerField should be here because django cleanup won't delete thumbnails if ImageField or FileField is used
     photo = ThumbnailerField(
         null=True,
         blank=True,

@@ -67,6 +67,10 @@ docker-compose up test
 
 **Fill db:**
 
+```
+docker-compose up filldb
+```
+
 In result there will be migrations applied, database will be filled with initial test data and also a superuser will be created:
 
 Login: `admin@gmail.com`
@@ -76,10 +80,6 @@ Password: `12345`
 **Default users:**
   - Login: `test1@gmail.com` password: `12345678qQ`
   - Login: `test2@gmail.com` password: `12345678qQ`
-
-```
-docker-compose up filldb
-```
 
 **Run linters:**
 ```
@@ -92,16 +92,16 @@ docker-compose up lint
 
 **For VK:**
 ```
-SOCIAL_AUTH_VK_OAUTH2_KEY=newkey
-SOCIAL_AUTH_VK_OAUTH2_SECRET=newsecret
+VK_OAUTH2_KEY=newkey
+VK_OAUTH2_SECRET=newsecret
 ```
 
 Tutorial link: https://vk.com/dev/vkapp_create
 
 **For GitHub:**
 ```
-SOCIAL_AUTH_GITHUB_KEY=newkey
-SOCIAL_AUTH_GITHUB_SECRET=newsecret
+GITHUB_KEY=newkey
+GITHUB_SECRET=newsecret
 ```
 
 Tutorial link: https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app
@@ -117,9 +117,10 @@ Tutorial link: https://docs.github.com/en/developers/apps/building-github-apps/c
 - If you want to use Dropbox storage you'll also need to enable it and provide it's token: 
   - To enable you need to change `USE_DROPBOX` environment variable in `.env` file:
   ```
-  USE_DROPBOX=TRUE
+  USE_DROPBOX=0
   ```
-  It should be set to `TRUE`, it's case-sensitive so any other values will cause using local storage at `/data`
+    - `0` - Disable Dropbox
+    - `1` - Enable Dropbox
 
   - Get token (Docs: https://www.dropbox.com/developers/documentation/python#tutorial)
   - Replace environment variable in `.env` file with your newly created token:

@@ -3,7 +3,9 @@ from .settings import BASE_DIR
 
 
 # Dropbox storage stuff
-USE_DROPBOX = os.environ.get('USE_DROPBOX') == 'TRUE'
+# 1 - use Dropbox as a media file storage
+# 0 - don't use Dropbox
+USE_DROPBOX = bool(int(os.environ.get('USE_DROPBOX', 0)))
 if USE_DROPBOX:
     DROPBOX_OAUTH2_TOKEN = os.environ.get('DROPBOX_OAUTH2_TOKEN')
     DROPBOX_ROOT_PATH = '/apps/places-remember'

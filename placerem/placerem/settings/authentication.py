@@ -14,25 +14,35 @@ LOGOUT_REDIRECT_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_URL = '/login/'
 
-# Social auth
+# django-allauth params
 
-# VK
-SOCIAL_AUTH_VK_OAUTH2_KEY = int(os.environ.get('SOCIAL_AUTH_VK_OAUTH2_KEY'))
-SOCIAL_AUTH_VK_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_VK_OAUTH2_SECRET')
-SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']   # additionally receives user's email address
-# GitHub
-SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
-SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
-SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']  # additionally receives user's email address
+# It is required by 'django.contrib.sites' app (settings.py)
+SITE_ID = 1
+# Verification should be "none" otherwise there'll be an error with api callback
+ACCOUNT_EMAIL_VERIFICATION = "none"
+# In some cases email doesn't get retrieved so this should be set to True
+ACCOUNT_EMAIL_REQUIRED = True
+# Custom adapter should be used otherwise an error will appear when user tries to link multiple accounts
+SOCIALACCOUNT_ADAPTER = 'coreapp.authentication.SocialAccountAdapter'
 
-# If you're using Postgres database this should be enabled
-SOCIAL_AUTH_JSONFIELD_ENABLED = True
-# If you want to use the full email address as username, set this to True
-SOCIAL_AUTH_USERNAME_IS_FULL_EMAIL = True
-
-AUTHENTICATION_BACKENDS = (
-    'social_core.backends.vk.VKOAuth2',
-    'social_core.backends.facebook.FacebookOAuth2',
-    'social_core.backends.github.GithubOAuth2',
-    'django.contrib.auth.backends.ModelBackend',
-)
+# Config for django-allauth
+SOCIALACCOUNT_PROVIDERS = {
+    "vk": {
+        "APP": {
+            "client_id": int(os.environ.get('VK_OAUTH2_KEY')),
+            "secret": os.environ.get('VK_OAUTH2_SECRET'),
+        },
+        "SCOPE": {
+            "email",
+        },
+    },
+    "github": {
+        "APP": {
+            "client_id": os.environ.get('GITHUB_KEY'),
+            "secret": os.environ.get('GITHUB_SECRET'),
+        },
+        "SCOPE": {
+            "user",
+        },
+    },
+}
