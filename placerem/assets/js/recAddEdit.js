@@ -56,7 +56,6 @@ function AddEditMapComponent (props) {
     const coords = props.get_coords()
     if (coords.length != 0) {
       const point = {
-        'type': 'Point',
         'coordinates': [coords[0], coords[1]],
       };
       collectedData["geom"] = JSON.stringify(point);

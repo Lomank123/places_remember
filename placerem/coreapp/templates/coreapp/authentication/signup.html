@@ -1,5 +1,6 @@
 {% extends 'layout/basic.html' %}
 {% load crispy_forms_tags %}
+{% load socialaccount %}
 
 {% block title %}Sign up{% endblock title %}
 
@@ -15,9 +16,9 @@
   </p>
 
   <p>
-    <a href="{% url 'auth:begin' 'vk-oauth2' %}">Sign up with VK</a>
-     | 
-    <a href="{% url 'auth:begin' 'github' %}">Sign up with GitHub</a>
+    <a href="{% provider_login_url "vk" method="oauth2" %}">Sign up with VK</a>
+      | 
+    <a href="{% provider_login_url "github" %}">Sign up with GitHub</a>
   </p>
-    
+
 {% endblock %}

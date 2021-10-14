@@ -25,10 +25,13 @@ footer {
 	font-size: 24pt;
 	text-transform: uppercase;
 	text-align: left;
-	color: black ;
+	color: black;
 	display: inline-block;
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+.logo:hover{
+	color: black;
 }
 .auth-text {
 	margin-right: 2%;
@@ -57,7 +60,6 @@ footer {
 }
 .left-bar a {
 	padding: 10px;
-
 	color: rgba(0, 0, 0, 0.603);
 }
 .left-bar a:hover {

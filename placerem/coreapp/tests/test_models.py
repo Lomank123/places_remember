@@ -65,7 +65,6 @@ class RecollectionModelTest(TestCase):
     def setUp(self) -> None:
 
         point = {
-            "type": "Point",
             "coordinates": [100.00, 20.00],
         }
         user = CustomUser.objects.create_user(email='testmodel@gmail.com')
@@ -130,7 +129,6 @@ class RecollectionModelTest(TestCase):
     def test_geom_field(self):
         recollection = Recollection.objects.get(name='Rec model test')
         point = {
-            "type": "Point",
             "coordinates": [100.00, 20.00],
         }
         self.assertEqual(json.loads(recollection.geom), point)
