@@ -45,4 +45,13 @@ SOCIALACCOUNT_PROVIDERS = {
             "user",
         },
     },
+    "google": {
+        "APP": {
+            "client_id": os.environ.get('GOOGLE_KEY'),
+            "secret": os.environ.get('GOOGLE_SECRET'),
+        },
+        "SCOPE": {
+            "email",
+        },
+    },
 }
