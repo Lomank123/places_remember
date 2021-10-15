@@ -3,26 +3,22 @@
 {% block title %}Home page{% endblock title %}
 
 {% block content %}
+  <h2>Your recollections</h2>
 
-  <h3>Your recollections</h3>
   {% for recollection in object_list %}
-
-    <hr>
+    <hr />
     <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
     <h4>{{ recollection.published }}</h4>
     <h4>
       <a href="{% url 'edit' pk=recollection.pk %}">Edit</a>
-       | 
+        | 
       <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
     </h4>
-
   {% empty %} <!-- if list is empty -->
-
     <h2 class="no-rec">
       You don't have any recollections yet<br>
       <a href="{% url 'add' %}">Add new recollection</a>
     </h2>
-
   {% endfor %}
 
   {% if object_list %}
@@ -36,9 +32,9 @@
           <a href="?page={{ page_obj.previous_page_number }}">previous</a>
         {% endif %}
 
-      	<span class="current">
-      	  Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-      	</span>
+        <span class="current">
+          Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
 
         {% if page_obj.has_next %}
           <a href="?page={{ page_obj.next_page_number }}">next</a>

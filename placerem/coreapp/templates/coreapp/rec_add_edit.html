@@ -11,6 +11,16 @@
 {% endblock title %}
 
 {% block content %}
+
+  <h2>
+    {% if additional_info.rec_id %}
+      Edit recollection
+    {% else %}
+      Add recollection
+    {% endif %}
+  </h2>
+  <hr />
+
   <div class="leaflet-map" id="recmap"></div>
 
   <form id="rec_form" method="POST">

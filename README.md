@@ -22,6 +22,9 @@ Places Remember - test project written with Django. It is a great opportunity to
 - **Manage your profile**
   - You can change your email address, profile name, profile photo and password
   - Sign up using VK or GitHub
+  - Add more than 1 authentication via social networks (multi-linked account)
+- **Monitoring via admin dashboard**
+  - Admin dashboard will provide with all specific info about users and recollections
 
 ## Preparation
 
