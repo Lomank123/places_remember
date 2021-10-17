@@ -1,6 +1,7 @@
 {% extends 'layout/basic.html' %}
 {% load thumbnail %}
 {% load static %}
+{% load socialaccount %}
 
 {% block title %}Profile{% endblock title %}
 
@@ -9,29 +10,49 @@
   <h3>Your profile</h3>
   <hr />
 
+  <!-- Main info about user -->
   <div class="profile-info-main profile-block">
-
     <img
       class="img-default profile-image"
       src="{{ object.photo|thumbnail_url:'default' }}"
       onerror="this.onerror=null;this.src='{% static 'placerem/images/empty.jpg' %}';" />
-
 
     <div class="profile-name-email">
       <span class="profile-info">Name: {{ object.username }}</span>
       <hr />
       <span class="profile-info">Email: {{ object.email }}</span>
     </div>
-
   </div>
 
   <h3>Additional info</h3>
   <hr />
 
+  <!-- Some additional info about user -->
   <div class="profile-info-additional profile-block">
     <span class="profile-info">Number of recollections: {{ recollections }}</span>
     <hr />
     <span class="profile-info">Account creation date: {{ object.date_joined }}</span>
+  </div>
+
+  <h3>
+    <span>Social</span>
+    <span class="manage-link"><a href="{% url 'socialaccount_connections' %}">Manage</a></span>
+  </h3>
+  <hr />
+  <!-- Info about authentication (what providers user is using) -->
+  <div class="profile-info-additional profile-block">
+    {% for provider_name, provider_info in allauth_accounts %}
+      <div class="profile-info profile-auth">
+        <span class="span-provider">{{ provider_name }}</span>
+        {% if provider_info.exists %}
+          <span class="span-link span-linked">Linked!</span>
+        {% else %}
+          <span class="span-link">
+            <a href="{% provider_login_url provider_info.provider_id process="connect" method="oauth2" %}">Link</a>
+          </span>
+        {% endif %}
+      </div>
+    {% endfor %}
   </div>
 
   <button class="btn btn-primary" id="edit_prof_btn" type="button">Edit profile</button>

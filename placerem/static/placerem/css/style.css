@@ -163,6 +163,25 @@ footer {
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+.profile-auth {
+	display: flex;
+	justify-content: space-around;
+}
+.span-provider {
+	width: 50%;
+}
+.span-link {
+	width: 50%;
+	text-align: end;
+	margin-right: 10%;
+}
+.span-linked {
+	color: rgb(40, 216, 201);
+}
+.manage-link {
+	float: right;
+	text-align: end;
+}
 .profile-name-email {
 	width: 80%;
 }
@@ -174,6 +193,17 @@ footer {
 }
 hr {
 	width: 100%;
+}
+
+/* connections */
+.radio-btn {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+.social-accounts {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	font-size: 20px;
 }
 
 /* authentication */

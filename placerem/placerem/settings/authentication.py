@@ -22,8 +22,6 @@ SITE_ID = 1
 ACCOUNT_EMAIL_VERIFICATION = "none"
 # In some cases email doesn't get retrieved so this should be set to True
 ACCOUNT_EMAIL_REQUIRED = True
-# Custom adapter should be used otherwise an error will appear when user tries to link multiple accounts
-SOCIALACCOUNT_ADAPTER = 'coreapp.authentication.SocialAccountAdapter'
 
 # Config for django-allauth
 SOCIALACCOUNT_PROVIDERS = {

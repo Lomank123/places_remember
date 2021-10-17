@@ -2,6 +2,8 @@ from django.shortcuts import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.views import PasswordChangeView
+from allauth.socialaccount.models import SocialAccount
+from allauth.socialaccount import providers
 
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
@@ -117,7 +119,18 @@ class ProfileView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        # List of configured providers
+        configured_providers = providers.registry.get_list()
+        social_accounts = {}
+        # Each provider has it's 'id' (e.g. 'vk') and 'name' (e.g. 'GitHub')
+        for provider in configured_providers:
+            social_accounts[provider.name] = {
+                'exists': SocialAccount.objects.filter(user=self.request.user, provider=provider.id).exists(),
+                'provider_id': provider.id
+            }
+
         context["recollections"] = Recollection.objects.filter(user=self.request.user).count()
+        context["allauth_accounts"] = social_accounts.items()
         return context
 
     def get_queryset(self):
