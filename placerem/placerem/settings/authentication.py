@@ -23,6 +23,8 @@ ACCOUNT_EMAIL_VERIFICATION = "none"
 # In some cases email doesn't get retrieved so this should be set to True
 ACCOUNT_EMAIL_REQUIRED = True
 
+SOCIALACCOUNT_ADAPTER = 'coreapp.authentication.SocialAccountAdapter'
+
 # Config for django-allauth
 SOCIALACCOUNT_PROVIDERS = {
     "vk": {

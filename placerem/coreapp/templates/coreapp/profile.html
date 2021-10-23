@@ -7,7 +7,7 @@
 
 {% block content %}
 
-  <h3>Your profile</h3>
+  <h2>Your profile</h2>
   <hr />
 
   <!-- Main info about user -->
@@ -24,7 +24,7 @@
     </div>
   </div>
 
-  <h3>Additional info</h3>
+  <h2>Additional info</h2>
   <hr />
 
   <!-- Some additional info about user -->
@@ -34,10 +34,10 @@
     <span class="profile-info">Account creation date: {{ object.date_joined }}</span>
   </div>
 
-  <h3>
+  <h2>
     <span>Social</span>
     <span class="manage-link"><a href="{% url 'socialaccount_connections' %}">Manage</a></span>
-  </h3>
+  </h2>
   <hr />
   <!-- Info about authentication (what providers user is using) -->
   <div class="profile-info-additional profile-block">
@@ -48,11 +48,23 @@
           <span class="span-link span-linked">Linked!</span>
         {% else %}
           <span class="span-link">
-            <a href="{% provider_login_url provider_info.provider_id process="connect" method="oauth2" %}">Link</a>
+            <a href="{% provider_login_url provider_info.provider_id process="connect" method="oauth2" next=request.path %}">Link</a>
           </span>
         {% endif %}
       </div>
     {% endfor %}
+    <!-- This section will display any messages connected with allauth (errors and etc.) -->
+    {% if messages %}
+      <div class="err-messages">
+        <hr />
+        <strong>Error:</strong>
+        <ul class="msg-list">
+          {% for message in messages %}
+          <li class="new-msg">{{message}}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
   </div>
 
   <button class="btn btn-primary" id="edit_prof_btn" type="button">Edit profile</button>

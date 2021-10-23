@@ -2,6 +2,7 @@ from django.shortcuts import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.views import PasswordChangeView
+
 from allauth.socialaccount.models import SocialAccount
 from allauth.socialaccount import providers
 

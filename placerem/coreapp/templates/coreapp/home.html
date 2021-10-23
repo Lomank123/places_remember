@@ -4,9 +4,8 @@
 
 {% block content %}
   <h2>Your recollections</h2>
-
+  <hr />
   {% for recollection in object_list %}
-    <hr />
     <h2><a href="{% url 'detail' pk=recollection.pk %}">{{ recollection.name }}</a></h2>
     <h4>{{ recollection.published }}</h4>
     <h4>
@@ -14,6 +13,7 @@
         | 
       <a href="{% url 'delete' pk=recollection.pk %}">Delete</a>
     </h4>
+    <hr />
   {% empty %} <!-- if list is empty -->
     <h2 class="no-rec">
       You don't have any recollections yet<br>
@@ -22,7 +22,6 @@
   {% endfor %}
 
   {% if object_list %}
-    <hr>
     <h4 class="add-rec"><a href="{% url 'add' %}">Add recollection</a></h4>
 
     <div class="paginator">

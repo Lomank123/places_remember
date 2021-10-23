@@ -168,15 +168,17 @@ footer {
 	justify-content: space-around;
 }
 .span-provider {
-	width: 50%;
+	width: 80%;
 }
 .span-link {
-	width: 50%;
-	text-align: end;
-	margin-right: 10%;
+	width: 20%;
+	text-align: center;
 }
 .span-linked {
 	color: rgb(40, 216, 201);
+}
+.err-messages {
+	font-size: 18px;
 }
 .manage-link {
 	float: right;
