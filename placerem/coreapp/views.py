@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import reverse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
@@ -130,6 +131,13 @@ class ProfileView(LoginRequiredMixin, DetailView):
                 'provider_id': provider.id
             }
 
+        # Error messages
+        error_messages = []
+        for msg in messages.get_messages(self.request):
+            if msg.level >= 40:
+                error_messages.append(msg)
+
+        context["error_messages"] = error_messages
         context["recollections"] = Recollection.objects.filter(user=self.request.user).count()
         context["allauth_accounts"] = social_accounts.items()
         return context

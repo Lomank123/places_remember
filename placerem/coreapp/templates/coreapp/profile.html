@@ -7,6 +7,27 @@
 
 {% block content %}
 
+  {% if error_messages %}
+    <div class="error-box" id="error-box">
+      <!-- This section will display any messages connected with allauth (errors and etc.) -->
+      <div class="err-messages">
+        <!-- Displaying all error and info messages -->
+        {% for message in error_messages %}
+          <span class="new-msg"><strong>Error:</strong> {{message}}</span>
+        {% endfor %}
+      </div>
+      <button type="button" class="close-button" id="close-btn"><i class="fa fa-close"></i></button>
+      <script>
+        var close_btn = document.getElementById("close-btn");
+        var error_box = document.getElementById("error-box");
+        close_btn.onclick = function() {
+          //error_box.style.display = "none";
+          error_box.remove();
+        }
+      </script>
+    </div>
+  {% endif %}
+
   <h2>Your profile</h2>
   <hr />
 
@@ -53,25 +74,13 @@
         {% endif %}
       </div>
     {% endfor %}
-    <!-- This section will display any messages connected with allauth (errors and etc.) -->
-    {% if messages %}
-      <div class="err-messages">
-        <hr />
-        <strong>Error:</strong>
-        <ul class="msg-list">
-          {% for message in messages %}
-          <li class="new-msg">{{message}}</li>
-          {% endfor %}
-        </ul>
-      </div>
-    {% endif %}
   </div>
 
-  <button class="btn btn-primary" id="edit_prof_btn" type="button">Edit profile</button>
-  <button class="btn btn-primary" id="edit_pass_btn" type="button">Change password</button>
+  <button class="btn btn-primary" id="edit-prof-btn" type="button">Edit profile</button>
+  <button class="btn btn-primary" id="edit-pass-btn" type="button">Change password</button>
   <script>
-    var prof_btn = document.getElementById("edit_prof_btn");
-    var pass_btn = document.getElementById("edit_pass_btn");
+    var prof_btn = document.getElementById("edit-prof-btn");
+    var pass_btn = document.getElementById("edit-pass-btn");
 
     prof_btn.onclick = function() {
       window.location.href = "{% url 'profile_edit' pk=object.pk %}";
