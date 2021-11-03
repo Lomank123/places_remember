@@ -8,20 +8,22 @@ AUTH_USER_MODEL = 'coreapp.CustomUser'
 
 # Login
 LOGIN_REDIRECT_URL = '/home/'
-LOGOUT_REDIRECT_URL = '/login/'
+LOGIN_URL = '/login/'
 
 # Logout
 LOGOUT_URL = '/logout/'
-LOGIN_URL = '/login/'
+LOGOUT_REDIRECT_URL = '/login/'
 
 # django-allauth params
 
 # It is required by 'django.contrib.sites' app (settings.py)
 SITE_ID = 1
-# Verification should be "none" otherwise there'll be an error with api callback
-ACCOUNT_EMAIL_VERIFICATION = "none"
+# Should be "mandatory", "optional" or "none"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 # In some cases email doesn't get retrieved so this should be set to True
 ACCOUNT_EMAIL_REQUIRED = True
+# This will automatically log in users after they confirm their email
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 
 SOCIALACCOUNT_ADAPTER = 'coreapp.authentication.SocialAccountAdapter'
 

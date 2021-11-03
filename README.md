@@ -22,7 +22,9 @@ Places Remember - test project written with Django. It is a great opportunity to
 - **Manage your profile**
   - You can change your email address, profile name, profile photo and password
   - Sign up using VK, GitHub or Google
+  - You must confirm your email address before using
   - Add more than 1 authentication via social networks (multi-linked account)
+  - You can also restore password in case you've forgotten it by using email
 - **Monitoring via admin dashboard**
   - Admin dashboard will provide with all specific info about users and recollections
 
@@ -109,6 +111,12 @@ GITHUB_SECRET=newsecret
 
 Tutorial link: https://docs.github.com/en/developers/apps/building-github-apps/creating-a-github-app
 
+**For Google:**
+```
+export GOOGLE_KEY=newkey
+export GOOGLE_SECRET=newsecret
+```
+
 - If you want to use Mapbox maps you'll need to provide it's token:
 
   - Get token (Docs: https://docs.mapbox.com/help/getting-started/access-tokens/)
@@ -130,3 +138,14 @@ Tutorial link: https://docs.github.com/en/developers/apps/building-github-apps/c
   ```
   DROPBOX_OAUTH2_TOKEN=newtoken
   ```
+
+- If you want to use email confirmation make sure you have set these environment variables:
+  ```
+  EMAIL_HOST_USER=example@gmail.com
+  EMAIL_HOST_PASSWORD=example1234
+  ```
+  - And also it is needed to set this setting to `"mandatory"` in `settings/authentication.py`:
+  ```
+  ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+  ```
+  It can be either "mandatory", "optional" or "none". The latter value will disable email confirmation

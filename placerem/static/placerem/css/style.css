@@ -232,6 +232,11 @@ hr {
 	font-size: 20px;
 }
 
+/* Verification */
+.confirmation-text {
+	font-size: 20px;
+}
+
 /* authentication */
 .welcome-msg {
 	text-align: left;

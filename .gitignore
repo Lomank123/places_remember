@@ -138,3 +138,6 @@ dmypy.json
 /placerem/static/placerem/js/**
 
 npm-debug.log
+
+# Some dev fixtures
+fixtures-dev.json
