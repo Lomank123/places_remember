@@ -22,7 +22,7 @@ Places Remember - test project written with Django. It is a great opportunity to
 - **Manage your profile**
   - You can change your email address, profile name, profile photo and password
   - Sign up using VK, GitHub or Google
-  - You must confirm your email address before using
+  - You must confirm your email address before using your future account
   - Add more than 1 authentication via social networks (multi-linked account)
   - You can also restore password in case you've forgotten it by using email
 - **Monitoring via admin dashboard**

@@ -232,9 +232,30 @@ hr {
 	font-size: 20px;
 }
 
-/* Verification */
-.confirmation-text {
+/* Allauth templates text */
+.auth-default-text {
 	font-size: 20px;
+}
+
+/* Success messages box */
+.success-box {
+	width: 100%;
+	height: auto;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 15px 15px 15px 15px;
+	margin-bottom: 20px;
+	
+	background-color: rgba(98, 172, 68, 0.288);
+	border-style: solid;
+	border-radius: 10px;
+  border-width: 4px;
+	border-color: rgba(62, 197, 91, 0.89);
+}
+.success-messages {
+	height: auto;
+	width: 97%;
+	font-size: 18px;
 }
 
 /* authentication */

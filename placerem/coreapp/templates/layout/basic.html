@@ -53,6 +53,9 @@
   					<a class="menu-item" href="{% url 'home' %}">Home</a>
     				<a class="menu-item" href="{% url 'profile' user.pk %}">Profile</a>
     				<a class="menu-item" href="{% url 'add' %}">Add recollection</a>
+						{% if user.is_superuser %}
+							<a class="menu-item" href="{% url 'admin:index' %}">Admin Dashboard</a>
+						{% endif %}
     			</nav>
     		</div>
 			{% endif %}
