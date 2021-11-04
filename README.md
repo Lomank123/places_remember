@@ -27,6 +27,8 @@ Places Remember - test project written with Django. It is a great opportunity to
   - You can also restore password in case you've forgotten it by using email
 - **Monitoring via admin dashboard**
   - Admin dashboard will provide with all specific info about users and recollections
+- **WIP: Mobile-friendly version**
+  - Minimum mobile devices support for now
 
 ## Preparation
 
